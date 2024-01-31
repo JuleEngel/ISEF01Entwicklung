@@ -10,7 +10,7 @@ import javax.persistence.Persistence;
 public class UserListe
 {
     private List<User> userListe = new ArrayList<User>();
-    private final static EntityManagerFactory emf = Persistence.createEntityManagerFactory("iu-quizsystem");
+    private final static EntityManagerFactory emf = Persistence.createEntityManagerFactory("quizsystem");
     private UserDAO userDAO = new UserDAO();
     
     public UserListe()

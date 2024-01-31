@@ -6,7 +6,7 @@ import javax.persistence.Query;
 
 
 public class UserDAO {
-    private final static EntityManagerFactory emf = Persistence.createEntityManagerFactory("iu-quizsystem");
+    private final static EntityManagerFactory emf = Persistence.createEntityManagerFactory("quizsystem");
     
     public List<User> loadList() {
         EntityManager em = emf.createEntityManager();

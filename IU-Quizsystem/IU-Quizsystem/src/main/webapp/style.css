@@ -1,0 +1,53 @@
+body {
+    font-family: Arial;
+}
+
+.flex-header {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-tabelle {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#button {
+    display: flex;
+    justify-content: center;
+}
+
+#titel {
+    text-align: center;
+    font-size: 150%;
+}
+
+#kopf_links {
+    margin-right: 5%;
+    width: 100;
+}
+
+
+h1, p {
+    text-align: center;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+th, td {
+    border: 1px solid grey;
+    padding: 10px;
+    padding-left: 8px;
+}
+
+th {
+    text-align: left;
+    background-color: #CCC;
+}
+
+.error {
+    color:red;
+}

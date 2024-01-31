@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Primefaces-Komponenten - Demo</title>
+  		<link rel="stylesheet" type="text/css" media="screen" href="style.css"/>
+    </h:head>
+    <h:body>
+        <h:form>
+        	<p:carousel value="#{shop.sortiment}" var="artikel" circular="true" autoplayInterval="2000" style="
+        			width:50%; 
+        			text-align: center;
+        			border: 1px solid var(--surface-d);
+        			border-radius: 3px;
+        			margin: .3rem;
+        			">        	
+        	    <f:facet name="header">
+        			<h2>Unser Sortiment</h2>
+    			</f:facet>
+    			<h3>
+			    	#{artikel.name}
+			    </h3>
+			    <p>
+			    #{artikel.text}
+			    </p>
+			    <p:graphicImage url="#{artikel.bild}" width="25%" 
+			        style="box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)"/>
+			</p:carousel>
+        
+            <h1>Inputs</h1>
+            <p:panelGrid columns="2" border="0">
+
+                <h:outputLabel value="p:textEditor"/>
+                <p:textEditor secure="false"/>
+
+                <h:outputLabel value="p:fileUpload"/>
+                <p:fileUpload/>
+
+                <h:outputLabel value="p:inplace"/>
+                <p:inplace editor="true"> <p:inputText value="ändere mich"/> </p:inplace>
+
+                <h:outputLabel value="p:spinner"/>
+                <p:spinner value="2030"
+                    minValue="2000"
+                    maxValue="2050"
+                    step="1"/>
+                <h:outputLabel value="p:slider"/>
+                <p:tab>
+                    <p:inputText id="txt" value="3.7"/>
+                    <p:slider for="txt" range="false" value="3.7" step="0.1" minValue="0" maxValue="100"/>
+                </p:tab>
+            </p:panelGrid>
+
+            <h1>Panels</h1>
+            <p:panelGrid columns="2">
+                <h:outputLabel value="p:accordionPanel"/>
+                <p:accordionPanel>
+                    <p:tab header="Filzschuhe">
+                        <p>Filzschuhe</p>
+                    </p:tab>
+                    <p:tab header="Handtasche">
+                        <p>Handtasche</p>
+                    </p:tab>
+                    <p:tab header="Hasen">
+                        <p>Hasen</p>
+                    </p:tab>
+                </p:accordionPanel>
+
+                <h:outputLabel value="p:card"/>
+				<p:card style="width: 25rem; margin-bottom: 2em">
+				    <f:facet name="title">
+				        #{artikel.name}
+				    </f:facet>
+				
+				    <p>#{artikel.text}</p>
+				    <p:graphicImage url="#{artikel.bild}" width="100%" 
+			        style=""/>
+				</p:card>
+
+                <h:outputLabel value="p:tabView"/>
+                <p:tabView>
+                    <p:tab title="Tab 1">
+                        <p>Dies ist Tab 1</p>
+                    </p:tab>
+                    <p:tab title="Tab 2">
+                        <p>Dies ist Tab 2</p>
+                    </p:tab>
+                </p:tabView>
+            </p:panelGrid>
+            
+            <br/>
+            <br/>
+            <br/>
+
+            <h3>p:dataTable</h3>
+            <p:dataTable value="#{shop.sortiment}" var="artikel">
+                <f:facet name="header">
+                    Das Shop-Sortiment
+                </f:facet>
+                <p:column>
+                    <f:facet name="header">Nr</f:facet>
+                    <h:outputText value="#{artikel.nr}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">Name</f:facet>
+                    <h:outputText value="#{artikel.name}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">Beschreibung</f:facet>
+                    <h:outputText value="#{artikel.text}"/>
+                </p:column>
+                <p:column sortBy="#{artikel.verfuegbarAb}" sortOrder="ascending">
+                    <f:facet name="header">Verfügbar ab</f:facet>
+                    <p:calendar value="#{artikel.verfuegbarAb}"/>
+                </p:column>
+            </p:dataTable>
+
+            <br/>
+            <br/>
+            <br/>
+        </h:form>
+    </h:body>
+</html>

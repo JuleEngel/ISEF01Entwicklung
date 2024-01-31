@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+  <link rel="stylesheet" type="text/css" media="screen" href="style.css"/>
+  <title>Like Hero To Zero</title>
+</h:head>
+<h:body>
+    <header>
+        <div class="flex-header">
+            <img class="flex-item" id="kopf_links" src="./bilder/logo.jpg" alt="logo"/>
+            <div class="flex-item" id="titel">
+                <h2>Like Hero To Zero</h2>
+                <p>Weltweite CO2 Emissionen</p>
+            </div>
+        </div>
+    </header>
+    <br />
+    <main>
+        <h1>Login:</h1>
+        <div class="flex-tabelle">
+            <h:form>
+                <h:outputLabel value="Email:" for="mail"/>
+                <br/>
+                <h:inputText id="mail" value="#{loginController.nutzerLogin.nutzerEmail}" required="true" 
+                            requiredMessage="Bitte geben Sie ihre E-Mail-Adresse ein" label="Mail">
+                    <f:event type="postValidate" listener="#{loginController.postValidateName}"/>
+                </h:inputText>
+                <br/>
+                <h:message for="mail" styleClass="error"/>
+                <br/>
+                <br/>
+                <h:outputLabel value="Passwort:" for="passwort"/>
+                <br/>
+                <h:inputSecret id="passwort" value="#{loginController.nutzerLogin.nutzerPasswort}" required="true"
+                            requiredMessage="Bitte geben Sie ihr Passwort ein" label="Passwort"
+                            validator="#{loginController.validateLogin}">
+                </h:inputSecret>
+                <br/>
+                <h:message for="passwort" styleClass="error"/>
+                <br/>
+                <br/>
+                <h:commandButton value="Einloggen" action="anpassen" style="font-size:20"/>
+            </h:form>
+        </div>
+        <br/>
+        <br/>
+        <h1>Startseite</h1>
+        <div id="button">
+            <h:button value="Startseite" outcome="index" style="font-size:20"/>
+        </div>
+    </main>
+    <footer>
+        <br/>
+        <p>Dies ist eine fiktive Seite</p>
+    </footer>
+</h:body>
+</html>

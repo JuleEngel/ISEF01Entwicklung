@@ -14,14 +14,14 @@ import jakarta.inject.Named;
 @Named
 @SessionScoped
 public class LoginController implements Serializable {
-    private Nutzer nutzerLogin = new Nutzer();
+    private User userLogin = new User();
     private String tempName;
     
     @Inject
-    private NutzerListe nutzerListe = new NutzerListe();
+    private UserListe userListe = new UserListe();
 
-	public Nutzer getNutzerLogin() {
-		return nutzerLogin;
+	public User getUserLogin() {
+		return userLogin;
 	}
 	
 	public void postValidateName(ComponentSystemEvent event) throws AbortProcessingException{
@@ -31,10 +31,10 @@ public class LoginController implements Serializable {
 	
 	
 	public void validateLogin(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-		Nutzer temp = new Nutzer(this.tempName, (String) value);
-		for (Nutzer tempNutzerListe : nutzerListe.getNutzerListe()) {
-			if (tempNutzerListe.equals(temp)) {
-				this.nutzerLogin.setNutzerName(tempNutzerListe.getNutzerName());
+		User temp = new User(this.tempName, (String) value);
+		for (User tempUserListe : userListe.getUserListe()) {
+			if (tempUserListe.equals(temp)) {
+				this.userLogin.setUsername(tempUserListe.getUsername());
 				return;
 			}
 		}

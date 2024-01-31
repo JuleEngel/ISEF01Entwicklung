@@ -5,15 +5,15 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
   <link rel="stylesheet" type="text/css" media="screen" href="style.css"/>
-  <title>Like Hero To Zero</title>
+  <title>Login-Quizsystem</title>
 </h:head>
 <h:body>
     <header>
         <div class="flex-header">
             <img class="flex-item" id="kopf_links" src="./bilder/logo.jpg" alt="logo"/>
             <div class="flex-item" id="titel">
-                <h2>Like Hero To Zero</h2>
-                <p>Weltweite CO2 Emissionen</p>
+                <h2>IU-Quizsystem</h2>
+                <p>Von Studenten für Studenten</p>
             </div>
         </div>
     </header>
@@ -24,7 +24,7 @@
             <h:form>
                 <h:outputLabel value="Email:" for="mail"/>
                 <br/>
-                <h:inputText id="mail" value="#{loginController.nutzerLogin.nutzerEmail}" required="true" 
+                <h:inputText id="mail" value="#{loginController.userLogin.email}" required="true" 
                             requiredMessage="Bitte geben Sie ihre E-Mail-Adresse ein" label="Mail">
                     <f:event type="postValidate" listener="#{loginController.postValidateName}"/>
                 </h:inputText>
@@ -34,7 +34,7 @@
                 <br/>
                 <h:outputLabel value="Passwort:" for="passwort"/>
                 <br/>
-                <h:inputSecret id="passwort" value="#{loginController.nutzerLogin.nutzerPasswort}" required="true"
+                <h:inputSecret id="passwort" value="#{loginController.userLogin.password}" required="true"
                             requiredMessage="Bitte geben Sie ihr Passwort ein" label="Passwort"
                             validator="#{loginController.validateLogin}">
                 </h:inputSecret>
@@ -46,11 +46,6 @@
             </h:form>
         </div>
         <br/>
-        <br/>
-        <h1>Startseite</h1>
-        <div id="button">
-            <h:button value="Startseite" outcome="index" style="font-size:20"/>
-        </div>
     </main>
     <footer>
         <br/>

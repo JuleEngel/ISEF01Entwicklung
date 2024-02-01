@@ -14,17 +14,35 @@
             <div class="flex-item" id="titel">
                 <h2>IU Quizsystem</h2>
                 <p>Von Studenten - Für Studenten</p>
+                <h:form>
+                	<h:commandButton value="Ausloggen" action="#{loginController.logout}" style="font-size:20">
+                		<f:ajax execute="@form" render="@none"/>
+               		</h:commandButton>
+                </h:form>
             </div>
         </div>
     </header>
     <br />
     <main>
-        <h1>Weltweite CO2-Emissionen Jahre 2018 bis 2021 - Übersicht</h1>
-        <p>CO2-Emissionen der Emmisions Database for Global Atmospheric Research (EDGAR)</p>
+	    <f:metadata>
+	        <f:event type="preRenderView" listener="#{loginController.checkLoggedIn}" />
+	    </f:metadata>
+	     <h1>Hi, 
+            <h:outputText value="#{loginController.formatInput(loginController.userLogin.username)}"/>
+        </h1>
+        <h1>Deine Rolle:  
+            <h:outputText value="#{loginController.formatInput(loginController.userLogin.role)}"/>
+        </h1>
+        <h1>Hier wird irgendwann mal ein super dolles Quizsystem zu sehen sein!</h1>
+        <p>Was uns wohl noch alles einfallen wird...</p>
+        <h:form>
+        	<h:commandButton value="Aktivität testen" style="font-size:20"/>
+        </h:form>
     </main>
     <footer>
         <br/>
         <p>Dies ist eine fiktive Seite</p>
     </footer>
 </h:body>
+<script type="text/javascript" src="clientActivity.js"></script>
 </html>

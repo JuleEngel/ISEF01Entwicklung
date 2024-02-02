@@ -1,5 +1,6 @@
+//logout.js
 
-
+//Weiterleitung zur login.xhtml
 function redirectToLoginPage() {
     window.location.href = 'login.xhtml';
 }

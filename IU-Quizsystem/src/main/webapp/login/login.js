@@ -1,5 +1,6 @@
+//login.js
 
-
+//Weiterleitung index.xhtml
 function redirectToMainPage() {
     window.location.href = '../index.xhtml';
 }

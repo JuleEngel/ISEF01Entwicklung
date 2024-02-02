@@ -1,7 +1,7 @@
 
 
 function redirectToMainPage() {
-    window.location.href = 'index.xhtml';
+    window.location.href = '../index.xhtml';
 }
 
 // Die Funktion nach 3 Sekunden aufrufen

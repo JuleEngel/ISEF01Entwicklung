@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!-- index.xhtml -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+  <link rel="stylesheet" type="text/css" media="screen" href="../css/style.css"/>
+  <script type="text/javascript" src="clientActivity.js"></script>
+  <title>IU-Quizsystem</title>
+</h:head>
+<h:body>
+    <header>
+        <div class="flex-header">
+            <img class="flex-item" id="kopf_links" src="../bilder/logo.jpg" alt="logo"/>
+            <div class="flex-item" id="titel">
+                <h2>IU Quizsystem</h2>
+                <p>Von Studenten - Für Studenten</p>
+                <h:form>
+                	<h:commandButton value="Ausloggen" action="#{loginController.logout}" style="font-size:20">
+                		<f:ajax execute="@form" render="@none"/>
+               		</h:commandButton>
+                </h:form>
+            </div>
+        </div>
+    </header>
+    <br />
+    <main>
+    	<!-- Aktivitäts-Überprüfung -->
+	   
+		
+		<h1>Fragenkatalog!</h1> 
+		
+		<p>Hier kannst du alle Fragen sehen</p> 
+		<br/>
+		<h:form>
+			<p:inputText id="moduleFilter" value="#{fragenkatalogController.moduleFilter}" placeholder="Suche nach Modul">
+				<p:ajax event="keyup" update="fragenkatalogAnzeige" />
+			</p:inputText>
+			
+			<p:dataTable id="fragenkatalogAnzeige" var="frage" value="#{fragenkatalogController.filteredResults}" paginator="true" rows="10"> 
+				<p:column headerText="Nummer"> 
+					<h:outputText value="#{frage.id}" /> 
+				</p:column> 
+				
+				<p:column headerText="Modul"> 
+					<h:outputText value="#{frage.module}" /> 
+				</p:column> 
+				
+				<p:column headerText="Frage"> 
+					<h:outputText value="#{frage.question}" /> 
+				</p:column>
+			</p:dataTable>
+		</h:form>
+    </main>
+    <footer>
+        <br/>
+        <p>Dies ist eine fiktive Seite</p>
+    </footer>
+</h:body>
+</html>

@@ -119,7 +119,7 @@ public class LoginController implements Serializable {
 	    this.isLoggedIn = false;
 	    userLogin = new User();
 	    FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-	    return "login/logout?faces-redirect=true";
+	    return "/login/logout?faces-redirect=true";
 	}
 	
 	/**
@@ -134,14 +134,14 @@ public class LoginController implements Serializable {
 	    	userLogin = new User();
 	        FacesContext facesContext = FacesContext.getCurrentInstance();
 	        facesContext.getExternalContext().invalidateSession();
-	        facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "login/loginFailed?faces-redirect=true");
+	        facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "/login/loginFailed?faces-redirect=true");
 	    }
 	    else if (isInactive()) {
 	    	isLoggedIn = false;
 	    	userLogin = new User();
 	        FacesContext facesContext = FacesContext.getCurrentInstance();
 	        facesContext.getExternalContext().invalidateSession();
-	        facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "login/logout?faces-redirect=true");
+	        facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "/login/logout?faces-redirect=true");
 	    }
 	    else {
 	    	updateActivityTimestamp();

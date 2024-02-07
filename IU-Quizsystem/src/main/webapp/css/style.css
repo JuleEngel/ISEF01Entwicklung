@@ -2,6 +2,40 @@ body {
     font-family: Arial;
 }
 
+.bold-label {
+	font-weight:bold;
+}
+
+.input-field {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+}
+
+.inputTextareaStyle {
+    width: 300px;
+    height: 200px;
+}
+
+.fragenkatalog-table {
+    width: auto;
+}
+
+.fragenkatalog-id-table {
+	width: 25px;
+}
+.fragenkatalog-module-short-niveau-table {
+	width: 65px;
+}
+.fragenkatalog-module-table {
+	width: 85px;
+}
+
+.fragenkatalog-edit-table {
+	width: 60px;
+	text-align: center;
+}
+
+
 .flex-header {
     display:flex;
     justify-content: center;
@@ -13,6 +47,10 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+}
+
+#icon {
+	width:25px;
 }
 
 #button {

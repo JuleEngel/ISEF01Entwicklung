@@ -34,14 +34,19 @@
 		<p>Hier kannst du alle Fragen sehen</p> 
 		<br/>
 		<h:form>
-			<p:inputText id="moduleFilter" value="#{fragenkatalogController.moduleFilter}" placeholder="Suche nach Modul">
-				<p:ajax event="keyup" update="fragenkatalogAnzeige" />
-			</p:inputText>
-			
+			<div class="flex-item" id="titel">
+				<p:inputText id="moduleFilter" value="#{fragenkatalogController.moduleFilter}" placeholder="Suche nach Modul">
+					<p:ajax event="keyup" update="fragenkatalogAnzeige" />
+				</p:inputText>
+			</div>
 			<p:dataTable id="fragenkatalogAnzeige" var="frage" value="#{fragenkatalogController.filteredResults}" paginator="true" rows="10"> 
-				<p:column headerText="Nummer"> 
+				<p:column headerText="ID"> 
 					<h:outputText value="#{frage.id}" /> 
 				</p:column> 
+				
+				<p:column headerText="Modulkürzel">
+					<h:outputText value="#{frage.module_short}" />
+				</p:column>
 				
 				<p:column headerText="Modul"> 
 					<h:outputText value="#{frage.module}" /> 

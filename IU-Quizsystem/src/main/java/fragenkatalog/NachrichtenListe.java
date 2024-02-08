@@ -10,21 +10,20 @@ import java.util.Comparator;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-
 @Named
 @ApplicationScoped
-public class FragenkatalogListe {
+public class NachrichtenListe {
 	private final static EntityManagerFactory emf = Persistence.createEntityManagerFactory("quizsystem");
-    private FragenkatalogDAO fragenkatalogDAO = new FragenkatalogDAO();
-    List<Fragenkatalog> fragenkatalogListe = new ArrayList<Fragenkatalog>();
+    private NachrichtenDAO nachrichtenDAO = new NachrichtenDAO();
+    List<Nachrichten> nachrichtenListe = new ArrayList<Nachrichten>();
     
-	public FragenkatalogListe()
+	public NachrichtenListe()
     {
-        fragenkatalogListe = fragenkatalogDAO.loadList();
+        nachrichtenListe = nachrichtenDAO.loadList();
     }
 
-    public List<Fragenkatalog> getFragenkatalogListe()
+    public List<Nachrichten> getNachrichtenListe()
     {
-        return fragenkatalogListe;
+        return nachrichtenListe;
     }
 }

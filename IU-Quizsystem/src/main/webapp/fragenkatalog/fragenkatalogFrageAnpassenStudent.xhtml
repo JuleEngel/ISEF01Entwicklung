@@ -28,10 +28,10 @@
     <main>
     	<!-- Aktivitäts-Überprüfung -->
 	   	<f:metadata>
-	        <f:event type="preRenderView" listener="#{fragenkatalogController.checkTempFrageTutor}" />
+	        <f:event type="preRenderView" listener="#{fragenkatalogController.checkTempFrageStudent}" />
 	    </f:metadata>
 		
-		<h1>Frage bearbeiten : Tutoransicht!</h1> 
+		<h1>Frage bearbeiten : Studentenansicht!</h1> 
 		
 		<div class="flex-tabelle">
             <h:form>
@@ -112,11 +112,8 @@
                 </h:panelGrid>
                 <br/>
                 <div id="button">
-                	<h:commandButton value="Abbrechen" action="#{fragenkatalogController.cancelEditTutor}" immediate="true" styleClass="button-container"/>
-                    <h:commandButton value="Löschen" action="#{fragenkatalogController.deleteFrage(fragenkatalogController.tempFrage)}"
-                    		onclick="return confirm('Möchten Sie die Frage wirklich löschen?');" styleClass="button-container" />
-                    <h:commandButton value="Frage in Bearbeitung setzen" action="#{fragenkatalogController.updateFrage(fragenkatalogController.tempFrage)}" styleClass="button-container"/>
-                    <h:commandButton value="Frage veröffentlichen" action="#{fragenkatalogController.publishFrage(fragenkatalogController.tempFrage)}"
+                	<h:commandButton value="Abbrechen" action="#{fragenkatalogController.cancelEditStudent}" immediate="true" styleClass="button-container"/>
+                    <h:commandButton value="Frage einreichen" action="#{fragenkatalogController.reportEditedFrage(fragenkatalogController.tempFrage)}"
                     		onclick="return confirm('Möchten Sie die Frage wirklich in den öffentlichen Fragenkatalog aufnehmen?');" />
                     <h:message for="submit"/>
                 </div>

@@ -7,7 +7,7 @@
 <h:head>
   <link rel="stylesheet" type="text/css" media="screen" href="../css/style.css"/>
   <script type="text/javascript" src="clientActivity.js"></script>
-  <title>IU-Quizsystem</title>
+  <title>IU-Quizsystem Fragenkatalog</title>
 </h:head>
 <h:body>
     <header>
@@ -31,29 +31,74 @@
 		
 		<h1>Fragenkatalog!</h1> 
 		
-		<p>Hier kannst du alle Fragen sehen</p> 
+		<p>Hier kannst du alle Fragen sehen, die derzeit im Fragenkatalog veröffentlich sind.</p>
+		<p>Du kannst eine Frage unter dem Reiter "Ändern" optimieren / melden und dem Tutor zu Überprüfung schicken.</p> 
 		<br/>
 		<h:form>
 			<div class="flex-item" id="titel">
-				<p:inputText id="moduleFilter" value="#{fragenkatalogController.moduleFilter}" placeholder="Suche nach Modul">
-					<p:ajax event="keyup" update="fragenkatalogAnzeige" />
+				<p:inputText id="moduleFilter" value="#{fragenkatalogController.moduleFilterPublished}" placeholder="Suche nach Modul">
+					<p:ajax event="keyup" update="publishedQuestions" />
 				</p:inputText>
 			</div>
-			<p:dataTable id="fragenkatalogAnzeige" var="frage" value="#{fragenkatalogController.filteredResults}" paginator="true" rows="10"> 
-				<p:column headerText="ID"> 
+			<p:dataTable id="publishedQuestions" var="frage" value="#{fragenkatalogController.questionsResults('published')}" paginator="true" rows="10" 
+					styleClass="fragenkatalog-table"> 
+				<p:column headerText="ID" styleClass="fragenkatalog-id-table"> 
 					<h:outputText value="#{frage.id}" /> 
 				</p:column> 
 				
-				<p:column headerText="Modulkürzel">
+				<p:column headerText="Kürzel" styleClass="fragenkatalog-module-short-niveau-table">
 					<h:outputText value="#{frage.module_short}" />
 				</p:column>
 				
-				<p:column headerText="Modul"> 
+				<p:column headerText="Modul" styleClass="fragenkatalog-module-table"> 
 					<h:outputText value="#{frage.module}" /> 
 				</p:column> 
 				
+				<p:column headerText="Niveau" styleClass="fragenkatalog-module-short-niveau-table">
+					<h:outputText value="#{fragenkatalogController.formatDifficulty(frage.difficulty)}" />
+				</p:column>
+				
 				<p:column headerText="Frage"> 
 					<h:outputText value="#{frage.question}" /> 
+				</p:column>
+				
+				<p:column headerText="Lösung anzeigen" styleClass="fragenkatalog-edit-table">
+			        <p:commandLink oncomplete="PF('solutionDialog_#{frage.id}').show()">
+			            <img src="../bilder/result.png" id="icon" alt="report"/>
+			        </p:commandLink>
+			        <p:dialog id="solutionDialog_#{frage.id}" header="Lösungen anzeigen" widgetVar="solutionDialog_#{frage.id}" modal="true" resizable="false">
+				        <h:outputText value="Fragen-ID: #{frage.id}" /> 
+				        <br/><br/>
+				        <h:outputText value="Modul-Kürzel: #{frage.module_short}" />
+				        <br/><br/>
+				        <h:outputText value="Modul: #{frage.module}" />
+				        <br/><br/>
+				        <h:outputText value="Niveau: #{fragenkatalogController.formatDifficulty(frage.difficulty)}" />
+				        <br/><br/>
+				        <h:outputText value="Frage: #{frage.question}" />
+				        <br/><br/>
+				        <h:outputText value="Korrekte Lösung: #{frage.correct_answer}" />
+				        <br/><br/>
+				        <h:outputText value="Inkorrekte Lösung 1: #{frage.incorrect_answer_1}" />
+				        <br/><br/>
+				        <h:outputText value="Inkorrekte Lösung 2: #{frage.incorrect_answer_2}" />
+				        <br/><br/>
+				        <h:outputText value="Inkorrekte Lösung 3: #{frage.incorrect_answer_3}" />
+				        <br/><br/>
+				        <p:commandButton value="Schließen" onclick="PF('solutionDialog_#{frage.id}').hide()" />
+				    </p:dialog>
+				</p:column>
+				
+				<p:column headerText="Frage melden" styleClass="fragenkatalog-edit-table">
+					<p:commandLink action="#{fragenkatalogController.linkToReport(frage)}">
+			            <img src="../bilder/report.png" id="icon" alt="report"/>
+			        </p:commandLink>
+				</p:column>
+				
+				<p:column headerText="Frage ändern" styleClass="fragenkatalog-edit-table">
+					<p:commandLink action="#{fragenkatalogController.linkToEditStudent(frage)}">
+						<img src="../bilder/bearbeiten.png" id="icon" alt="edit"/>
+					</p:commandLink>
 				</p:column>
 			</p:dataTable>
 		</h:form>

@@ -7,7 +7,7 @@
 <h:head>
   <link rel="stylesheet" type="text/css" media="screen" href="../css/style.css"/>
   <script type="text/javascript" src="clientActivity.js"></script>
-  <title>IU-Quizsystem</title>
+  <title>IU-Quizsystem Fragenkatalog</title>
 </h:head>
 <h:body>
     <header>
@@ -82,9 +82,9 @@
 					<h:outputText value="#{frage.explanation}" /> 
 				</p:column>
 				
-				<p:column headerText="Ändern" styleClass="fragenkatalog-edit-table">
-					<p:commandLink action="#{fragenkatalogController.linkToEdit(frage)}">
-						<img src="../bilder/bearbeiten.png" id="icon" alt="edit"/>
+				<p:column headerText="Prüfen" styleClass="fragenkatalog-edit-table">
+					<p:commandLink action="#{fragenkatalogController.linkToEditTutor(frage)}">
+						<img src="../bilder/viewReported.png" id="icon" alt="edit"/>
 					</p:commandLink>
 				</p:column>
 			</p:dataTable>
@@ -97,7 +97,7 @@
 					<p:ajax event="keyup" update="reportedQuestions" />
 				</p:inputText>
 			</div>
-			<p:dataTable id="reportedQuestions" var="frage" value="#{fragenkatalogController.questionsResults('reported')}" paginator="true" rows="10" 
+			<p:dataTable id="reportedQuestions" var="frage" value="#{fragenkatalogController.questionsResults('reported')}" paginator="true" rows="10"
 					styleClass="fragenkatalog-table"> 
 				<p:column headerText="ID" styleClass="fragenkatalog-id-table"> 
 					<h:outputText value="#{frage.id}" /> 
@@ -139,16 +139,16 @@
 					<h:outputText value="#{frage.explanation}" /> 
 				</p:column>
 				
-				<p:column headerText="Ändern">
-					<p:commandLink action="#{fragenkatalogController.linkToEdit(frage)}">
-						<img src="../bilder/bearbeiten.png" id="icon" alt="edit"/>
+				<p:column headerText="Prüfen" styleClass="fragenkatalog-edit-table">
+					<p:commandLink action="#{fragenkatalogController.linkToViewReportedQuestions(frage)}">
+						<img src="../bilder/viewReported.png" id="icon" alt="edit"/>
 					</p:commandLink>
 				</p:column>
 			</p:dataTable>
 		</h:form>
 		
 		<br/> <br/>
-		<h1>Fragen in eigener Bearbeitung:</h1>
+		<h1>Fragen in Tutoren-Bearbeitung:</h1>
 		<h:form>
 			<div class="flex-item" id="titel">
 				<p:inputText id="moduleFilter" value="#{fragenkatalogController.moduleFilterInProgress}" placeholder="Suche nach Modul">
@@ -197,8 +197,8 @@
 					<h:outputText value="#{frage.explanation}" /> 
 				</p:column>
 				
-				<p:column headerText="Ändern">
-					<p:commandLink action="#{fragenkatalogController.linkToEdit(frage)}">
+				<p:column headerText="Ändern" styleClass="fragenkatalog-edit-table">
+					<p:commandLink action="#{fragenkatalogController.linkToEditTutor(frage)}">
 						<img src="../bilder/bearbeiten.png" id="icon" alt="edit"/>
 					</p:commandLink>
 				</p:column>
@@ -254,8 +254,8 @@
 					<h:outputText value="#{frage.explanation}" /> 
 				</p:column>
 				
-				<p:column headerText="Ändern">
-					<p:commandLink action="#{fragenkatalogController.linkToEdit(frage)}">
+				<p:column headerText="Ändern" styleClass="fragenkatalog-edit-table">
+					<p:commandLink action="#{fragenkatalogController.linkToEditTutor(frage)}">
 						<img src="../bilder/bearbeiten.png" id="icon" alt="edit"/>
 					</p:commandLink>
 				</p:column>

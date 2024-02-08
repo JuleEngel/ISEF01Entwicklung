@@ -16,9 +16,6 @@ body {
     height: 200px;
 }
 
-.fragenkatalog-table {
-    width: auto;
-}
 
 .fragenkatalog-id-table {
 	width: 25px;
@@ -30,11 +27,18 @@ body {
 	width: 85px;
 }
 
+.fragenkatalog-username-table {
+	width: 100px;
+}
+
 .fragenkatalog-edit-table {
 	width: 60px;
 	text-align: center;
 }
 
+.button-container{
+    margin-right: 10px; /* Hier kannst du den gewünschten Abstand zwischen den einzelnen Buttons einstellen */
+}
 
 .flex-header {
     display:flex;

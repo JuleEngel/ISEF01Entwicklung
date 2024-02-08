@@ -40,4 +40,13 @@ public class UserListe
     {
         return userListe;
     }
+    
+    public User getUserFromList(int id) {
+    	for (User user : userListe) {
+    		if (user.getId() == id) {
+    			return user;
+    		}
+    	}
+    	return null;
+    }
 }

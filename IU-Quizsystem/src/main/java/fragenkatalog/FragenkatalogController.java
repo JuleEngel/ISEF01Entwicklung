@@ -1,11 +1,8 @@
 package fragenkatalog;
 
 
-import jakarta.enterprise.context.SessionScoped;
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
-import jakarta.faces.validator.ValidatorException;
+import jakarta.faces.view.ViewScoped;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,19 +10,12 @@ import java.util.List;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import login.User;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 
 @Named
-@SessionScoped
+@ViewScoped
 public class FragenkatalogController implements Serializable
 {
     private Fragenkatalog neueFrage = new Fragenkatalog();
-    private Fragenkatalog tempFrage;
     private FragenkatalogDAO fragenkatalogDAO = new FragenkatalogDAO();
     private String moduleFilterNew;
     private String moduleFilterReported;
@@ -33,8 +23,11 @@ public class FragenkatalogController implements Serializable
     private String moduleFilterPublished;
     
     @Inject
+    private TempVariablen tempVariablen;
+    @Inject
     private FragenkatalogListe fragenkatalogListe = new FragenkatalogListe();
-    
+    @Inject
+    private NachrichtenController nachrichtenController;
     
     public List<Fragenkatalog> questionsResults(String filter) {
     	String moduleFilter;
@@ -54,6 +47,31 @@ public class FragenkatalogController implements Serializable
     		moduleFilter = null;
     	}
     	
+    	if (filter.equals("published")) {
+            if (moduleFilter == null || moduleFilter.trim().isEmpty()) {
+                List<Fragenkatalog> filteredList = new ArrayList<>();
+
+                for (Fragenkatalog fragenkatalog : fragenkatalogListe.getFragenkatalogListe()) {
+                    if (fragenkatalog.getStatus().equals("published") || fragenkatalog.getStatus().equals("reported")) {
+                        filteredList.add(fragenkatalog);
+                    }
+                }
+                return filteredList;
+            }
+
+            String filterText = moduleFilter.toLowerCase();
+            List<Fragenkatalog> filteredList = new ArrayList<>();
+
+            for (Fragenkatalog fragenkatalog : fragenkatalogListe.getFragenkatalogListe()) {
+                if ((fragenkatalog.getModule().toLowerCase().contains(filterText) || fragenkatalog.getModule_short().toLowerCase().contains(filterText))
+                        && (fragenkatalog.getStatus().equals("published") || 
+                        		(fragenkatalog.getStatus().equals("reported")))) {
+                    filteredList.add(fragenkatalog);
+                }
+            }
+            return filteredList;
+        } 
+    	
     	if (moduleFilter == null || moduleFilter.trim().isEmpty()) {
     		List<Fragenkatalog> filteredList = new ArrayList<>();
 
@@ -67,7 +85,7 @@ public class FragenkatalogController implements Serializable
     	
     	String filterText = moduleFilter.toLowerCase();
     	List<Fragenkatalog> filteredList = new ArrayList<>();
-
+    	
         for (Fragenkatalog fragenkatalog : fragenkatalogListe.getFragenkatalogListe()) {
         	if (fragenkatalog.getModule().toLowerCase().contains(filterText) 
             		|| fragenkatalog.getModule_short().toLowerCase().contains(filterText)) {
@@ -79,9 +97,24 @@ public class FragenkatalogController implements Serializable
         return filteredList;
     }
     
-    public String linkToEdit(Fragenkatalog frage) {
-    	this.tempFrage = frage;
+    public String linkToEditTutor(Fragenkatalog frage) {
+    	tempVariablen.setTempFrage(frage);
     	return "fragenkatalogFrageAnpassenTutor?faces-redirect=true";
+    }
+    
+    public String linkToEditStudent(Fragenkatalog frage) {
+    	tempVariablen.setTempFrage(frage);
+    	return "fragenkatalogFrageAnpassenStudent?faces-redirect=true";
+    }
+    
+    public String linkToReport(Fragenkatalog frage) {
+    	tempVariablen.setTempFrage(frage);
+    	return "fragenkatalogFrageMeldenStudent?faces-redirect=true";
+    }
+    
+    public String linkToViewReportedQuestions(Fragenkatalog frage) {
+    	tempVariablen.setTempFrage(frage);
+    	return "fragenkatalogGemeldeteFragenAnsicht?faces-redirect=true";
     }
     
     public String formatDifficulty(int difficulty) {
@@ -91,45 +124,81 @@ public class FragenkatalogController implements Serializable
     	else return "Keine Angabe";
     }
     
-    public void checkTempFrage() {
-    	if (this.tempFrage == null) {
+    public void checkTempFrageTutor() {
+    	if (tempVariablen.getTempFrage() == null) {
 	        FacesContext facesContext = FacesContext.getCurrentInstance();
 	        facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "fragenkatalogAnzeigeTutor?faces-redirect=true");
+	    }
+    }
+    
+    public void checkTempFrageStudent() {
+    	if (tempVariablen.getTempFrage() == null) {
+	        FacesContext facesContext = FacesContext.getCurrentInstance();
+	        facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "fragenkatalogAnzeigeStudent?faces-redirect=true");
 	    }
     }
     
 	 public String deleteFrage(Fragenkatalog frage)  {
         fragenkatalogDAO.deleteFrage(frage);
         fragenkatalogListe.getFragenkatalogListe().remove(frage);
+        tempVariablen.setTempFrage(null);
         return "fragenkatalogAnzeigeTutor?faces-redirect=true";
     }
 	 
 	 public String updateFrage(Fragenkatalog frage) {
-		if (frage.getStatus().equals("new") || frage.getStatus().equals("reported")) {
-			frage.setStatus("in_progress");
-		}
+		frage.setStatus("in_progress");
         fragenkatalogDAO.updateFrage(frage);
+        tempVariablen.setTempFrage(null);
         return "fragenkatalogAnzeigeTutor?faces-redirect=true";
     }
+	 
+	 public String setInProgressFrage(Fragenkatalog frage) {
+			frage.setStatus("in_progress");
+			deleteNotifications(frage);
+			tempVariablen.setTempFrage(null);
+	        return "fragenkatalogAnzeigeTutor?faces-redirect=true";
+	    }
 	 
 	 public String publishFrage(Fragenkatalog frage) {
 		 	frage.setStatus("published");
 	        fragenkatalogDAO.updateFrage(frage);
+	        tempVariablen.setTempFrage(null);
 	        return "fragenkatalogAnzeigeTutor?faces-redirect=true";
 	    }
 	 
-	 public String cancelEdit() {
+	 public String reportEditedFrage(Fragenkatalog frage) {
+		 //TODO Neue Tabelle in SQL
+		 //return "fragenkatalogFrageEingereichtErfolgreich?faces-redirect=true";
+		 return "fragenkatalogFrageEingereichtErfolgreich?faces-redirect=true\"";
+	 }
+	 
+	 public String createNewFrage(Fragenkatalog frage) {
+		 //TODO Neue Fragen
+		 //return "fragenkatalogFrageEingereichtErfolgreich?faces-redirect=true";
+		 return "fragenkatalogFrageEingereichtErfolgreich?faces-redirect=true\"";
+	 }
+	 
+	 public String deleteNotifications(Fragenkatalog frage) {
+		 nachrichtenController.deleteAllMessages(frage);
+		 //TODO Lösche Vorschläge zur Bearbeitung
+		 frage.setStatus("published");
+		 tempVariablen.setTempFrage(null);
 		 return "fragenkatalogAnzeigeTutor?faces-redirect=true";
+	 }
+	 
+	 public String cancelEditTutor() {
+		 tempVariablen.setTempFrage(null);
+		 return "fragenkatalogAnzeigeTutor?faces-redirect=true";
+	 }
+	 
+	 public String cancelEditStudent() {
+		 tempVariablen.setTempFrage(null);
+		 return "fragenkatalogAnzeigeStudent?faces-redirect=true";
 	 }
     
     public Fragenkatalog getNeueFrage() {
 
     	return this.neueFrage;
-    }
-    
-    public Fragenkatalog getTempFrage() {
-
-    	return this.tempFrage;
     }
 
 	public String getModuleFilterNew() {
@@ -164,52 +233,11 @@ public class FragenkatalogController implements Serializable
 		this.moduleFilterPublished = moduleFilterPublished;
 	}
 	
+	public void setTempFrage(Fragenkatalog frage) {
+		tempVariablen.setTempFrage(frage);
+	}
 	
-    
-    
-    /*
-    public void createFrage()  {
-        if (fragenkatalog.getFragenkatalog().contains(platzhalter)) {
-            emissionenListe.getEmissionenListe().remove(platzhalter);
-            maxIndex = 0;
-            isEmpty = false;
-            index = 0;
-        }
-        else {
-            maxIndex += 1;
-        }
-        
-        emissionDAO.createEmission(neueEmission);
-        
-        emissionenListe.getEmissionenListe().add(neueEmission);
-        neueEmission = new Emission();
-
-    }
-    
-    public void updateEmission(Emission emission) {
-        emissionDAO.updateEmission(emission);
-    }
-    
-    
-    public void validateEmission(FacesContext context, UIComponent comp, Object value) throws ValidatorException{
-        String regex = "^[0-9,]+$";
-        String emission = (String) value;
-        if (!emission.matches(regex)) {
-            throw new ValidatorException(new FacesMessage("Bitte geben Sie eine korrekte Emission ein!"));
-        }
-    }
-    
-    public void validateCountry(FacesContext context, UIComponent comp, Object value) throws ValidatorException{
-        String regex = "^[a-zA-z]+$";
-        String name = (String) value;
-        for(Emission existierendeEmission : emissionenListe.getEmissionenListe()) {
-        	if(existierendeEmission.getCountry().equalsIgnoreCase(name)) {
-        		throw new ValidatorException(new FacesMessage("Das Land existriert bereits!"));
-        	}
-        }
-        if (!name.matches(regex)) {
-            throw new ValidatorException(new FacesMessage("Bitte geben Sie einen korrekten Ländernamen ein!"));
-        }
-    }
-    */
+	public Fragenkatalog getTempFrage() {
+		return tempVariablen.getTempFrage();
+	}
 }

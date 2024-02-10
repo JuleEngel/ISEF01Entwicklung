@@ -28,7 +28,9 @@
     <main>
     	<!-- Aktivitäts-Überprüfung -->
 	   
-		
+		<f:metadata>
+	        <f:event type="preRenderView" listener="#{fragenkatalogController.refreshFragenkatalog}" />
+	    </f:metadata>
 		<h1>Fragenkatalog!</h1> 
 		
 		<p>Hier kannst du alle Fragen sehen, die derzeit im Fragenkatalog veröffentlich sind.</p>
@@ -84,6 +86,8 @@
 				        <h:outputText value="Inkorrekte Lösung 2: #{frage.incorrect_answer_2}" />
 				        <br/><br/>
 				        <h:outputText value="Inkorrekte Lösung 3: #{frage.incorrect_answer_3}" />
+				        <br/><br/>
+				        <h:outputText value="Erklärung: #{frage.explanation}" />
 				        <br/><br/>
 				        <p:commandButton value="Schließen" onclick="PF('solutionDialog_#{frage.id}').hide()" />
 				    </p:dialog>

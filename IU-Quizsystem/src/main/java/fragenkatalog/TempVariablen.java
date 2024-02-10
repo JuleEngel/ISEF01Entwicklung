@@ -9,7 +9,6 @@ import jakarta.inject.Named;
 public class TempVariablen implements Serializable {
 
     private Fragenkatalog tempFrage;
-    private Nachrichten tempNachricht;
     
     
 	public Fragenkatalog getTempFrage() {
@@ -18,12 +17,12 @@ public class TempVariablen implements Serializable {
 	public void setTempFrage(Fragenkatalog tempFrage) {
 		this.tempFrage = tempFrage;
 	}
-	public Nachrichten getTempNachricht() {
-		return tempNachricht;
+	public void editFrage(FragenkatalogBearbeitet frage) {
+		tempFrage.setQuestion(frage.getQuestion());
+		tempFrage.setCorrect_answer(frage.getCorrect_answer());
+		tempFrage.setIncorrect_answer_1(frage.getIncorrect_answer_1());
+		tempFrage.setIncorrect_answer_2(frage.getIncorrect_answer_2());
+		tempFrage.setIncorrect_answer_3(frage.getIncorrect_answer_3());
+		tempFrage.setExplanation(frage.getExplanation());
 	}
-	public void setTempNachricht(Nachrichten tempNachricht) {
-		this.tempNachricht = tempNachricht;
-	}
-
-    
 }

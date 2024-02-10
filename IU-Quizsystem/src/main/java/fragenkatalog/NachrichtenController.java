@@ -80,6 +80,7 @@ public class NachrichtenController implements Serializable
 	 public void deleteMessage(Nachrichten nachricht) {
 		 nachrichtenDAO.deleteNachricht(nachricht);
 	     nachrichtenListe.getNachrichtenListe().remove(nachricht);
+	     fragenkatalogController.checkReportFrage();
 	 }
 	 
 	 public void deleteAllMessages(Fragenkatalog frage) {
@@ -97,4 +98,9 @@ public class NachrichtenController implements Serializable
 	 public String getTempNachricht() {
 		return tempNachricht;
 	 }
+
+	public void updateNachrichtenListe() {
+		nachrichtenListe = new NachrichtenListe();
+	}
+	 
 }

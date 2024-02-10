@@ -113,11 +113,17 @@
                 <br/>
                 <div id="button">
                 	<h:commandButton value="Abbrechen" action="#{fragenkatalogController.cancelEditTutor}" immediate="true" styleClass="button-container"/>
-                    <h:commandButton value="Löschen" action="#{fragenkatalogController.deleteFrage(fragenkatalogController.tempFrage)}"
-                    		onclick="return confirm('Möchten Sie die Frage wirklich löschen?');" styleClass="button-container" />
+                    <h:commandButton value="Löschen" onclick="PF('solutionDialog_#{frage.id}').show()" type="button" styleClass="button-container"/>
+                    <p:dialog id="solutionDialog_#{frage.id}" header="Möchten Sie die Frage wirklich permanent löschen?" widgetVar="solutionDialog_#{frage.id}" 
+                    			modal="true" resizable="false" position="center">
+				    	<div style="text-align: center;">
+				    		<h:commandButton value="Löschen" action="#{fragenkatalogController.deleteFrage(fragenkatalogController.tempFrage)}"/>
+					        <br/><br/>
+					        <h:commandButton value="Abbrechen" onclick="PF('solutionDialog_#{frage.id}').hide()"/>
+					    </div>
+                    </p:dialog>
                     <h:commandButton value="Frage in Bearbeitung setzen" action="#{fragenkatalogController.updateFrage(fragenkatalogController.tempFrage)}" styleClass="button-container"/>
-                    <h:commandButton value="Frage veröffentlichen" action="#{fragenkatalogController.publishFrage(fragenkatalogController.tempFrage)}"
-                    		onclick="return confirm('Möchten Sie die Frage wirklich in den öffentlichen Fragenkatalog aufnehmen?');" />
+                    <h:commandButton value="Frage veröffentlichen" action="#{fragenkatalogController.publishFrage(fragenkatalogController.tempFrage)}"/>
                     <h:message for="submit"/>
                 </div>
                 <br/>

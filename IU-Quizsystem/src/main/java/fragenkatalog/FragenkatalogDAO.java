@@ -59,4 +59,15 @@ public class FragenkatalogDAO {
             em.persist(neueFrageEntity);
         t.commit();
     }
+
+	public void updateStatus(int fragenID, String status) {
+		EntityManager em = emf.createEntityManager();
+        EntityTransaction t = em.getTransaction();
+        t.begin();
+        Fragenkatalog entityToUpdate = em.find(Fragenkatalog.class, fragenID);
+            if(entityToUpdate != null) {
+            	entityToUpdate.setStatus(status);
+            }
+        t.commit();
+	}
 }

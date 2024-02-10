@@ -27,8 +27,9 @@
     <br />
     <main>
     	<!-- Aktivitäts-Überprüfung -->
-	   
-		
+	   	<f:metadata>
+	        <f:event type="preRenderView" listener="#{fragenkatalogController.refreshFragenkatalog}" />
+	    </f:metadata>
 		<h1>Fragenkatalog Tutoransicht!</h1> 
 		
 		<p>Hier kannst du alle Fragen sehen</p> 

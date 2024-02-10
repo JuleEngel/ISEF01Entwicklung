@@ -81,8 +81,7 @@
                 <br/>
                 <div id="button">
                 	<h:commandButton value="Abbrechen" action="#{fragenkatalogController.cancelEditStudent}" immediate="true"/>
-                    <p:commandButton value="Frage melden" action="#{nachrichtenController.reportMessage(fragenkatalogController.tempFrage)}"
-                    		onclick="return confirm('Möchten Sie die bearbeitete Frage einreichen?');" />
+                    <p:commandButton value="Frage melden" action="#{nachrichtenController.reportMessage(fragenkatalogController.tempFrage)}"/>
                     <h:message for="submit"/>
                 </div>
                 <br/>

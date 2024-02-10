@@ -36,7 +36,7 @@
 		<p>Hier kannst du alle Meldungen / Vorschläge zur Frage sehen</p> 
 		<br/>
 		<h1>Frage:</h1>
-		<h:form id="reportForm">
+		<h:form id="questionForm">
 			<div class="flex-tabelle">
                 <h:panelGrid columns="2">
                     <h:outputLabel value="Attribute:" styleClass="bold-label"/>
@@ -103,20 +103,75 @@
 		</h:form>
 		<br/>
 		<h1>Von Studenten vorgeschlagene Änderungen</h1>
-		<p>TODO</p>
+		<h:form id="editedQuestions">
+			<p:dataTable id="newQuestions" var="frage" value="#{fragenkatalogController.getEditedFragenListeZuFrage(fragenkatalogController.tempFrage)}" paginator="true" rows="10"
+					styleClass="fragenkatalog-table"> 
+				<p:column headerText="ID" styleClass="fragenkatalog-id-table"> 
+					<h:outputText value="#{frage.id}" /> 
+				</p:column> 
+				
+				<p:column headerText="Meldender Nutzer">
+					<h:outputText value="#{fragenkatalogController.getUserReported(frage)}" />
+				</p:column>
+				
+				<p:column headerText="Frage" > 
+					<h:outputText value="#{frage.question}" /> 
+				</p:column>
+				
+				<p:column headerText="Korrekte Antwort"> 
+					<h:outputText value="#{frage.correct_answer}" /> 
+				</p:column>
+				
+				<p:column headerText="Falsche Antwort 1"> 
+					<h:outputText value="#{frage.incorrect_answer_1}" /> 
+				</p:column>
+				
+				<p:column headerText="Falsche Antwort 2"> 
+					<h:outputText value="#{frage.incorrect_answer_2}" /> 
+				</p:column>
+				
+				<p:column headerText="Falsche Antwort 3"> 
+					<h:outputText value="#{frage.incorrect_answer_3}" /> 
+				</p:column>
+				
+				<p:column headerText="Erklärung"> 
+					<h:outputText value="#{frage.explanation}" /> 
+				</p:column>
+				
+				<p:column headerText="Nachricht"> 
+					<h:outputText value="#{frage.message}" /> 
+				</p:column>
+				
+				<p:column headerText="Über-nehmen" styleClass="fragenkatalog-edit-table">
+					<p:commandLink action="#{fragenkatalogController.editReportedFrage(frage)}" oncomplete="window.location.reload();">
+						<img src="../bilder/haken.png" id="icon" alt="übernehmen"/>
+					</p:commandLink>
+				</p:column>
+				
+				<p:column headerText="Löschen" styleClass="fragenkatalog-edit-table">
+					<p:commandLink action="#{fragenkatalogController.deleteEditedFrage(frage)}" oncomplete="window.location.reload();">
+						<img src="../bilder/delete.png" id="icon" alt="löschen"/>
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+		</h:form>
 		<br/>
 		<br/>
 		<h1>Weitere Optionen: </h1>
 		<h:form>
 			<div id="button">
-               	<h:commandButton value="Abbrechen" action="#{fragenkatalogController.cancelEditTutor}" immediate="true" styleClass="button-container"/>
-                <h:commandButton value="Löschen" action="#{fragenkatalogController.deleteFrage(fragenkatalogController.tempFrage)}"
-                 		onclick="return confirm('Möchten Sie die Frage wirklich löschen?');" styleClass="button-container"/>
+               	<h:commandButton value="Abbrechen" action="#{fragenkatalogController.cancelShowReportedTutor}" immediate="true" styleClass="button-container"/>
+                <p:dialog id="solutionDialog_#{frage.id}" header="Möchten Sie die Frage wirklich permanent löschen?" widgetVar="solutionDialog_#{frage.id}" 
+                    			modal="true" resizable="false" position="center">
+			    	<div style="text-align: center;">
+			    		<h:commandButton value="Löschen" action="#{fragenkatalogController.deleteFrage(fragenkatalogController.tempFrage)}"/>
+				        <br/><br/>
+				        <h:commandButton value="Abbrechen" onclick="PF('solutionDialog_#{frage.id}').hide()"/>
+				    </div>
+                </p:dialog>
            		<h:commandButton value="Frage bearbeiten" action="#{fragenkatalogController.linkToEditTutor(fragenkatalogController.tempFrage)}" styleClass="button-container" />
-                <h:commandButton value="Frage in Bearbeitung setzen" action="#{fragenkatalogController.setInProgressFrage(fragenkatalogController.tempFrage)}" styleClass="button-container"
-                		onclick="return confirm('Wenn Sie die Frage in Bearbeitung setzen, werden alle Meldungen gelöscht, okay? Alternativ: Abbrechen');" />
-                <h:commandButton value="Meldungen löschen" action="#{fragenkatalogController.deleteNotifications(fragenkatalogController.tempFrage)}"
-                		onclick="return confirm('Möchten Sie die Frage im öffentlichen Fragenkatalog behalten und alle Meldungen löschen?');" />
+                <h:commandButton value="Frage in Bearbeitung setzen" action="#{fragenkatalogController.setInProgressFrage(fragenkatalogController.tempFrage)}" styleClass="button-container" />
+                <h:commandButton value="Alle Meldungen löschen" action="#{fragenkatalogController.deleteNotifications(fragenkatalogController.tempFrage)}"/>
                 <h:message for="submit"/>
              </div>
 		</h:form>

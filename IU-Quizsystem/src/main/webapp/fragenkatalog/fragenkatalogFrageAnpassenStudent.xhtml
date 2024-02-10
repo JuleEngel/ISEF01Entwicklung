@@ -45,22 +45,16 @@
                     <h:outputText value=" "/>
                     
                     <h:outputLabel value="Modulkürzel" for="module_short"/>
-                    <h:outputLabel id="module_short" value="#{fragenkatalogController.tempFrage.module_short}"/>
+                    <h:outputText id="module_short" value="#{fragenkatalogController.tempFrage.module_short}"/>
                     <h:outputText value=" "/>
 
                     <h:outputLabel value="Modul" for="module"/>
-                    <h:outputLabel id="module" value="#{fragenkatalogController.tempFrage.module}"/>
+                    <h:outputText id="module" value="#{fragenkatalogController.tempFrage.module}"/>
                     <h:outputText value=" "/>
 
 					<h:outputLabel value="Schwierigkeit" for="difficulty" />
-                    <p:selectOneMenu id="difficulty" value="#{fragenkatalogController.tempFrage.difficulty}" required="true" 
-			                      requiredMessage="Bitte wählen Sie die Schwierigkeit aus!" styleClass="input-field">
-				        <f:selectItem itemLabel="Bitte auswählen" itemValue=""/>
-				        <f:selectItem itemLabel="Leicht" itemValue="1" />
-				        <f:selectItem itemLabel="Mittel" itemValue="2" />
-				        <f:selectItem itemLabel="Schwer" itemValue="3" />
-			    	</p:selectOneMenu>
-                    <h:message for="difficulty" styleClass="error"/>
+                    <h:outputLabel id="difficulty2" value="#{fragenkatalogController.formatDifficulty(fragenkatalogController.tempFrage.difficulty)}" />
+                    <h:outputText value=" "/>
                     
                     <h:outputLabel value="Frage" for="question"/>
                     <p:inputTextarea id="question" value="#{fragenkatalogController.tempFrage.question}" 
@@ -109,12 +103,19 @@
 				          <f:ajax event="blur" render="explanationError" execute="@this" />
 	                </p:inputTextarea>
                     <h:message id="explanationError" for="explanation" styleClass="error"/>
+                    
+                    <h:outputLabel value="Erklärung der Änderungen für den Tutor" for="message"/>
+                    <p:inputTextarea id="message" value="#{fragenkatalogController.tempNachricht}" required="true" 
+                                requiredMessage="Bitte geben Sie kurz an, was Sie geändert haben und warum."
+                                styleClass="inputTextareaStyle" maxlength="5000">
+				          <f:ajax event="blur" render="messageError" execute="@this" />
+	                </p:inputTextarea>
+	                <h:message id="messageError" for="message" styleClass="error"/>
                 </h:panelGrid>
                 <br/>
                 <div id="button">
                 	<h:commandButton value="Abbrechen" action="#{fragenkatalogController.cancelEditStudent}" immediate="true" styleClass="button-container"/>
-                    <h:commandButton value="Frage einreichen" action="#{fragenkatalogController.reportEditedFrage(fragenkatalogController.tempFrage)}"
-                    		onclick="return confirm('Möchten Sie die Frage wirklich in den öffentlichen Fragenkatalog aufnehmen?');" />
+                    <h:commandButton value="Frage einreichen" action="#{fragenkatalogController.reportEditedFrage(fragenkatalogController.tempFrage)}"/>
                     <h:message for="submit"/>
                 </div>
                 <br/>

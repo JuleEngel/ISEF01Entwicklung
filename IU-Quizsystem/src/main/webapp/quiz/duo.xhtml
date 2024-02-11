@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<head>
+<meta charset="ISO-8859-1">
+<title>Duo-Spielmodus</title>
+</head>
+<body>
+<h1>Duo-Modus</h1>
+        <p:form>
+            <p:panelGrid columns="2">
+                <p:outputLabel for="question" value="Frage:" />
+                <p:outputText id="question" value="#{questionBean.currentQuestion.questionText}" />
+                <p:outputLabel for="answers" value="Antworten:" />
+                <p:selectOneRadio id="answers" value="#{player1.selectedAnswer}">
+                    <f:selectItems value="#{questionBean.currentQuestion.answerOptions}" />
+                </p:selectOneRadio>
+                <p:selectOneRadio id="answers" value="#{player2.selectedAnswer}">
+                    <f:selectItems value="#{questionBean.currentQuestion.answerOptions}" />
+                </p:selectOneRadio>
+            </p:panelGrid>
+            <p:commandButton value="Absenden" action="#{questionBean.submitAnswer}" />
+        </p:form>
+</body>
+</html>

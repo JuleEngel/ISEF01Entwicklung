@@ -240,6 +240,7 @@ public class FragenkatalogController implements Serializable
     }    
     
 	public String deleteFrage(Fragenkatalog frage)  {
+		deleteNotifications(frage);
         fragenkatalogDAO.deleteFrage(frage);
         fragenkatalogListe.getFragenkatalogListe().remove(frage);
         tempVariablen.setTempFrage(null);

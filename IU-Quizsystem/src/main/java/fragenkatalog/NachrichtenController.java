@@ -2,11 +2,6 @@ package fragenkatalog;
 
 
 import jakarta.enterprise.context.SessionScoped;
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.component.UIComponent;
-import jakarta.faces.context.FacesContext;
-import jakarta.faces.event.ActionEvent;
-import jakarta.faces.validator.ValidatorException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,7 +13,7 @@ import login.LoginController;
 import login.User;
 import login.UserListe;
 
-
+@SuppressWarnings("serial")
 @Named
 @SessionScoped
 public class NachrichtenController implements Serializable

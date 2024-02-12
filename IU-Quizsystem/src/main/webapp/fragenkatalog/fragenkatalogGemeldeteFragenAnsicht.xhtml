@@ -164,7 +164,7 @@
                 <p:dialog id="solutionDialog_#{frage.id}" header="Möchten Sie die Frage wirklich permanent löschen?" widgetVar="solutionDialog_#{frage.id}" 
                     			modal="true" resizable="false" position="center">
 			    	<div style="text-align: center;">
-			    		<h:commandButton value="Löschen" action="#{fragenkatalogController.deleteFrage(fragenkatalogController.tempFrage)}"/>
+			    		<h:commandButton value="Löschen" action="#{fragenkatalogController.deleteFrage(fragenkatalogController.tempFrage)}" immediate="true"/>
 				        <br/><br/>
 				        <h:commandButton value="Abbrechen" onclick="PF('solutionDialog_#{frage.id}').hide()"/>
 				    </div>

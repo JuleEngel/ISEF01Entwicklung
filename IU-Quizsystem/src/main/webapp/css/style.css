@@ -37,7 +37,7 @@ body {
 }
 
 .button-container{
-    margin-right: 10px; /* Hier kannst du den gewünschten Abstand zwischen den einzelnen Buttons einstellen */
+    margin-right: 10px;
 }
 
 .flex-header {
@@ -57,7 +57,7 @@ body {
 	width:25px;
 }
 
-#button {
+.button {
     display: flex;
     justify-content: center;
 }

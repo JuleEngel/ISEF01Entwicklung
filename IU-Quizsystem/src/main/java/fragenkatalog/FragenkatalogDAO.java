@@ -46,7 +46,6 @@ public class FragenkatalogDAO {
         t.begin();
         	Fragenkatalog neueFrageEntity = new Fragenkatalog();
 
-            neueFrageEntity.setId(neueFrage.getId());
             neueFrageEntity.setQuestion(neueFrage.getQuestion());
             neueFrageEntity.setCorrect_answer(neueFrage.getCorrect_answer());
             neueFrageEntity.setIncorrect_answer_1(neueFrage.getIncorrect_answer_1());
@@ -54,6 +53,7 @@ public class FragenkatalogDAO {
             neueFrageEntity.setIncorrect_answer_3(neueFrage.getIncorrect_answer_3());
             neueFrageEntity.setDifficulty(neueFrage.getDifficulty());
             neueFrageEntity.setModule(neueFrage.getModule());
+            neueFrageEntity.setModule_short(neueFrage.getModule_short());
             neueFrageEntity.setExplanation(neueFrage.getExplanation());
             neueFrageEntity.setStatus(neueFrage.getStatus());
             em.persist(neueFrageEntity);

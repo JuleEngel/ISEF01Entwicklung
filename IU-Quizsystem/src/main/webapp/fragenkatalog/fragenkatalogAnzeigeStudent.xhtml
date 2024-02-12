@@ -37,6 +37,12 @@
 		<p>Du kannst eine Frage unter dem Reiter "Ändern" optimieren / melden und dem Tutor zu Überprüfung schicken.</p> 
 		<br/>
 		<h:form>
+			<div class="button">
+				<h:commandButton value="Neue Frage erstellen" action="#{fragenkatalogController.linkToCreateStudent}" styleClass="button-container"/>
+			</div>
+		</h:form>
+		<br/> <br/>
+		<h:form>
 			<div class="flex-item" id="titel">
 				<p:inputText id="moduleFilter" value="#{fragenkatalogController.moduleFilterPublished}" placeholder="Suche nach Modul">
 					<p:ajax event="keyup" update="publishedQuestions" />

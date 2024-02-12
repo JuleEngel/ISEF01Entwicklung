@@ -1,9 +1,0 @@
-"id";"username";"email";"password";"role";"played-games"
-1000;"admin";"admin@iu.org";"admin_passwort";"admin";0
-1001;"andreas-kurz";"andreas-edward-james.kurz@iubh-fernstudium.de";"andreas_passwort";"student";0
-1002;"jule-engel";"jule.engel1@iu-study.org";"jule_passwort";"student";0
-1003;"kevin-loch";"kevin.loch@iu-study.org";"kevin_passwort";"student";0
-1004;"philipp-pulst";"philipp.pulst@iu-study.org";"philipp_passwort";"student";0
-1005;"student";"student@iu-study.org";"student_passwort";"student";0
-1006;"tobias-brueckmann";"tobias.brueckmann@iu.org";"brueckmann_passwort";"tutor";0
-1007;"verena-sickers";"verena.sickers@iubh-fernstudium.de";"verena_passwort";"student";0

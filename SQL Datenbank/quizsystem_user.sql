@@ -42,7 +42,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1000,'admin','admin@iu.org','admin_passwort','admin',0),(1001,'andreas-kurz','andreas-edward-james.kurz@iubh-fernstudium.de','andreas_passwort','student',0),(1002,'jule-engel','jule.engel1@iu-study.org','jule_passwort','student',0),(1003,'kevin-loch','kevin.loch@iu-study.org','kevin_passwort','student',0),(1004,'philipp-pulst','philipp.pulst@iu-study.org','philipp_passwort','student',0),(1005,'student','student@iu-study.org','student_passwort','student',0),(1006,'tobias-brueckmann','tobias.brueckmann@iu.org','brueckmann_passwort','tutor',0),(1007,'verena-sickers','verena.sickers@iubh-fernstudium.de','verena_passwort','student',0);
+INSERT INTO `user` VALUES (1000,'admin','admin@iu-mail.de','admin_passwort','tutor',0),(1001,'andreas-kurz','andreas-kurz@iu-mail.de','andreas_passwort','student',0),(1002,'jule-engel','jule-engel@iu-mail.de','jule_passwort','student',0),(1003,'kevin-loch','kevin-loch@iu-mail.de','kevin_passwort','student',0),(1004,'philipp-pulst','phillip-pulst@iu-mail.de','philipp_passwort','student',0),(1005,'student','student@iu-mail.de','student_passwort','student',0),(1006,'tobias-brueckmann','tobias-brueckmann@iu-mail.de','brueckmann_passwort','tutor',0),(1007,'verena-sickers','verena-sickers@iu-mail.de','verena_passwort','student',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-01-31 18:54:36
+-- Dump completed on 2024-02-12 14:48:40

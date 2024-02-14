@@ -14,7 +14,7 @@
 <h:body>
     <header>
 		<f:metadata>
-	        <f:event type="preRenderView" listener="#{loginController.checkLoggedIn}" />
+	        <f:event type="preRenderView" listener="#{loginController.checkLoggedInTutor}" />
 	    </f:metadata>
         <div class="flex-header">
             <img class="flex-item" id="kopf_links" src="../bilder/logo.jpg" alt="logo"/>
@@ -31,15 +31,6 @@
                 </h:form>
             </div>
         </div>
-   	    <h2>Hi, 
-        	<h:outputText value="#{loginController.formatInput(loginController.userLogin.username)}"/>
-        </h2>
-        <h2>Es gibt 
-        	<h:outputText value="#{nachrichtenController.amountOfMessages}"/>
-        	neue Nachrichten.
-        </h2>
-        <br/>
-        <br/>
     </header>
 </h:body>
 </html>

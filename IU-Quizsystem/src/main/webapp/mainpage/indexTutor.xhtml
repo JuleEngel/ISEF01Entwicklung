@@ -11,58 +11,25 @@
   <title>IU-Quizsystem</title>
 </h:head>
 <h:body>
-    <ui:include src="/headerTutor.xhtml" />
-    <br />
+    <ui:include src="../header/headerTutor.xhtml" />
     <main>
-        <h1>Hier wird irgendwann mal ein super dolles Quizsystem zu sehen sein!</h1>
-        <p>Was uns wohl noch alles einfallen wird...</p>
-		<div class="container">
-		  <div class="row justify-content-center">
-		    <div class="col-md-4">
-		      <div class="card">
-		        <img src="../bilder/solo.jpg" class="card-img-top" alt="Solo-Quiz"/>
-		        <div class="card-body text-center">
-		          <h5 class="card-title">Solo-Quiz</h5>
-		          <p class="card-text">Im Solo-Quiz kannst du dein eigenes Wissen spielerisch testen und erhältst direktes Feedback mit Erklärungen für ein verbessertes Lernen.</p>
-		          <a href="#" class="btn btn-primary">Starte Solo-Quiz</a>
-		        </div>
-		      </div>
-		    </div>
-		
-		    <div class="col-md-4">
-		      <div class="card">
-		        <img src="../bilder/duo.jpg" class="card-img-top" alt="Solo-Quiz"/>
-		        <div class="card-body text-center">
-		          <h5 class="card-title">Duo-Quiz</h5>
-		          <p class="card-text">Teste dein Wissen spielerisch im Wettkampf gegen andere Spieler! Direktes Feedback und Erläuterungen zu Fragen helfen dir beim Lernen.</p>
-		          <a href="#" class="btn btn-primary">Starte Duo-Quiz</a>
-		        </div>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-		<br/>
-		<br/>
+   	    <h1>Hi, 
+        	<h:outputText value="#{loginController.formatInput(loginController.userLogin.username)}"/>
+        </h1>
+        <h2>Es gibt 
+        	<h:outputText value="#{nachrichtenController.amountOfMessages}"/>
+        	neue Nachrichten.
+        </h2>
+ 		<br/>
+        <br/>
 		<h1>Fragenkatalog</h1>
-        <p>Hier kannst du den Fragenkatalog anpassen</p>
-		<div class="container">
-		  <div class="row justify-content-center">
-		    <div class="col-md-4">
-				<div class="col-md">
-				      <div class="card">
-					        <img src="../bilder/fragenkatalog.jpg" class="card-img-top" alt="Solo-Quiz"/>
-					        <div class="card-body text-center">
-					          <h5 class="card-title">Fragenkatalog</h5>
-					          <p class="card-text">Dir ist ein Fehler bei einer Frage aufgefallen? Oder dir fällt eine neue Frage ein? Hier kannst du den Fragenkatalog anpassen!</p>
-					          <h:form>
-					          	<p:commandButton value="Fragenkatalog bearbeiten" action="#{fragenkatalogController.linkToFragenkatalog}" />
-					          </h:form>
-					        </div>
-			      		</div>
-				    </div>
-				</div>
-			</div>
-		</div>
+        <p>Hier können Sie den Fragenkatalog anpassen</p>
+         <div class="button">
+	         <h:form>
+	         	<p:commandButton value="Fragenkatalog bearbeiten" action="#{fragenkatalogController.linkToFragenkatalog}" />
+	         </h:form>
+	     </div>
+         <br/>
     </main>
     <footer>
         <br/>

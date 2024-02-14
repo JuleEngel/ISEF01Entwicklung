@@ -11,7 +11,7 @@
   <title>IU-Quizsystem Fragenkatalog</title>
 </h:head>
 <h:body>
-    <ui:include src="/header.xhtml" />
+    <ui:include src="../header/headerTutor.xhtml" />
     <br />
     <main>
     	<!-- Aktivitäts-Überprüfung -->
@@ -19,11 +19,11 @@
 		    <f:viewAction action="#{fragenkatalogController.checkTempFrageTutor}" />
 		</f:metadata>
 		
-		<h1>Frage bearbeiten : Tutoransicht!</h1> 
+		<h1>Frage bearbeiten!</h1> 
 		
 		<div class="flex-tabelle">
             <h:form>
-                <h:panelGrid columns="3">
+                <h:panelGrid columns="3" styleClass="custom-panelgrid">
                     <h:outputLabel value="Attribute:" styleClass="bold-label"/>
                     <h:outputLabel value="Eingabe" styleClass="bold-label"/>
                     <h:outputLabel value="Validierung" styleClass="bold-label"/>

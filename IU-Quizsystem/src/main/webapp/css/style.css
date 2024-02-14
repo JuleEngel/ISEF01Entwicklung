@@ -59,6 +59,21 @@ body {
     flex-direction: column;
 }
 
+.custom-panelgrid {
+	display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+	border: 1px solid #ddd;
+    border-collapse: collapse;
+}
+
+.custom-panelgrid td, .custom-panelgrid tr {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+
 #icon {
 	width:25px;
 }
@@ -83,6 +98,10 @@ h1, h2, p {
     text-align: center;
     margin-left: 10%;
     margin-right: 10%;
+}
+
+table {
+  border: 1px solid black; /* Umrandung der gesamten Tabelle */
 }
 
 th, td {

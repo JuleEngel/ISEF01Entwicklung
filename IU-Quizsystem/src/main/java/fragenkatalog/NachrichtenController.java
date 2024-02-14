@@ -23,8 +23,6 @@ public class NachrichtenController implements Serializable
     @Inject
     private FragenkatalogController fragenkatalogController;
     @Inject
-    private NachrichtenListe nachrichtenListe = new NachrichtenListe();
-    @Inject
     private LoginController loginController;
     @Inject
     private UserListe userListe;
@@ -33,8 +31,10 @@ public class NachrichtenController implements Serializable
     
     private NachrichtenDAO nachrichtenDAO = new NachrichtenDAO();
     private FragenkatalogDAO fragenkatalogDAO = new FragenkatalogDAO();
+    private NachrichtenListe nachrichtenListe = new NachrichtenListe();
+    private FragenkatalogBearbeitetListe fragenkatalogBearbeitetListe = new FragenkatalogBearbeitetListe();
+    private FragenkatalogListe fragenkatalogListe = new FragenkatalogListe();
     
-
     
     
     public List<Nachrichten> getNachrichtenListeZuFrage(Fragenkatalog frage) {
@@ -49,8 +49,15 @@ public class NachrichtenController implements Serializable
     }
     
     public int getAmountOfMessages() {
-    	nachrichtenListe = new NachrichtenListe();
-    	return nachrichtenListe.getNachrichtenListe().size();
+    	int amount = 0;
+    	amount += nachrichtenListe.getNachrichtenListe().size();
+    	amount += fragenkatalogBearbeitetListe.getFragenkatalogBearbeitetListe().size();
+    	for (Fragenkatalog frage : fragenkatalogListe.getFragenkatalogListe()) {
+    		if (frage.getStatus().equals("new")) {
+    			amount++;
+    		}
+    	}
+    	return amount;
     }
     
     public String getUserReported(Nachrichten nachricht) {

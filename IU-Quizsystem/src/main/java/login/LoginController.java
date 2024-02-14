@@ -134,7 +134,7 @@ public class LoginController implements Serializable {
 	 * - Falls der Benutzer inaktiv ist oder die Sitzung abgelaufen ist, wird er ausgeloggt, die Sitzung ungültig gemacht und zur Seite "login/logout" weitergeleitet.
 	 * - Andernfalls wird der Zeitstempel für die letzte Aktivität aktualisiert.
 	 */
-	public void checkLoggedIn() {
+	public void checkLoggedInStudent() {
 	    if (!this.isLoggedIn) {
 	    	isLoggedIn = false;
 	    	userLogin = new User();
@@ -148,6 +148,37 @@ public class LoginController implements Serializable {
 	        FacesContext facesContext = FacesContext.getCurrentInstance();
 	        facesContext.getExternalContext().invalidateSession();
 	        facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "/login/logout?faces-redirect=true");
+	    }
+	    else {
+	    	updateActivityTimestamp();
+	    }
+	}
+	
+	/**
+	 * Diese Methode überprüft, ob der Benutzer eingeloggt und Tutor ist, ob seine Sitzung abgelaufen ist oder ob er inaktiv ist.
+	 * - Falls der Benutzer nicht eingeloggt ist, wird die Sitzung ungültig gemacht und zur Seite "login/loginFailed" weitergeleitet.
+	 * - Falls der Benutzer inaktiv ist oder die Sitzung abgelaufen ist, wird er ausgeloggt, die Sitzung ungültig gemacht und zur Seite "login/logout" weitergeleitet.
+	 * - Andernfalls wird der Zeitstempel für die letzte Aktivität aktualisiert.
+	 */
+	public void checkLoggedInTutor() {
+	    if (!this.isLoggedIn) {
+	    	isLoggedIn = false;
+	    	userLogin = new User();
+	        FacesContext facesContext = FacesContext.getCurrentInstance();
+	        facesContext.getExternalContext().invalidateSession();
+	        facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "/login/loginFailed?faces-redirect=true");
+	    }
+	    else if (isInactive()) {
+	    	isLoggedIn = false;
+	    	userLogin = new User();
+	        FacesContext facesContext = FacesContext.getCurrentInstance();
+	        facesContext.getExternalContext().invalidateSession();
+	        facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "/login/logout?faces-redirect=true");
+	    }
+	    else if (!userLogin.getRole().equals("tutor")) {
+	    	FacesContext facesContext = FacesContext.getCurrentInstance();
+	        facesContext.getExternalContext().invalidateSession();
+	        facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "/login/accessDenied?faces-redirect=true");
 	    }
 	    else {
 	    	updateActivityTimestamp();

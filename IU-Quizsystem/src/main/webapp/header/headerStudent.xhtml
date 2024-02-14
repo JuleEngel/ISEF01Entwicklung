@@ -14,7 +14,7 @@
 <h:body>
     <header>
 		<f:metadata>
-	        <f:event type="preRenderView" listener="#{loginController.checkLoggedIn}" />
+	        <f:event type="preRenderView" listener="#{loginController.checkLoggedInStudent}" />
 	    </f:metadata>
         <div class="flex-header">
             <img class="flex-item" id="kopf_links" src="../bilder/logo.jpg" alt="logo"/>
@@ -31,6 +31,8 @@
                 </h:form>
             </div>
         </div>
+        <br/>
+        <br/>
     </header>
 </h:body>
 </html>

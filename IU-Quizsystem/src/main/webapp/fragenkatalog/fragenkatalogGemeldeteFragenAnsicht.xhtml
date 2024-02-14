@@ -11,7 +11,7 @@
   <title>IU-Quizsystem Fragenkatalog</title>
 </h:head>
 <h:body>
-    <ui:include src="/header.xhtml" />
+    <ui:include src="../header/headerTutor.xhtml" />
     <br />
     <main>
 	   	<f:metadata>
@@ -25,7 +25,7 @@
 		<h1>Frage:</h1>
 		<h:form id="questionForm">
 			<div class="flex-tabelle">
-                <h:panelGrid columns="2">
+                <h:panelGrid columns="2" styleClass="custom-panelgrid">
                     <h:outputLabel value="Attribute:" styleClass="bold-label"/>
                     <h:outputLabel value="Eingabe" styleClass="bold-label"/>
                     

@@ -11,9 +11,17 @@
   <title>IU-Quizsystem</title>
 </h:head>
 <h:body>
-    <ui:include src="/headerStudent.xhtml" />
+    <ui:include src="../header/headerStudent.xhtml" />
     <br />
     <main>
+    	<h2>Hi, 
+        	<h:outputText value="#{loginController.formatInput(loginController.userLogin.username)}"/>
+        </h2>
+        <h2>Deine gespielten Spiele:   
+            <h:outputText value="#{loginController.formatInput(loginController.userLogin.playedgames)}"/>
+        </h2>
+        <br/>
+        <br/>
         <h1>Hier wird irgendwann mal ein super dolles Quizsystem zu sehen sein!</h1>
         <p>Was uns wohl noch alles einfallen wird...</p>
 		<div class="container">

@@ -43,10 +43,21 @@ public class FragenkatalogController implements Serializable
     private LoginController loginController;
     @Inject
     private UserListe userListe;
+    @Inject
+    private ModulesController modulesController;
     
     
     
     //Allgemeine Methoden
+    public String linkToFragenkatalog() {
+    	if (loginController.getUserLogin().getRole().equals("tutor")) {
+    		return "/fragenkatalog/fragenkatalogAnzeigeTutor?faces-redirect=true";
+    	}
+    	else {
+    		return "/fragenkatalog/fragenkatalogAnzeigeStudent?faces-redirect=true";
+    	}
+    }
+    
     public List<Fragenkatalog> questionsResults(String filter) {
     	String moduleFilter;
     	if (filter.equals("new")) {
@@ -81,7 +92,8 @@ public class FragenkatalogController implements Serializable
             List<Fragenkatalog> filteredList = new ArrayList<>();
 
             for (Fragenkatalog fragenkatalog : fragenkatalogListe.getFragenkatalogListe()) {
-                if ((fragenkatalog.getModule().toLowerCase().contains(filterText) || fragenkatalog.getModule_short().toLowerCase().contains(filterText))
+                if ((modulesController.getModuleShort(fragenkatalog.getModule_id()).toLowerCase().contains(filterText) 
+                				|| modulesController.getModuleLong(fragenkatalog.getModule_id()).toLowerCase().contains(filterText))
                         && (fragenkatalog.getStatus().equals("published") || 
                         		(fragenkatalog.getStatus().equals("reported")))) {
                     filteredList.add(fragenkatalog);
@@ -105,8 +117,8 @@ public class FragenkatalogController implements Serializable
     	List<Fragenkatalog> filteredList = new ArrayList<>();
     	
         for (Fragenkatalog fragenkatalog : fragenkatalogListe.getFragenkatalogListe()) {
-        	if (fragenkatalog.getModule().toLowerCase().contains(filterText) 
-            		|| fragenkatalog.getModule_short().toLowerCase().contains(filterText)) {
+        	if (modulesController.getModuleShort(fragenkatalog.getModule_id()).toLowerCase().contains(filterText) 
+    				|| modulesController.getModuleLong(fragenkatalog.getModule_id()).toLowerCase().contains(filterText)) {
             	if (fragenkatalog.getStatus().equals(filter)) {
                     filteredList.add(fragenkatalog);
                 }
@@ -187,6 +199,14 @@ public class FragenkatalogController implements Serializable
 	public void setTempNachricht(String tempNachricht) {
 		this.tempNachricht = tempNachricht;
 	}
+	
+	public String getModule_short(Fragenkatalog frage) {
+		return modulesController.getModuleShort(frage.getModule_id());
+	}
+	
+	public String getModule_long(Fragenkatalog frage) {
+		return modulesController.getModuleLong(frage.getModule_id());
+	}
     
     
 	
@@ -209,25 +229,18 @@ public class FragenkatalogController implements Serializable
     	return "fragenkatalogFrageErstellenTutor?faces-redirect=true";
     }
     
-    public String editReportedFrage(FragenkatalogBearbeitet frage) {
+    public String useReportedFrage(FragenkatalogBearbeitet frage) {
     	//Kopiere Werte von bearbeiteter Frage auf TempFrage
     	tempVariablen.editFrage(frage);
+    	//Aktualisiere Frage in der Datenbank
     	fragenkatalogDAO.updateFrage(tempVariablen.getTempFrage());
-    	//Lösche alle Nachrichten zur Frage
-    	nachrichtenController.deleteAllMessages(tempVariablen.getTempFrage());
-    	//Lösche alle Bearbeitungsvorschläge zur Frage
-    	for (FragenkatalogBearbeitet frageBearbeitet : fragenkatalogBearbeitetListe.getFragenkatalogBearbeitetListe()) {
-			 if (frageBearbeitet.getQuestion_id() == tempVariablen.getTempFrage().getId()) {
-				 fragenkatalogBearbeitetDAO.deleteFrage(frageBearbeitet);
-			 }
-		 }
     	//Aktualisiere Listen
     	nachrichtenController.updateNachrichtenListe();
 		fragenkatalogBearbeitetListe = new FragenkatalogBearbeitetListe();
-		//Veröffentliche Frage
-    	fragenkatalogDAO.updateStatus(tempVariablen.getTempFrage().getId(), "published");
-    	//Setze temporäre Variablen zurück
-    	tempVariablen.setTempFrage(null);
+    	//Lösche alle Nachrichten zur Frage und setze sie auf "published"
+		fragenkatalogDAO.updateStatus(tempVariablen.getTempFrage().getId(), "published");
+		deleteNotifications(tempVariablen.getTempFrage());
+		tempVariablen.setTempFrage(null);
     	tempNachricht = "";
     	return "fragenkatalogAnzeigeTutor?faces-redirect=true";
     }   
@@ -248,25 +261,26 @@ public class FragenkatalogController implements Serializable
     }
 	
 	 public String updateFrage(Fragenkatalog frage) {
-		frage.setStatus("in_progress");
-       fragenkatalogDAO.updateFrage(frage);
-       tempVariablen.setTempFrage(null);
-       return "fragenkatalogAnzeigeTutor?faces-redirect=true";
+	    frage.setStatus("in_progress");
+	    fragenkatalogDAO.updateFrage(frage);
+	    tempVariablen.setTempFrage(null);
+	    return "fragenkatalogAnzeigeTutor?faces-redirect=true";
    }
 	 
 	 public String setInProgressFrage(Fragenkatalog frage) {
-			fragenkatalogDAO.updateStatus(frage.getId(), "in_progress");
-			deleteNotifications(frage);
-			tempVariablen.setTempFrage(null);
-	        return "fragenkatalogAnzeigeTutor?faces-redirect=true";
-	    }
+		deleteNotifications(frage);
+		fragenkatalogDAO.updateStatus(frage.getId(), "in_progress");
+		tempVariablen.setTempFrage(null);
+        return "fragenkatalogAnzeigeTutor?faces-redirect=true";
+    }
 	 
 	 public String publishFrage(Fragenkatalog frage) {
-		 	frage.setStatus("published");
-	        fragenkatalogDAO.updateFrage(frage);
-	        tempVariablen.setTempFrage(null);
-	        return "fragenkatalogAnzeigeTutor?faces-redirect=true";
-	    }	
+	 	deleteNotifications(frage);
+	 	frage.setStatus("published");
+        fragenkatalogDAO.updateFrage(frage);
+        tempVariablen.setTempFrage(null);
+        return "fragenkatalogAnzeigeTutor?faces-redirect=true";
+    }	
 
 	 public List<FragenkatalogBearbeitet> getEditedFragenListeZuFrage (Fragenkatalog frage) {
 		 fragenkatalogBearbeitetListe = new FragenkatalogBearbeitetListe();
@@ -301,14 +315,11 @@ public class FragenkatalogController implements Serializable
 		 }
 	 }
    
-	 public String deleteNotifications(Fragenkatalog frage) {
+	 public void deleteNotifications(Fragenkatalog frage) {
 		 nachrichtenController.deleteAllMessages(frage);
 		 for (FragenkatalogBearbeitet frageBearbeitet : getEditedFragenListeZuFrage(frage)) {
 			 fragenkatalogBearbeitetDAO.deleteFrage(frageBearbeitet);
 		 }
-		 fragenkatalogDAO.updateStatus(frage.getId(), "published");
-		 tempVariablen.setTempFrage(null);
-		 return "fragenkatalogAnzeigeTutor?faces-redirect=true";
 	 }
 	 
 	 public String cancelEditTutor() {
@@ -363,14 +374,7 @@ public class FragenkatalogController implements Serializable
     
 	 public String reportEditedFrage(Fragenkatalog frage) {
 		 User loggedInUser = loginController.getUserLogin();
-		//TODO To be removed
-		 if (loggedInUser.getId() != 0) {
-			 fragenkatalogBearbeitetDAO.createFrage(loggedInUser.getId(), frage, tempNachricht);
-		 }
-		 else {
-			 fragenkatalogBearbeitetDAO.createFrage(1002, frage, tempNachricht);
-		 }
-		
+		 fragenkatalogBearbeitetDAO.createFrage(loggedInUser.getId(), frage, tempNachricht);
 		 fragenkatalogDAO.updateStatus(frage.getId(), "reported");
 		 tempNachricht = "";
 		 tempVariablen.setTempFrage(null);

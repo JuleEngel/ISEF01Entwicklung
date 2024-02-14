@@ -1,37 +1,51 @@
 package fragenkatalog;
 
 
-import jakarta.enterprise.context.SessionScoped;
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.component.UIComponent;
-import jakarta.faces.context.FacesContext;
-import jakarta.faces.validator.ValidatorException;
+import jakarta.enterprise.context.ApplicationScoped;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 @SuppressWarnings("serial")
 @Named
-@SessionScoped
+@ApplicationScoped
 public class ModulesController implements Serializable
 {
     @Inject
     private ModulesListe modulesListe = new ModulesListe();
-    @Inject
-    private FragenkatalogController fragenkatalogController;
     
-    public void checkModule(FacesContext context, UIComponent comp, Object value) throws ValidatorException{
-        String module_short = (String) value;
-        for (Modules modules : modulesListe.getModulesListe()) {
-	        if (modules.getModule_short().equals(module_short)) {
-	        	String module_long = modules.getModule_long();
-	        	fragenkatalogController.getNeueFrage().setModule_short(modules.getModule_short());
-	            fragenkatalogController.getNeueFrage().setModule(module_long);
-	            return;
-	        }
-        }
-        throw new ValidatorException(new FacesMessage("Bitte geben Sie ein existierendes Modulkürzel ein!"));
+    public List<Modules> getModulesList() {
+    	return modulesListe.getModulesListe();
     }
-	 
+    
+    public List<Modules> getModulesByID(int id) {
+    	List<Modules> tempList = new ArrayList<>();
+    	for (Modules module : modulesListe.getModulesListe()) {
+    		if (module.getModule_id() == id) {
+    			tempList.add(module);
+    		}
+    	}
+    	return tempList;
+    }
+    
+    public String getModuleShort(int id) {
+    	for (Modules module : modulesListe.getModulesListe()) {
+    		if (module.getModule_id() == id) {
+    			return module.getModule_short();
+    		}
+    	}
+    	return null;
+    }
+    
+    public String getModuleLong(int id) {
+    	for (Modules module : modulesListe.getModulesListe()) {
+    		if (module.getModule_id() == id) {
+    			return module.getModule_long();
+    		}
+    	}
+    	return null;
+    }
 }

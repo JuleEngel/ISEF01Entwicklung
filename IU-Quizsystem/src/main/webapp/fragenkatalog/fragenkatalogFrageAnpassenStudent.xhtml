@@ -3,34 +3,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <h:head>
   <link rel="stylesheet" type="text/css" media="screen" href="../css/style.css"/>
   <script type="text/javascript" src="clientActivity.js"></script>
   <title>IU-Quizsystem Fragenkatalog</title>
 </h:head>
 <h:body>
-    <header>
-        <div class="flex-header">
-            <img class="flex-item" id="kopf_links" src="../bilder/logo.jpg" alt="logo"/>
-            <div class="flex-item" id="titel">
-                <h2>IU Quizsystem</h2>
-                <p>Von Studenten - Für Studenten</p>
-                <h:form>
-                	<h:commandButton value="Ausloggen" action="#{loginController.logout}" style="font-size:20">
-                		<f:ajax execute="@form" render="@none"/>
-               		</h:commandButton>
-                </h:form>
-            </div>
-        </div>
-    </header>
+    <ui:include src="/header.xhtml" />
     <br />
     <main>
-    	<!-- Aktivitäts-Überprüfung -->
 	   	<f:metadata>
-	        <f:event type="preRenderView" listener="#{fragenkatalogController.checkTempFrageStudent}" />
-	    </f:metadata>
-		
+		    <f:viewAction action="#{fragenkatalogController.checkTempFrageStudent}" />
+		</f:metadata>
 		<h1>Frage bearbeiten : Studentenansicht!</h1> 
 		
 		<div class="flex-tabelle">
@@ -45,15 +31,15 @@
                     <h:outputText value=" "/>
                     
                     <h:outputLabel value="Modulkürzel" for="module_short"/>
-                    <h:outputText id="module_short" value="#{fragenkatalogController.tempFrage.module_short}"/>
+                    <h:outputText id="module_short" value="#{fragenkatalogController.getModule_short(fragenkatalogController.tempFrage)}"/>
                     <h:outputText value=" "/>
 
                     <h:outputLabel value="Modul" for="module"/>
-                    <h:outputText id="module" value="#{fragenkatalogController.tempFrage.module}"/>
+                    <h:outputText id="module" value="#{fragenkatalogController.getModule_long(fragenkatalogController.tempFrage)}"/>
                     <h:outputText value=" "/>
 
 					<h:outputLabel value="Schwierigkeit" for="difficulty" />
-                    <h:outputLabel id="difficulty2" value="#{fragenkatalogController.formatDifficulty(fragenkatalogController.tempFrage.difficulty)}" />
+                    <h:outputLabel id="difficulty" value="#{fragenkatalogController.formatDifficulty(fragenkatalogController.tempFrage.difficulty)}" />
                     <h:outputText value=" "/>
                     
                     <h:outputLabel value="Frage" for="question"/>
@@ -115,7 +101,7 @@
                 <br/>
                 <div id="button">
                 	<h:commandButton value="Abbrechen" action="#{fragenkatalogController.cancelEditStudent}" immediate="true" styleClass="button-container"/>
-                    <h:commandButton value="Frage einreichen" action="#{fragenkatalogController.reportEditedFrage(fragenkatalogController.tempFrage)}"/>
+                    <p:commandButton value="Frage einreichen" action="#{fragenkatalogController.reportEditedFrage(fragenkatalogController.tempFrage)}"/>
                     <h:message for="submit"/>
                 </div>
                 <br/>

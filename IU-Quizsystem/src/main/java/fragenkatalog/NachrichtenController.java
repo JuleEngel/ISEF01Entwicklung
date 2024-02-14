@@ -48,6 +48,11 @@ public class NachrichtenController implements Serializable
     	return filteredList;
     }
     
+    public int getAmountOfMessages() {
+    	nachrichtenListe = new NachrichtenListe();
+    	return nachrichtenListe.getNachrichtenListe().size();
+    }
+    
     public String getUserReported(Nachrichten nachricht) {
     	User userReported = userListe.getUserFromList(nachricht.getUser_id());
     	int idUserReported = userReported.getId();
@@ -57,14 +62,7 @@ public class NachrichtenController implements Serializable
 	 
 	 public String reportMessage(Fragenkatalog frage) {
 		 User loggedInUser = loginController.getUserLogin();
-		 //TODO To be removed
-		 if (loggedInUser.getId() != 0) {
-			 nachrichtenDAO.createNachricht(frage.getId(), loggedInUser.getId(), tempNachricht);
-		 }
-		 else {
-			 nachrichtenDAO.createNachricht(frage.getId(), 1002, tempNachricht);
-		 }
-		 
+		 nachrichtenDAO.createNachricht(frage.getId(), loggedInUser.getId(), tempNachricht);
 		 frage.setStatus("reported");
 		 fragenkatalogDAO.updateFrage(frage);
 		 tempNachricht = "";

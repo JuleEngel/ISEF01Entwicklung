@@ -24,6 +24,7 @@ import jakarta.inject.Named;
 * @version 1.0 
 * @since 01.02.2024 
 */ 
+@SuppressWarnings("serial")
 @Named
 @SessionScoped
 public class LoginController implements Serializable {
@@ -100,7 +101,12 @@ public class LoginController implements Serializable {
 			FacesContext facesContext = FacesContext.getCurrentInstance();
 	        Map<String, Object> sessionMap = facesContext.getExternalContext().getSessionMap();
 	        sessionMap.put("lastActivityTime", System.currentTimeMillis());
-			return "loginSuccess?faces-redirect=true";
+	        if (userLogin.getRole().equals("tutor")) {
+	        	return "/mainpage/indexTutor?faces-redirect=true";
+	        }
+	        else {
+	        	return "/mainpage/indexStudent?faces-redirect=true";
+	        }
 		}
 		else {
 			return "loginPage?faces-redirect=true";

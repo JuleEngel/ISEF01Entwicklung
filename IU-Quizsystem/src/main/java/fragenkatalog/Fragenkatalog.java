@@ -13,8 +13,7 @@ public class Fragenkatalog {
 	private String incorrect_answer_2;
 	private String incorrect_answer_3;
 	private int difficulty;
-	private String module_short;
-	private String module;
+	private int module_id;
 	private String explanation;
 	private String status;
 	
@@ -22,8 +21,7 @@ public class Fragenkatalog {
 	}
 	
 	public Fragenkatalog(int id, String question, String correct_answer, String incorrect_answer_1,
-            String incorrect_answer_2, String incorrect_answer_3, int difficulty,
-            String module_short, String module, String explanation, String status) {
+            String incorrect_answer_2, String incorrect_answer_3, int difficulty, int module_id, String explanation, String status) {
 	   this.id = id;
 	   this.question = question;
 	   this.correct_answer = correct_answer;
@@ -31,8 +29,7 @@ public class Fragenkatalog {
 	   this.incorrect_answer_2 = incorrect_answer_2;
 	   this.incorrect_answer_3 = incorrect_answer_3;
 	   this.difficulty = difficulty;
-	   this.module_short = module_short;
-	   this.module = module;
+	   this.module_id = module_id;
 	   this.explanation = explanation;
 	   this.status = status;
 	}
@@ -94,20 +91,12 @@ public class Fragenkatalog {
 	}
 
 	
-	public String getModule_short() {
-		return module_short;
+	public int getModule_id() {
+		return module_id;
 	}
 
-	public void setModule_short(String module_short) {
-		this.module_short = module_short;
-	}
-
-	public String getModule() {
-		return module;
-	}
-
-	public void setModule(String module) {
-		this.module = module;
+	public void setModule_id(int module_id) {
+		this.module_id = module_id;
 	}
 
 	public String getExplanation() {

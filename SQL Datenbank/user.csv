@@ -1,0 +1,9 @@
+"id";"username";"email";"password";"role";"playedgames"
+1000;"admin";"admin@iu-mail.de";"admin_passwort";"tutor";0
+1001;"andreas-kurz";"andreas-kurz@iu-mail.de";"andreas_passwort";"student";0
+1002;"jule-engel";"jule-engel@iu-mail.de";"jule_passwort";"student";0
+1003;"kevin-loch";"kevin-loch@iu-mail.de";"kevin_passwort";"student";0
+1004;"philipp-pulst";"phillip-pulst@iu-mail.de";"philipp_passwort";"student";0
+1005;"student";"student@iu-mail.de";"student_passwort";"student";0
+1006;"tobias-brueckmann";"tobias-brueckmann@iu-mail.de";"brueckmann_passwort";"tutor";0
+1007;"verena-sickers";"verena-sickers@iu-mail.de";"verena_passwort";"student";0

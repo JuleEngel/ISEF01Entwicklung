@@ -1,41 +1,32 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!-- index.xhtml -->
+<!-- fragenkatalogFrageAnpassenTutor.xhtml -->
+<!-- Bearbeitungsseite für Fragen aus Sicht des Tutors -->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <h:head>
   <link rel="stylesheet" type="text/css" media="screen" href="../css/style.css"/>
-  <script type="text/javascript" src="clientActivity.js"></script>
+  <script type="text/javascript" src="../header/clientActivity.js"></script>
   <title>IU-Quizsystem Fragenkatalog</title>
 </h:head>
 <h:body>
-    <header>
-        <div class="flex-header">
-            <img class="flex-item" id="kopf_links" src="../bilder/logo.jpg" alt="logo"/>
-            <div class="flex-item" id="titel">
-                <h2>IU Quizsystem</h2>
-                <p>Von Studenten - Für Studenten</p>
-                <h:form>
-                	<h:commandButton value="Ausloggen" action="#{loginController.logout}" style="font-size:20">
-                		<f:ajax execute="@form" render="@none"/>
-               		</h:commandButton>
-                </h:form>
-            </div>
-        </div>
-    </header>
+	<header>
+    	<ui:include src="../header/headerTutor.xhtml" />
+   	</header>
     <br />
     <main>
-    	<!-- Aktivitäts-Überprüfung -->
+    	<!-- Überprüfung temporäre Frage -->
 	   	<f:metadata>
-	        <f:event type="preRenderView" listener="#{fragenkatalogController.checkTempFrageTutor}" />
-	    </f:metadata>
+		    <f:viewAction action="#{fragenkatalogController.checkTempFrageTutor}" />
+		</f:metadata>
 		
-		<h1>Frage bearbeiten : Tutoransicht!</h1> 
+		<h1>Frage bearbeiten!</h1> 
 		
 		<div class="flex-tabelle">
             <h:form>
-                <h:panelGrid columns="3">
+                <h:panelGrid columns="3" styleClass="custom-panelgrid">
                     <h:outputLabel value="Attribute:" styleClass="bold-label"/>
                     <h:outputLabel value="Eingabe" styleClass="bold-label"/>
                     <h:outputLabel value="Validierung" styleClass="bold-label"/>
@@ -45,11 +36,11 @@
                     <h:outputText value=" "/>
                     
                     <h:outputLabel value="Modulkürzel" for="module_short"/>
-                    <h:outputLabel id="module_short" value="#{fragenkatalogController.tempFrage.module_short}"/>
+                    <h:outputText id="module_short" value="#{fragenkatalogController.getModule_short(fragenkatalogController.tempFrage)}"/>
                     <h:outputText value=" "/>
 
                     <h:outputLabel value="Modul" for="module"/>
-                    <h:outputLabel id="module" value="#{fragenkatalogController.tempFrage.module}"/>
+                    <h:outputText id="module" value="#{fragenkatalogController.getModule_long(fragenkatalogController.tempFrage)}"/>
                     <h:outputText value=" "/>
 
 					<h:outputLabel value="Schwierigkeit" for="difficulty" />
@@ -117,7 +108,7 @@
                     <p:dialog id="solutionDialog_#{frage.id}" header="Möchten Sie die Frage wirklich permanent löschen?" widgetVar="solutionDialog_#{frage.id}" 
                     			modal="true" resizable="false" position="center">
 				    	<div style="text-align: center;">
-				    		<h:commandButton value="Löschen" action="#{fragenkatalogController.deleteFrage(fragenkatalogController.tempFrage)}" immediate="true"/>
+				    		<p:commandButton value="Löschen" action="#{fragenkatalogController.deleteFrage(fragenkatalogController.tempFrage)}" immediate="true"/>
 					        <br/><br/>
 					        <h:commandButton value="Abbrechen" onclick="PF('solutionDialog_#{frage.id}').hide()"/>
 					    </div>
@@ -131,8 +122,7 @@
          </div>
     </main>
     <footer>
-        <br/>
-        <p>Dies ist eine fiktive Seite</p>
+        <ui:include src="../footer/footer.xhtml" />
     </footer>
 </h:body>
 </html>

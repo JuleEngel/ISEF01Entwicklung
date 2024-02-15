@@ -1,9 +1,23 @@
+/*Allgemeine Style-Anpassungen*/
+
 body {
     font-family: Arial;
 }
 
+h1, h2, p {
+    text-align: center;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
 .bold-label {
 	font-weight:bold;
+}
+
+.link {
+	text-decoration: none;
+    color: black;
+    font-style: italic;
 }
 
 .input-field {
@@ -16,43 +30,16 @@ body {
     height: 200px;
 }
 
-
-.fragenkatalog-id-table {
-	width: 25px;
-}
-.fragenkatalog-module-short-niveau-table {
-	width: 65px;
-}
-.fragenkatalog-module-table {
-	width: 85px;
-}
-
-.fragenkatalog-username-table {
-	width: 100px;
-}
-
-.fragenkatalog-edit-table {
-	width: 60px;
-	text-align: center;
-}
-
 .button-container{
     margin-right: 10px;
 }
+
 
 .flex-header {
     display:flex;
     justify-content: center;
     align-items: center;
 }
-
-.flex-tabelle {
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
 #icon {
 	width:25px;
 }
@@ -73,11 +60,47 @@ body {
 }
 
 
-h1, p {
-    text-align: center;
-    margin-left: 10%;
-    margin-right: 10%;
+/* Tabellen */
+.fragenkatalog-id-table {
+	width: 25px;
 }
+.fragenkatalog-module-short-niveau-table {
+	width: 65px;
+}
+.fragenkatalog-module-table {
+	width: 85px;
+}
+
+.fragenkatalog-username-table {
+	width: 100px;
+}
+
+.fragenkatalog-edit-table {
+	width: 60px;
+	text-align: center;
+}
+
+.flex-tabelle {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.custom-panelgrid {
+	display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+	border: 1px solid #ddd;
+    border-collapse: collapse;
+}
+
+.custom-panelgrid td, .custom-panelgrid tr {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
 
 th, td {
     border: 1px solid grey;
@@ -90,6 +113,8 @@ th {
     background-color: #CCC;
 }
 
+
+/* Fehlermeldungen */
 .error {
     color:red;
 }

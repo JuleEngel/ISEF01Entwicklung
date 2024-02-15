@@ -1,4 +1,6 @@
+//frageEingereicht.js
 
+//Weiterleitung nach erfolgreich eingereichter Frage durch Student
 function redirectToMainPage() {
     window.location.href = 'fragenkatalogAnzeigeStudent.xhtml';
 }

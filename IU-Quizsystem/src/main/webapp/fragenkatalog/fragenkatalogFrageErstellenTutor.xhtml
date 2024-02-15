@@ -1,55 +1,46 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!-- index.xhtml -->
+<!-- fragenkatalogFrageErstellenTutor.xhtml -->
+<!-- Formular zur Erstellung einer neuen Frage aus Sicht des Tutors -->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <h:head>
   <link rel="stylesheet" type="text/css" media="screen" href="../css/style.css"/>
-  <script type="text/javascript" src="clientActivity.js"></script>
+  <script type="text/javascript" src="../header/clientActivity.js"></script>
   <title>IU-Quizsystem Fragenkatalog</title>
 </h:head>
 <h:body>
-    <header>
-        <div class="flex-header">
-            <img class="flex-item" id="kopf_links" src="../bilder/logo.jpg" alt="logo"/>
-            <div class="flex-item" id="titel">
-                <h2>IU Quizsystem</h2>
-                <p>Von Studenten - Für Studenten</p>
-                <h:form>
-                	<h:commandButton value="Ausloggen" action="#{loginController.logout}" style="font-size:20">
-                		<f:ajax execute="@form" render="@none"/>
-               		</h:commandButton>
-                </h:form>
-            </div>
-        </div>
+	<header>
+    	<ui:include src="../header/headerTutor.xhtml" />
     </header>
     <br />
     <main>
-    	<!-- Aktivitäts-Überprüfung -->
-		
 		<h1>Hier kannst du eine neue Frage erstellen!</h1> 
-		
 		<div class="flex-tabelle">
             <h:form>
-                <h:panelGrid columns="3">
+                <h:panelGrid columns="3" styleClass="custom-panelgrid">
                     <h:outputLabel value="Attribute:" styleClass="bold-label"/>
                     <h:outputLabel value="Eingabe" styleClass="bold-label"/>
                     <h:outputLabel value="Validierung" styleClass="bold-label"/>
                     
-                    <h:outputLabel value="Modulkürzel" for="module_short"/>
-					<h:inputText id="module_short" value="#{fragenkatalogController.neueFrage.module_short}" required="true" 
-					             requiredMessage="Bitte geben Sie einen Modulkürzel ein!" styleClass="input-field"
-					             validator="#{modulesController.checkModule}">
-					    <f:ajax event="blur" render="moduleShortError module" execute="@this" />
-					</h:inputText>
-					<h:message id="moduleShortError" for="module_short" styleClass="error"/>
+                    <!-- Auswahl Modul aus dynamischen Drop-Down -> Angepasst an modules Datenliste -->
+                    <h:outputLabel value="Modul" for="module_short"/>
+					<p:selectOneMenu id="module" value="#{fragenkatalogController.neueFrage.module_id}" required="true" 
+					                 requiredMessage="Bitte wählen Sie ein Modul aus!" styleClass="input-field">
+					    <f:selectItem itemLabel="Bitte auswählen" itemValue=""/>
+					    
+					    <c:forEach items="#{modulesController.modulesList}" var="module">
+					        <f:selectItem itemLabel="#{module.module_long} (#{module.module_short})" itemValue="#{module.module_id}" />
+					    </c:forEach>
+					    
+					    <f:ajax event="blur" render="moduleError" execute="@this" />
+					</p:selectOneMenu>
+					<h:message id="moduleError" for="module" styleClass="error"/>
 					
-					<h:outputLabel value="Modul" for="module"/>
-					<h:outputText id="module" value="#{fragenkatalogController.neueFrage.module}"/>
-					
-					<h:outputLabel value=""/>
-
+					<!-- Auswahl Schwierigkeit per statischem Drop-Down -->
 					<h:outputLabel value="Schwierigkeit" for="difficulty" />
 					<p:selectOneMenu id="difficulty" value="#{fragenkatalogController.neueFrage.difficulty}" required="true" 
 			                      requiredMessage="Bitte wählen Sie die Schwierigkeit aus!" styleClass="input-field">
@@ -111,19 +102,16 @@
                     <h:message id="explanationError" for="explanation" styleClass="error"/>
                 </h:panelGrid>
                 <br/>
-                <div class="button">
-                	<h:commandButton value="Abbrechen" action="#{fragenkatalogController.cancelCreateTutor}" immediate="true" styleClass="button-container"/>
-                    <h:commandButton value="Frage in Bearbeitung setzen" action="#{fragenkatalogController.createFrageTutor(fragenkatalogController.neueFrage, 'in_progress')}" styleClass="button-container"/>
-                    <h:commandButton value="Frage veröffentlichen" action="#{fragenkatalogController.createFrageTutor(fragenkatalogController.neueFrage, 'published')}"/>
-                    <h:message for="submit"/>
-                </div>
+            	<h:commandButton value="Abbrechen" action="#{fragenkatalogController.cancelCreateTutor}" immediate="true" styleClass="button-container"/>
+                <h:commandButton value="Frage in Bearbeitung setzen" action="#{fragenkatalogController.createFrageTutor(fragenkatalogController.neueFrage, 'in_progress')}" styleClass="button-container"/>
+                <h:commandButton value="Frage veröffentlichen" action="#{fragenkatalogController.createFrageTutor(fragenkatalogController.neueFrage, 'published')}"/>
+                <h:message for="submit"/>
                 <br/>
             </h:form>
          </div>
     </main>
     <footer>
-        <br/>
-        <p>Dies ist eine fiktive Seite</p>
+        <ui:include src="../footer/footer.xhtml" />
     </footer>
 </h:body>
 </html>

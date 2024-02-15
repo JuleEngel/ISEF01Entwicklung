@@ -1,3 +1,4 @@
+//ModulesListe.java
 package fragenkatalog;
 
 import java.util.List;
@@ -5,25 +6,36 @@ import java.util.List;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Named;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
+/** 
+* ModulesListe.java
+* Klasse zur Erstellung von Listen von Modulen.
+* Die Klasse enthält Funktionen, um mithilfe der ModulesDAO die Datensätze aus der Datenbank in eine
+* Liste umzuwandeln.
+* 
+* @author JuleEngel 
+* @version 1.0 
+* @since 15.02.2024 
+*/ 
 @Named
 @ApplicationScoped
 public class ModulesListe {
-	private final static EntityManagerFactory emf = Persistence.createEntityManagerFactory("quizsystem");
     private ModulesDAO modulesDAO = new ModulesDAO();
     List<Modules> modulesListe = new ArrayList<Modules>();
     
-	public ModulesListe()
-    {
+    /**
+     * Konstruktor der ModulesListe-Klasse, der die Liste der Module aus der Datenbank lädt.
+     */
+    public ModulesListe() {
         modulesListe = modulesDAO.loadList();
     }
 
-    public List<Modules> getModulesListe()
-    {
+    /**
+     * Gibt die Liste der Module zurück.
+     *
+     * @return Die Liste der Module
+     */
+    public List<Modules> getModulesListe() {
         return modulesListe;
     }
 }

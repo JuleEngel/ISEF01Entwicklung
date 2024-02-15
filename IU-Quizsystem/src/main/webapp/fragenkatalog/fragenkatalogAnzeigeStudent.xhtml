@@ -1,33 +1,23 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!-- index.xhtml -->
+<!-- fragenkatalogAnzeigeStudent.xhtml -->
+<!-- Anzeige Fragenkatalog aus Sicht des Studenten. Es werden Fragen mit dem Status "published" und "reported" angezeigt -->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <h:head>
   <link rel="stylesheet" type="text/css" media="screen" href="../css/style.css"/>
-  <script type="text/javascript" src="clientActivity.js"></script>
+  <script type="text/javascript" src="../header/clientActivity.js"></script>
   <title>IU-Quizsystem Fragenkatalog</title>
 </h:head>
 <h:body>
-    <header>
-        <div class="flex-header">
-            <img class="flex-item" id="kopf_links" src="../bilder/logo.jpg" alt="logo"/>
-            <div class="flex-item" id="titel">
-                <h2>IU Quizsystem</h2>
-                <p>Von Studenten - Für Studenten</p>
-                <h:form>
-                	<h:commandButton value="Ausloggen" action="#{loginController.logout}" style="font-size:20">
-                		<f:ajax execute="@form" render="@none"/>
-               		</h:commandButton>
-                </h:form>
-            </div>
-        </div>
+	<header>
+    	<ui:include src="../header/headerStudent.xhtml" />
     </header>
     <br />
     <main>
-    	<!-- Aktivitäts-Überprüfung -->
-	   
+    	<!-- Aktualisierung Fragenkatalog -->
 		<f:metadata>
 	        <f:event type="preRenderView" listener="#{fragenkatalogController.refreshFragenkatalog}" />
 	    </f:metadata>
@@ -38,7 +28,7 @@
 		<br/>
 		<h:form>
 			<div class="button">
-				<h:commandButton value="Neue Frage erstellen" action="#{fragenkatalogController.linkToCreateStudent}" styleClass="button-container"/>
+				<p:commandButton value="Neue Frage erstellen" action="#{fragenkatalogController.linkToCreateStudent}" styleClass="button-container"/>
 			</div>
 		</h:form>
 		<br/> <br/>
@@ -55,11 +45,11 @@
 				</p:column> 
 				
 				<p:column headerText="Kürzel" styleClass="fragenkatalog-module-short-niveau-table">
-					<h:outputText value="#{frage.module_short}" />
+					<h:outputText value="#{fragenkatalogController.getModule_short(frage)}" />
 				</p:column>
 				
 				<p:column headerText="Modul" styleClass="fragenkatalog-module-table"> 
-					<h:outputText value="#{frage.module}" /> 
+					<h:outputText value="#{fragenkatalogController.getModule_long(frage)}" /> 
 				</p:column> 
 				
 				<p:column headerText="Niveau" styleClass="fragenkatalog-module-short-niveau-table">
@@ -70,6 +60,7 @@
 					<h:outputText value="#{frage.question}" /> 
 				</p:column>
 				
+				<!-- Anzeige genauere Details -->
 				<p:column headerText="Lösung anzeigen" styleClass="fragenkatalog-edit-table">
 			        <p:commandLink oncomplete="PF('solutionDialog_#{frage.id}').show()">
 			            <img src="../bilder/result.png" id="icon" alt="report"/>
@@ -77,9 +68,9 @@
 			        <p:dialog id="solutionDialog_#{frage.id}" header="Lösungen anzeigen" widgetVar="solutionDialog_#{frage.id}" modal="true" resizable="false">
 				        <h:outputText value="Fragen-ID: #{frage.id}" /> 
 				        <br/><br/>
-				        <h:outputText value="Modul-Kürzel: #{frage.module_short}" />
+				        <h:outputText value="Modul-Kürzel: #{fragenkatalogController.getModule_short(frage)}" />
 				        <br/><br/>
-				        <h:outputText value="Modul: #{frage.module}" />
+				        <h:outputText value="Modul: #{fragenkatalogController.getModule_long(frage)}" />
 				        <br/><br/>
 				        <h:outputText value="Niveau: #{fragenkatalogController.formatDifficulty(frage.difficulty)}" />
 				        <br/><br/>
@@ -114,8 +105,7 @@
 		</h:form>
     </main>
     <footer>
-        <br/>
-        <p>Dies ist eine fiktive Seite</p>
+        <ui:include src="../footer/footer.xhtml" />
     </footer>
 </h:body>
 </html>

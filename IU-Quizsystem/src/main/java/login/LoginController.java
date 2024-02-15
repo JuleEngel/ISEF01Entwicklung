@@ -21,9 +21,10 @@ import jakarta.inject.Named;
 * Inaktivitätsprüfung und Formatierung.
 * 
 * @author JuleEngel 
-* @version 1.0 
+* @version 2.0 
 * @since 01.02.2024 
 */ 
+@SuppressWarnings("serial")
 @Named
 @SessionScoped
 public class LoginController implements Serializable {
@@ -100,7 +101,12 @@ public class LoginController implements Serializable {
 			FacesContext facesContext = FacesContext.getCurrentInstance();
 	        Map<String, Object> sessionMap = facesContext.getExternalContext().getSessionMap();
 	        sessionMap.put("lastActivityTime", System.currentTimeMillis());
-			return "loginSuccess?faces-redirect=true";
+	        if (userLogin.getRole().equals("tutor")) {
+	        	return "/mainpage/indexTutor?faces-redirect=true";
+	        }
+	        else {
+	        	return "/mainpage/indexStudent?faces-redirect=true";
+	        }
 		}
 		else {
 			return "loginPage?faces-redirect=true";
@@ -128,7 +134,7 @@ public class LoginController implements Serializable {
 	 * - Falls der Benutzer inaktiv ist oder die Sitzung abgelaufen ist, wird er ausgeloggt, die Sitzung ungültig gemacht und zur Seite "login/logout" weitergeleitet.
 	 * - Andernfalls wird der Zeitstempel für die letzte Aktivität aktualisiert.
 	 */
-	public void checkLoggedIn() {
+	public void checkLoggedInStudent() {
 	    if (!this.isLoggedIn) {
 	    	isLoggedIn = false;
 	    	userLogin = new User();
@@ -142,6 +148,37 @@ public class LoginController implements Serializable {
 	        FacesContext facesContext = FacesContext.getCurrentInstance();
 	        facesContext.getExternalContext().invalidateSession();
 	        facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "/login/logout?faces-redirect=true");
+	    }
+	    else {
+	    	updateActivityTimestamp();
+	    }
+	}
+	
+	/**
+	 * Diese Methode überprüft, ob der Benutzer eingeloggt und Tutor ist, ob seine Sitzung abgelaufen ist oder ob er inaktiv ist.
+	 * - Falls der Benutzer nicht eingeloggt ist, wird die Sitzung ungültig gemacht und zur Seite "login/loginFailed" weitergeleitet.
+	 * - Falls der Benutzer inaktiv ist oder die Sitzung abgelaufen ist, wird er ausgeloggt, die Sitzung ungültig gemacht und zur Seite "login/logout" weitergeleitet.
+	 * - Andernfalls wird der Zeitstempel für die letzte Aktivität aktualisiert.
+	 */
+	public void checkLoggedInTutor() {
+	    if (!this.isLoggedIn) {
+	    	isLoggedIn = false;
+	    	userLogin = new User();
+	        FacesContext facesContext = FacesContext.getCurrentInstance();
+	        facesContext.getExternalContext().invalidateSession();
+	        facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "/login/loginFailed?faces-redirect=true");
+	    }
+	    else if (isInactive()) {
+	    	isLoggedIn = false;
+	    	userLogin = new User();
+	        FacesContext facesContext = FacesContext.getCurrentInstance();
+	        facesContext.getExternalContext().invalidateSession();
+	        facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "/login/logout?faces-redirect=true");
+	    }
+	    else if (!userLogin.getRole().equals("tutor")) {
+	    	FacesContext facesContext = FacesContext.getCurrentInstance();
+	        facesContext.getExternalContext().invalidateSession();
+	        facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "/login/accessDenied?faces-redirect=true");
 	    }
 	    else {
 	    	updateActivityTimestamp();

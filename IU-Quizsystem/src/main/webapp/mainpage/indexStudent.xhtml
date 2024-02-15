@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!-- indexStudent.xhtml -->
+<!-- Startseite für Studenten mit Auswahl der Quizze und einem Button zum Fragenkatalog 
+		Nutzung von Bootstrap zur grafischen Darstellung -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+  <link rel="stylesheet" type="text/css" media="screen" href="../css/style.css"/>
+  <script type="text/javascript" src="../header/clientActivity.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"></link>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  <title>IU-Quizsystem</title>
+</h:head>
+<h:body>
+	<header>
+    	<ui:include src="../header/headerStudent.xhtml" />
+    </header>
+    <br />
+    <main>
+    	<h2>Hi, 
+        	<h:outputText value="#{loginController.formatInput(loginController.userLogin.username)}"/>
+        </h2>
+        <h2>Deine gespielten Spiele:   
+            <h:outputText value="#{loginController.formatInput(loginController.userLogin.playedgames)}"/>
+        </h2>
+        <br/>
+        <br/>
+        <h1>Hier wird irgendwann mal ein super dolles Quizsystem zu sehen sein!</h1>
+        <p>Was uns wohl noch alles einfallen wird...</p>
+		<div class="container">
+		  <div class="row justify-content-center">
+		    <div class="col-md-4">
+		      <div class="card">
+		        <img src="../bilder/solo.jpg" class="card-img-top" alt="Solo-Quiz"/>
+		        <div class="card-body text-center">
+		          <h5 class="card-title">Solo-Quiz</h5>
+		          <p class="card-text">Im Solo-Quiz kannst du dein eigenes Wissen spielerisch testen und erhältst direktes Feedback mit Erklärungen für ein verbessertes Lernen.</p>
+		          <a href="#" class="btn btn-primary">Starte Solo-Quiz</a>
+		        </div>
+		      </div>
+		    </div>
+		
+		    <div class="col-md-4">
+		      <div class="card">
+		        <img src="../bilder/duo.jpg" class="card-img-top" alt="Solo-Quiz"/>
+		        <div class="card-body text-center">
+		          <h5 class="card-title">Duo-Quiz</h5>
+		          <p class="card-text">Teste dein Wissen spielerisch im Wettkampf gegen andere Spieler! Direktes Feedback und Erläuterungen zu Fragen helfen dir beim Lernen.</p>
+		          <a href="#" class="btn btn-primary">Starte Duo-Quiz</a>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		<br/>
+		<br/>
+		<h1>Fragenkatalog</h1>
+        <p>Hier kannst du den Fragenkatalog anpassen</p>
+		<div class="container">
+		  <div class="row justify-content-center">
+		    <div class="col-md-4">
+				<div class="col-md">
+				      <div class="card">
+					        <img src="../bilder/fragenkatalog.jpg" class="card-img-top" alt="Solo-Quiz"/>
+					        <div class="card-body text-center">
+					          <h5 class="card-title">Fragenkatalog</h5>
+					          <p class="card-text">Dir ist ein Fehler bei einer Frage aufgefallen? Oder dir fällt eine neue Frage ein? Hier kannst du den Fragenkatalog anpassen!</p>
+					          <h:form>
+					          	<p:commandButton value="Fragenkatalog bearbeiten" action="#{fragenkatalogController.linkToFragenkatalog}" />
+					          </h:form>
+					        </div>
+			      		</div>
+				    </div>
+				</div>
+			</div>
+		</div>
+    </main>
+    <footer>
+        <ui:include src="../footer/footer.xhtml" />
+    </footer>
+</h:body>
+</html>

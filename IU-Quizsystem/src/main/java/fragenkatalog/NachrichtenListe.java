@@ -1,29 +1,40 @@
+//NachrichtenListe.java
 package fragenkatalog;
 
 import java.util.List;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Named;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
+/** 
+* NachrichtenListe.java
+* Klasse zur Erstellung von Listen von Nachrichten.
+* Die Klasse enthält Funktionen, um mithilfe der NachrichtenDAO die Datensätze aus der Datenbank in eine
+* Liste umzuwandeln.
+* 
+* @author JuleEngel 
+* @version 1.0 
+* @since 15.02.2024 
+*/ 
 @Named
 @ApplicationScoped
 public class NachrichtenListe {
-	private final static EntityManagerFactory emf = Persistence.createEntityManagerFactory("quizsystem");
     private NachrichtenDAO nachrichtenDAO = new NachrichtenDAO();
     List<Nachrichten> nachrichtenListe = new ArrayList<Nachrichten>();
     
-	public NachrichtenListe()
-    {
+    /**
+     * Initialisiert eine neue Instanz von NachrichtenListe und lädt die Liste der Nachrichten aus der Datenbank.
+     */
+    public NachrichtenListe() {
         nachrichtenListe = nachrichtenDAO.loadList();
     }
 
-    public List<Nachrichten> getNachrichtenListe()
-    {
+    /**
+     * Gibt die Liste der Nachrichten zurück.
+     *
+     * @return Die Liste der Nachrichten
+     */
+    public List<Nachrichten> getNachrichtenListe() {
         return nachrichtenListe;
     }
 }

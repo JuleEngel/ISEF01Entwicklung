@@ -9,7 +9,7 @@ import javax.persistence.Query;
 /** 
 * UserDAO.java
 * Datenbank-Verbindung User.
-* Die Klasse ist eine DAO zur Verbindung mit der Datenbank quizsystem zur Erstellung einer Nutzerliste.
+* Die Klasse ist eine DAO zur Verbindung mit der Datenbank-Tabelle User zur Verwaltung von Usern.
 *  
 * 
 * @author JuleEngel 

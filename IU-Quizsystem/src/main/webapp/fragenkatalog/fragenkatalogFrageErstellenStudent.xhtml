@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!-- index.xhtml -->
+<!-- fragenkatalogFrageErstellenStudent.xhtml -->
+<!-- Formular zur Erstellung einer Frage aus Sicht eines Studenten -->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
@@ -8,11 +9,13 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <h:head>
   <link rel="stylesheet" type="text/css" media="screen" href="../css/style.css"/>
-  <script type="text/javascript" src="clientActivity.js"></script>
+  <script type="text/javascript" src="../header/clientActivity.js"></script>
   <title>IU-Quizsystem Fragenkatalog</title>
 </h:head>
 <h:body>
-    <ui:include src="../header/headerStudent.xhtml" />
+	<header>
+    	<ui:include src="../header/headerStudent.xhtml" />
+   	</header>
     <br />
     <main>
 		<h1>Hier kannst du eine neue Frage erstellen und einreichen!</h1> 
@@ -24,6 +27,7 @@
                     <h:outputLabel value="Eingabe" styleClass="bold-label"/>
                     <h:outputLabel value="Validierung" styleClass="bold-label"/>
                     
+                    <!-- Auswahl Modul aus der externen ModulListe -->
                     <h:outputLabel value="Modul" for="module_short"/>
 					<p:selectOneMenu id="module" value="#{fragenkatalogController.neueFrage.module_id}" required="true" 
 					                 requiredMessage="Bitte wählen Sie ein Modul aus!" styleClass="input-field"
@@ -98,8 +102,7 @@
          </div>
     </main>
     <footer>
-        <br/>
-        <p>Dies ist eine fiktive Seite</p>
+        <ui:include src="../footer/footer.xhtml" />
     </footer>
 </h:body>
 </html>

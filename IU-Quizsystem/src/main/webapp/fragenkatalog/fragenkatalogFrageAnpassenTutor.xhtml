@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!-- index.xhtml -->
+<!-- fragenkatalogFrageAnpassenTutor.xhtml -->
+<!-- Bearbeitungsseite für Fragen aus Sicht des Tutors -->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
@@ -7,14 +8,16 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <h:head>
   <link rel="stylesheet" type="text/css" media="screen" href="../css/style.css"/>
-  <script type="text/javascript" src="clientActivity.js"></script>
+  <script type="text/javascript" src="../header/clientActivity.js"></script>
   <title>IU-Quizsystem Fragenkatalog</title>
 </h:head>
 <h:body>
-    <ui:include src="../header/headerTutor.xhtml" />
+	<header>
+    	<ui:include src="../header/headerTutor.xhtml" />
+   	</header>
     <br />
     <main>
-    	<!-- Aktivitäts-Überprüfung -->
+    	<!-- Überprüfung temporäre Frage -->
 	   	<f:metadata>
 		    <f:viewAction action="#{fragenkatalogController.checkTempFrageTutor}" />
 		</f:metadata>
@@ -119,8 +122,7 @@
          </div>
     </main>
     <footer>
-        <br/>
-        <p>Dies ist eine fiktive Seite</p>
+        <ui:include src="../footer/footer.xhtml" />
     </footer>
 </h:body>
 </html>

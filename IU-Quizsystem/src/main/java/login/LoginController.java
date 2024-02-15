@@ -21,7 +21,7 @@ import jakarta.inject.Named;
 * Inaktivitätsprüfung und Formatierung.
 * 
 * @author JuleEngel 
-* @version 1.0 
+* @version 2.0 
 * @since 01.02.2024 
 */ 
 @SuppressWarnings("serial")

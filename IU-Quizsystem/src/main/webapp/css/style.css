@@ -1,5 +1,13 @@
+/*Allgemeine Style-Anpassungen*/
+
 body {
     font-family: Arial;
+}
+
+h1, h2, p {
+    text-align: center;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
 .bold-label {
@@ -12,7 +20,6 @@ body {
     font-style: italic;
 }
 
-
 .input-field {
     font-family: Arial, sans-serif;
     font-size: 12px;
@@ -22,6 +29,38 @@ body {
     width: 300px;
     height: 200px;
 }
+
+.button-container{
+    margin-right: 10px;
+}
+
+
+.flex-header {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+#icon {
+	width:25px;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+}
+
+#titel {
+    text-align: center;
+    font-size: 150%;
+}
+
+#kopf_links {
+    margin-right: 5%;
+    width: 450px;
+}
+
+
+/* Tabellen */
 .fragenkatalog-id-table {
 	width: 25px;
 }
@@ -39,17 +78,6 @@ body {
 .fragenkatalog-edit-table {
 	width: 60px;
 	text-align: center;
-}
-
-.button-container{
-    margin-right: 10px;
-}
-
-
-.flex-header {
-    display:flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .flex-tabelle {
@@ -74,36 +102,6 @@ body {
 }
 
 
-#icon {
-	width:25px;
-}
-
-.button {
-    display: flex;
-    justify-content: center;
-}
-
-#titel {
-    text-align: center;
-    font-size: 150%;
-}
-
-#kopf_links {
-    margin-right: 5%;
-    width: 450px;
-}
-
-
-h1, h2, p {
-    text-align: center;
-    margin-left: 10%;
-    margin-right: 10%;
-}
-
-table {
-  border: 1px solid black; /* Umrandung der gesamten Tabelle */
-}
-
 th, td {
     border: 1px solid grey;
     padding: 10px;
@@ -115,6 +113,8 @@ th {
     background-color: #CCC;
 }
 
+
+/* Fehlermeldungen */
 .error {
     color:red;
 }

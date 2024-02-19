@@ -1,6 +1,5 @@
 package quiz;
 
-import fragenkatalog.FragenkatalogListe;
 import jakarta.inject.Inject;
 
 public class main {
@@ -9,12 +8,11 @@ public class main {
 	static
 	QuizController quizController; // = new QuizController();
 	@Inject
-	FragenkatalogListe fragenkatalogListe;
+	QuizFragenkatalogListe quizFragenkatalogListe;
 	
 	public static void main(String[] args) {
 		
-		Quiz testQuiz = new Quiz("Testing", 2);
-		testQuiz.getQuestionList();
+		Quiz testQuiz = new Quiz("testing", 2);
 		quizController.starteSoloQuiz(testQuiz);
 	}
 

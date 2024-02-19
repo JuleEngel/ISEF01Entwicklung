@@ -1,23 +1,22 @@
 package quiz;
 
 import java.io.Serializable;
-import java.util.List;
-import fragenkatalog.Fragenkatalog;
-import fragenkatalog.FragenkatalogListe;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+@SuppressWarnings("serial")
 @Named
 @SessionScoped
 public class QuizController implements Serializable{
 	
-	
 	@Inject
-	private FragenkatalogListe fragenkatalogListe = new FragenkatalogListe();
+	private QuizFragenkatalogListe quizFragenkatalogListe = new QuizFragenkatalogListe();
+	
 	
 	public void starteSoloQuiz(Quiz quiz) {
 		System.out.println(quiz.getRandomQuestion());
+
 	}
 	
 	

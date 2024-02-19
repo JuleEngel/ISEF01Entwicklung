@@ -2,22 +2,20 @@ package quiz;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.Entity;
-
-import fragenkatalog.Fragenkatalog;
-import fragenkatalog.FragenkatalogListe;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
 import login.User;
+
 
 //Java-Klasse zur Verwaltung von Fragen und Antworten
 @Entity
 @SessionScoped
 public class Quiz {
 	
-	private List <Fragenkatalog> randomQuestionList;
-	private FragenkatalogListe fragenkatalogListe = new FragenkatalogListe();
+	private List <QuizFragenkatalog> randomQuestionList;
+	
+	private QuizFragenkatalogListe quizFragenkatalogListe = new QuizFragenkatalogListe();
 	private int score;
 	private String module;
 	private int difficulty;
@@ -30,9 +28,9 @@ public class Quiz {
 	}
 	
 
-    public List<Fragenkatalog> getQuestionList() {
-		List<Fragenkatalog> randomList = new ArrayList<>();
-		for (Fragenkatalog frage : fragenkatalogListe.getFragenkatalogListe()) {
+    public List<QuizFragenkatalog> getQuestionList() {
+		List<QuizFragenkatalog> randomList = new ArrayList<>();
+		for (QuizFragenkatalog frage : quizFragenkatalogListe.getFragenkatalogListe()) {
 			if (frage.getModule_short().equals(module)) {
 				if (frage.getDifficulty() == difficulty) {
 					randomList.add(frage);
@@ -42,8 +40,8 @@ public class Quiz {
 		return randomList;
 	}
     
-    public Fragenkatalog getRandomQuestion() {
-    	Fragenkatalog randomQuestion = new Fragenkatalog();
+    public QuizFragenkatalog getRandomQuestion() {
+    	QuizFragenkatalog randomQuestion = new QuizFragenkatalog();
     	return randomQuestion;
     }
     
@@ -95,8 +93,8 @@ public class Quiz {
 
 
 
-	public void setFragenkatalogListe(FragenkatalogListe fragenkatalogListe) {
-		this.fragenkatalogListe = fragenkatalogListe;
+	public void setquizFragenkatalogListe(QuizFragenkatalogListe quizFragenkatalogListe) {
+		this.quizFragenkatalogListe = quizFragenkatalogListe;
 	}
 
 

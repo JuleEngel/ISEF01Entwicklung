@@ -4,7 +4,7 @@ body {
     font-family: Arial;
 }
 
-h1, h2, p {
+h1, h2, h3, p {
     text-align: center;
     margin-left: 10%;
     margin-right: 10%;
@@ -29,6 +29,7 @@ h1, h2, p {
     width: 300px;
     height: 200px;
 }
+
 .flex-header {
     display:flex;
     justify-content: center;
@@ -48,13 +49,12 @@ h1, h2, p {
     width: 450px;
 }
 
-
 /* Buttons */
 .ui-selectonebutton .ui-button {
     height: 80px; /* Höhe der Knöpfe */
     margin: 5px; /* Abstand zwischen den Knöpfen */
-    border: 2px solid #333 !important; /* Dunkler Rand (important, um vorhandene Stile zu überschreiben) */
-    width: 46%; /* Breite der Knöpfe */
+    border: 1px solid #333 !important; /* Dunkler Rand (important, um vorhandene Stile zu überschreiben) */
+    min-width: 40em; /* Breite der Knöpfe */
     float: left; /* Anordnung der Knöpfe nebeneinander */
     text-align: center;
     display: flex; /* Flexbox verwenden */
@@ -76,23 +76,22 @@ h1, h2, p {
   }
 }
 
+.button {
+	display: flex;
+    justify-content: center;
+}
+
+.button-header {
+	font-size: 20px;
+}
+
 .button-container{
     margin-right: 10px;
 }
-.button-header {
-	font-size:20px;
-}
-.button-header-left {
-	font-size:20px;
-	margin-right: 10px;
-}
-.button {
-    display: flex;
-    justify-content: center;
-}
+
 .ui-selectonebutton {
-    cursor: pointer; /* Ändert den Mauszeiger in einen Zeiger */
-    user-select: none; /* Verhindert die Auswahl des Textinhalts */
+    cursor: pointer;
+    user-select: none;
     -moz-user-select: none; /* Für Firefox */
     -ms-user-select: none; /* Für Internet Explorer/Edge */
     -webkit-user-select: none; /* Für ältere Webkit-basierte Browser */

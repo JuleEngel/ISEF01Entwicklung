@@ -50,8 +50,9 @@
 				        <f:selectItem itemLabel="Leicht" itemValue="1" />
 				        <f:selectItem itemLabel="Mittel" itemValue="2" />
 				        <f:selectItem itemLabel="Schwer" itemValue="3" />
+						<f:ajax event="change" render="difficultyError" execute="@this" />
 			    	</p:selectOneMenu>
-                    <h:message for="difficulty" styleClass="error"/>
+                    <h:message id="difficultyError" for="difficulty" styleClass="error"/>
                     
                     <h:outputLabel value="Frage" for="question"/>
                     <p:inputTextarea id="question" value="#{fragenkatalogController.tempFrage.question}" 

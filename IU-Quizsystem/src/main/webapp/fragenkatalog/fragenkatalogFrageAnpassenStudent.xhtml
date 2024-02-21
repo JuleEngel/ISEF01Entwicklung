@@ -103,11 +103,9 @@
 	                <h:message id="messageError" for="message" styleClass="error"/>
                 </h:panelGrid>
                 <br/>
-                <div id="button">
-                	<h:commandButton value="Abbrechen" action="#{fragenkatalogController.cancelEditStudent}" immediate="true" styleClass="button-container"/>
-                    <p:commandButton value="Frage einreichen" action="#{fragenkatalogController.reportEditedFrage(fragenkatalogController.tempFrage)}"/>
-                    <h:message for="submit"/>
-                </div>
+               	<h:commandButton value="Abbrechen" action="#{fragenkatalogController.cancelEditStudent}" immediate="true" styleClass="button-container"/>
+                <p:commandButton value="Frage einreichen" action="#{fragenkatalogController.reportEditedFrage(fragenkatalogController.tempFrage)}"/>
+                <h:message for="submit"/>
                 <br/>
             </h:form>
          </div>

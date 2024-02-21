@@ -102,7 +102,7 @@
                     <h:message id="explanationError" for="explanation" styleClass="error"/>
                 </h:panelGrid>
                 <br/>
-                <div id="button">
+                <div class="button">
                 	<h:commandButton value="Abbrechen" action="#{fragenkatalogController.cancelEditTutor}" immediate="true" styleClass="button-container"/>
                     <h:commandButton value="Löschen" onclick="PF('solutionDialog_#{frage.id}').show()" type="button" styleClass="button-container"/>
                     <p:dialog id="solutionDialog_#{frage.id}" header="Möchten Sie die Frage wirklich permanent löschen?" widgetVar="solutionDialog_#{frage.id}" 

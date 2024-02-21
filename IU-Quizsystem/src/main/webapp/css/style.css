@@ -29,12 +29,6 @@ h1, h2, p {
     width: 300px;
     height: 200px;
 }
-
-.button-container{
-    margin-right: 10px;
-}
-
-
 .flex-header {
     display:flex;
     justify-content: center;
@@ -42,11 +36,6 @@ h1, h2, p {
 }
 #icon {
 	width:25px;
-}
-
-.button {
-    display: flex;
-    justify-content: center;
 }
 
 #titel {
@@ -58,6 +47,58 @@ h1, h2, p {
     margin-right: 5%;
     width: 450px;
 }
+
+
+/* Buttons */
+.ui-selectonebutton .ui-button {
+    height: 80px; /* Höhe der Knöpfe */
+    margin: 5px; /* Abstand zwischen den Knöpfen */
+    border: 2px solid #333 !important; /* Dunkler Rand (important, um vorhandene Stile zu überschreiben) */
+    width: 46%; /* Breite der Knöpfe */
+    float: left; /* Anordnung der Knöpfe nebeneinander */
+    text-align: center;
+    display: flex; /* Flexbox verwenden */
+    align-items: center; /* Text vertikal zentrieren */
+    justify-content: center; /* Text horizontal zentrieren */
+}
+
+.ui-selectonebutton .ui-button:nth-child(odd) {
+    clear: both; /* Neue Reihe nach jedem ungeraden Knopf */
+}
+
+.ui-selectonebutton .ui-button:focus {
+    box-shadow: none !important; /* Blauen Schatten entfernen */
+}
+
+@media screen and (max-width: 600px) {
+  .ui-selectonebutton .ui-button {
+    width: 100%; /* Bei Bildschirmen kleiner als 600px die volle Breite */
+  }
+}
+
+.button-container{
+    margin-right: 10px;
+}
+.button-header {
+	font-size:20px;
+}
+.button-header-left {
+	font-size:20px;
+	margin-right: 10px;
+}
+.button {
+    display: flex;
+    justify-content: center;
+}
+.ui-selectonebutton {
+    cursor: pointer; /* Ändert den Mauszeiger in einen Zeiger */
+    user-select: none; /* Verhindert die Auswahl des Textinhalts */
+    -moz-user-select: none; /* Für Firefox */
+    -ms-user-select: none; /* Für Internet Explorer/Edge */
+    -webkit-user-select: none; /* Für ältere Webkit-basierte Browser */
+}
+
+
 
 
 /* Tabellen */

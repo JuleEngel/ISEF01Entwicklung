@@ -65,7 +65,7 @@
                 <br/>
             	<h:commandButton value="Abbrechen" action="#{quizController.cancelQuizSolo}" immediate="true" styleClass="button-container"/>
                 <p:commandButton value="Quiz starten" action="#{quizSoloController.startQuiz}"
-                		update=":questionForm"/>
+                		update=":questionForm" oncomplete="startQuiz()"/>
                 <h:message id="submit" for="submit" styleClass="error" globalOnly="true" />
                 <br/>
             </h:form>
@@ -74,6 +74,7 @@
     <footer>
         <ui:include src="../footer/footer.xhtml" />
     </footer>
+    <script type="text/javascript" src="soloQuiz.js"></script>
 </h:body>
 </html>
 

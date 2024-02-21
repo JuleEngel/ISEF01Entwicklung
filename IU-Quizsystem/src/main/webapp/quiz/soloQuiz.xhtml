@@ -19,7 +19,6 @@
    	</header>
    	<f:metadata>
         <f:event type="preRenderView" listener="#{quizSoloController.checkIsQuizActive}" />
-        <f:event type="preRenderView" listener="#{quizSoloController.resetAnswerView}" />
     </f:metadata>
     <br />
     <main>
@@ -30,17 +29,17 @@
         	<h:outputText value="#{quizSoloController.tempQuestion.question}"/>
         </h3>
         <br/>
-        <h3 id="solutionText" style="display:none">Deine Lösung ist 
-        	<h:outputText value="#{quizSoloController.solution}"/>
-        </h3>
         <div class="flex-tabelle">
 			<h:form>
+				<h3 id="solutionText">Deine Lösung ist: 
+		        	<h:outputText id="solution" value="#{quizSoloController.solution}"/>
+		        </h3>
 			    <p:selectOneButton id="answerGroup" value="#{quizSoloController.choosedAnswer}" required="true"
 			    		requiredMessage="Bitte wähle eine Lösung aus!" styleClass="custom-select-button">
-			        <f:selectItem itemValue="#{quizSoloController.tempAnswer1}" itemLabel="#{quizSoloController.tempAnswer1}" />
-			        <f:selectItem itemValue="#{quizSoloController.tempAnswer2}" itemLabel="#{quizSoloController.tempAnswer2}" />
-			        <f:selectItem itemValue="#{quizSoloController.tempAnswer3}" itemLabel="#{quizSoloController.tempAnswer3}" />
-			        <f:selectItem itemValue="#{quizSoloController.tempAnswer4}" itemLabel="#{quizSoloController.tempAnswer4}" />
+			        <f:selectItem id="button1" itemValue="#{quizSoloController.tempAnswer1}" itemLabel="#{quizSoloController.tempAnswer1}"/>
+			        <f:selectItem id="button2" itemValue="#{quizSoloController.tempAnswer2}" itemLabel="#{quizSoloController.tempAnswer2}"/>
+			        <f:selectItem id="button3" itemValue="#{quizSoloController.tempAnswer3}" itemLabel="#{quizSoloController.tempAnswer3}"/>
+			        <f:selectItem id="button4" itemValue="#{quizSoloController.tempAnswer4}" itemLabel="#{quizSoloController.tempAnswer4}"/>
 			    </p:selectOneButton>
 			    <div class="button">
 			    	<h:message id="answerError" for="answerGroup" styleClass="error"/>
@@ -49,8 +48,15 @@
 			    <div class="button">
                 	<h:commandButton value="Abbrechen" action="#{quizController.cancelQuizSolo}" 
                 			immediate="true" styleClass="button-container"/>
-			    	<p:commandButton id="submitButton" value="Antwort abgeben" action="#{quizSoloController.checkChoosedAnswer}"
-				      		update="answerError" oncomplete="onSubmit()"/>
+			    	<p:commandButton id="submitButton" value="Antwort abgeben"
+			    			action="#{quizSoloController.checkChoosedAnswer}"
+				      		update="answerError solution submitButton showExplanation nextQuestion" 
+				      		process="@form" oncomplete="onSubmit('#{quizSoloController.tempQuestion.correct_answer}')"
+				      		styleClass="quizButton" rendered="#{not quizSoloController.solved}"/>
+				    <p:commandButton id="showExplanation" value="Erklärung ansehen"
+				    		styleClass="quizButton" rendered="#{quizSoloController.solved}"/>
+				    <p:commandButton id="nextQuestion" value="Nächste Frage"
+				    		styleClass="quizButton" rendered="#{quizSoloController.solved}"/>
 				</div>
 			</h:form>
 		</div>
@@ -58,7 +64,7 @@
     <footer>
         <ui:include src="../footer/footer.xhtml" />
     </footer>
-	<script type="text/javascript" src="soloQuiz.js"></script>
+    <script type="text/javascript" src="soloQuiz.js"></script>
 </h:body>
 </html>
 

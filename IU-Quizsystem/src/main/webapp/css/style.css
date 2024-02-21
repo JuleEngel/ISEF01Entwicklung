@@ -76,6 +76,10 @@ h1, h2, h3, p {
   }
 }
 
+.highlighted {
+	background-color: red !important;
+}
+
 .button {
 	display: flex;
     justify-content: center;
@@ -95,6 +99,10 @@ h1, h2, h3, p {
     -moz-user-select: none; /* Für Firefox */
     -ms-user-select: none; /* Für Internet Explorer/Edge */
     -webkit-user-select: none; /* Für ältere Webkit-basierte Browser */
+}
+
+.quizButton.ui-button { 
+	margin-right: 10px; 
 }
 
 

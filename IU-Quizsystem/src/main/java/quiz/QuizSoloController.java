@@ -23,6 +23,7 @@ import login.User;
 
 
 //Java-Klasse zur Verwaltung von Fragen und Antworten
+@SuppressWarnings("serial")
 @Named
 @SessionScoped
 public class QuizSoloController implements Serializable {
@@ -47,7 +48,8 @@ public class QuizSoloController implements Serializable {
 	private String tempAnswer3;
 	private String tempAnswer4;
 	private String choosedAnswer;
-	private String solution = "Blubber";
+	private String solution = "blubber";
+	private boolean solved = false;
 	private List<String> answersToTempQuestion;
 	private List<Fragenkatalog> randomQuestionList;
 
@@ -65,13 +67,15 @@ public class QuizSoloController implements Serializable {
 	public void checkChoosedAnswer() {
 		if (choosedAnswer.equals(tempQuestion.getCorrect_answer())) {
 			score += 10;
-			this.solution = "richtig";
+			this.solution = "Richtig";
 		}
 		else {
-			this.solution = "falsch";
+			this.solution = "Falsch";
 		}
-		
-		System.out.println(this.solution);
+		this.solved = true;
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "soloQuiz?faces-redirect=true");
+		System.out.println(solution);
 	}
 	
 	public void postValidateModule(ComponentSystemEvent event) throws AbortProcessingException{
@@ -161,6 +165,10 @@ public class QuizSoloController implements Serializable {
 		this.module_id = 0;
 		this.difficulty = 0;
 		this.user = new User();
+		this.choosedAnswer = "";
+		this.solution = "";
+		this.randomQuestionList = new ArrayList<>();
+		this.solved = false;
 	}
 
 	public void checkIsQuizActive() {
@@ -296,6 +304,14 @@ public class QuizSoloController implements Serializable {
 
 	public void setSolution(String solution) {
 		this.solution = solution;
+	}
+
+	public boolean isSolved() {
+		return solved;
+	}
+
+	public void setSolved(boolean solved) {
+		this.solved = solved;
 	}
 
 	

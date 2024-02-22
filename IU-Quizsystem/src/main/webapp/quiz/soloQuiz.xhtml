@@ -15,13 +15,14 @@
 </h:head>
 <h:body>
 	<header>
-		<!-- <ui:include src="../header/headerStudent.xhtml" /> -->
+		<ui:include src="../header/headerStudent.xhtml" />
    	</header>
-   	<f:metadata>
-        <f:event type="preRenderView" listener="#{quizSoloController.checkIsQuizActive}" />
-    </f:metadata>
-    <br />
     <main>
+	    <f:metadata>
+	        <f:viewAction action="#{quizSoloController.checkIsQuizActive}" />
+	        <f:viewAction action="#{quizSoloController.reloadCheck}"/>
+	    </f:metadata>
+	    <br />
         <h1>Solo-Quiz</h1>
         <br/>
         <h2>Frage:</h2>
@@ -31,32 +32,71 @@
         <br/>
         <div class="flex-tabelle">
 			<h:form>
-				<h3 id="solutionText">Deine Lösung ist: 
-		        	<h:outputText id="solution" value="#{quizSoloController.solution}"/>
-		        </h3>
-			    <p:selectOneButton id="answerGroup" value="#{quizSoloController.choosedAnswer}" required="true"
-			    		requiredMessage="Bitte wähle eine Lösung aus!" styleClass="custom-select-button">
-			        <f:selectItem id="button1" itemValue="#{quizSoloController.tempAnswer1}" itemLabel="#{quizSoloController.tempAnswer1}"/>
-			        <f:selectItem id="button2" itemValue="#{quizSoloController.tempAnswer2}" itemLabel="#{quizSoloController.tempAnswer2}"/>
-			        <f:selectItem id="button3" itemValue="#{quizSoloController.tempAnswer3}" itemLabel="#{quizSoloController.tempAnswer3}"/>
-			        <f:selectItem id="button4" itemValue="#{quizSoloController.tempAnswer4}" itemLabel="#{quizSoloController.tempAnswer4}"/>
-			    </p:selectOneButton>
-			    <div class="button">
-			    	<h:message id="answerError" for="answerGroup" styleClass="error"/>
-			    </div>
+				<h3>Antwort: 
+					<h:outputText id="solution" rendered="#{quizSoloController.solved}" value="#{quizSoloController.solution}"/>
+				</h3>
+		        <div>
+				    <p:selectOneButton id="answerGroup" value="#{quizSoloController.choosedAnswer}" required="true"
+				    		requiredMessage="Bitte wähle eine Lösung aus!" styleClass="custom-select-button"
+				    		rendered="#{not quizSoloController.solved}">
+				        <f:selectItem id="button1" itemValue="#{quizSoloController.tempAnswer1}" itemLabel="#{quizSoloController.tempAnswer1}"/>
+				        <f:selectItem id="button2" itemValue="#{quizSoloController.tempAnswer2}" itemLabel="#{quizSoloController.tempAnswer2}"/>
+				        <f:selectItem id="button3" itemValue="#{quizSoloController.tempAnswer3}" itemLabel="#{quizSoloController.tempAnswer3}"/>
+				        <f:selectItem id="button4" itemValue="#{quizSoloController.tempAnswer4}" itemLabel="#{quizSoloController.tempAnswer4}"/>
+				    	    <p:ajax event="change" listener="#{quizSoloController.handleAnswerChange}">
+						        <f:param name="selectedAnswer" value="#{quizSoloController.choosedAnswer}" />
+						    </p:ajax>
+				    </p:selectOneButton>
+				    <div class="button">
+				    	<h:message id="answerError" for="answerGroup" styleClass="error"/>
+				    </div>
+			   	</div>
+			    <h:panelGroup rendered="#{quizSoloController.solved}">
+				    <div class="imitate-select-button-container">
+					    <div class="imitate-select-button">
+					        <div id="answerButton1" class="button-item">#{quizSoloController.tempAnswer1}</div>
+					        <div id="answerButton3" class="button-item">#{quizSoloController.tempAnswer3}</div>
+					        
+					    </div>
+					    <div class="imitate-select-button">
+					        <div id="answerButton2" class="button-item">#{quizSoloController.tempAnswer2}</div>
+					        <div id="answerButton4" class="button-item">#{quizSoloController.tempAnswer4}</div>
+					    </div>
+					</div>
+				</h:panelGroup>
+				<br/>
+				<h:panelGroup id="solutionText" rendered="#{quizSoloController.solved}">
+					<h4>Ausgewählte Lösung: </h4>
+					<h5>
+			        	<h:outputText value="#{quizSoloController.choosedAnswer}"/>
+		        	</h5>
+		        </h:panelGroup>
+				<h:panelGroup id="explanation" rendered="#{quizSoloController.wantExplanation}">
+					<h4>Erklärung:</h4>
+					<p>
+			        	<h:outputText value="#{quizSoloController.tempQuestion.explanation}"/>
+			        </p>
+			    </h:panelGroup>
 			    <br/>
 			    <div class="button">
                 	<h:commandButton value="Abbrechen" action="#{quizController.cancelQuizSolo}" 
                 			immediate="true" styleClass="button-container"/>
 			    	<p:commandButton id="submitButton" value="Antwort abgeben"
 			    			action="#{quizSoloController.checkChoosedAnswer}"
-				      		update="answerError solution submitButton showExplanation nextQuestion" 
 				      		process="@form" oncomplete="onSubmit('#{quizSoloController.tempQuestion.correct_answer}')"
 				      		styleClass="quizButton" rendered="#{not quizSoloController.solved}"/>
-				    <p:commandButton id="showExplanation" value="Erklärung ansehen"
-				    		styleClass="quizButton" rendered="#{quizSoloController.solved}"/>
+				    <p:commandButton id="showExplanation" value="Erklärung anzeigen"
+				    		styleClass="quizButton" rendered="#{quizSoloController.solved}"
+				    		action="#{quizSoloController.showExplanation}"
+				    		update="explanation"/>
 				    <p:commandButton id="nextQuestion" value="Nächste Frage"
-				    		styleClass="quizButton" rendered="#{quizSoloController.solved}"/>
+				    		styleClass="quizButton" rendered="#{quizSoloController.solved and not quizSoloController.finished}"
+				    		action="#{quizSoloController.nextQuestion}"
+				    		oncomplete="nextQuestion()"/>
+				    <p:commandButton id="showResults" value="Weiter"
+				    		styleClass="quizButton" rendered="#{quizSoloController.solved and quizSoloController.finished}"
+				    		action="#{quizSoloController.showResults}"
+				    		oncomplete="nextQuestion()"/>
 				</div>
 			</h:form>
 		</div>

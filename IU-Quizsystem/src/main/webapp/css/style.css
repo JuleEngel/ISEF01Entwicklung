@@ -4,7 +4,7 @@ body {
     font-family: Arial;
 }
 
-h1, h2, h3, p {
+h1, h2, h3, h4, h5, p {
     text-align: center;
     margin-left: 10%;
     margin-right: 10%;
@@ -51,33 +51,70 @@ h1, h2, h3, p {
 
 /* Buttons */
 .ui-selectonebutton .ui-button {
-    height: 80px; /* Höhe der Knöpfe */
-    margin: 5px; /* Abstand zwischen den Knöpfen */
-    border: 1px solid #333 !important; /* Dunkler Rand (important, um vorhandene Stile zu überschreiben) */
-    min-width: 40em; /* Breite der Knöpfe */
-    float: left; /* Anordnung der Knöpfe nebeneinander */
+    height: 80px;
+    margin: 5px;
+    padding: 2px 2px;
+    border: 1px solid #333 !important;
+    width: 40em;
+    float: left;
     text-align: center;
-    display: flex; /* Flexbox verwenden */
-    align-items: center; /* Text vertikal zentrieren */
-    justify-content: center; /* Text horizontal zentrieren */
+    display: flex;
+    align-items: center;
+    justify-content: center !important;
+    border-radius: 0 !important;
+}
+
+.ui-selectoneradio .ui-button:first-of-type {
+    border-radius: 5px 0 0 5px !important;
+}
+
+.ui-selectoneradio .ui-button:last-of-type {
+    border-radius: 5px 0 0 5px !important;
 }
 
 .ui-selectonebutton .ui-button:nth-child(odd) {
-    clear: both; /* Neue Reihe nach jedem ungeraden Knopf */
+    clear: both;
 }
 
 .ui-selectonebutton .ui-button:focus {
-    box-shadow: none !important; /* Blauen Schatten entfernen */
+    box-shadow: none !important;
 }
 
 @media screen and (max-width: 600px) {
   .ui-selectonebutton .ui-button {
-    width: 100%; /* Bei Bildschirmen kleiner als 600px die volle Breite */
+    width: 100%;
   }
 }
 
-.highlighted {
-	background-color: red !important;
+.ui-selectonebutton {
+    cursor: pointer;
+    user-select: none;
+}
+
+.imitate-select-button-container {
+	width: 100%;
+	justify-content: center !important;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.imitate-select-button {
+    justify-content: space-between;
+}
+
+.imitate-select-button .button-item {
+    height: 80px;
+    width: 40em;
+    margin: 5px;
+    padding: 2px 2px;
+    margin-bottom: 10px;
+    border: 1px solid #333;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+    user-select: none;
 }
 
 .button {
@@ -91,14 +128,6 @@ h1, h2, h3, p {
 
 .button-container{
     margin-right: 10px;
-}
-
-.ui-selectonebutton {
-    cursor: pointer;
-    user-select: none;
-    -moz-user-select: none; /* Für Firefox */
-    -ms-user-select: none; /* Für Internet Explorer/Edge */
-    -webkit-user-select: none; /* Für ältere Webkit-basierte Browser */
 }
 
 .quizButton.ui-button { 

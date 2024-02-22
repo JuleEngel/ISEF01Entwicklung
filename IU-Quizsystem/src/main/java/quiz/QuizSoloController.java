@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.primefaces.expression.impl.ThisExpressionResolver;
+
 import fragenkatalog.Fragenkatalog;
 import fragenkatalog.FragenkatalogListe;
 import fragenkatalog.Modules;
@@ -13,13 +15,19 @@ import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.component.UIInput;
+import jakarta.faces.component.UISelectOne;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.AbortProcessingException;
+import jakarta.faces.event.AjaxBehaviorEvent;
 import jakarta.faces.event.ComponentSystemEvent;
+import jakarta.faces.event.ValueChangeEvent;
 import jakarta.faces.validator.ValidatorException;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import login.LoginController;
 import login.User;
+import login.UserDAO;
+import login.UserListe;
 
 
 //Java-Klasse zur Verwaltung von Fragen und Antworten
@@ -34,12 +42,12 @@ public class QuizSoloController implements Serializable {
 	QuizController quizController;
 	@Inject
 	FragenkatalogListe fragenkatalogListe;
+	@Inject
+	UserListe userListe;
 	
-	private int score;
 	private Modules module;
 	private int module_id;
 	private int difficulty;
-	private User user;
 	private boolean quizActive = false;
 	private int tempModule;
 	private Fragenkatalog tempQuestion;
@@ -48,17 +56,18 @@ public class QuizSoloController implements Serializable {
 	private String tempAnswer3;
 	private String tempAnswer4;
 	private String choosedAnswer;
-	private String solution = "blubber";
+	private String solution = "";
+	private boolean wantExplanation = false;
 	private boolean solved = false;
-	private List<String> answersToTempQuestion;
-	private List<Fragenkatalog> randomQuestionList;
+	private boolean finished = false;
+	private int correctAnswers;
+	private List<String> answersToTempQuestion = new ArrayList<>();
+	private List<Fragenkatalog> randomQuestionList = new ArrayList<>();
 
 	
 	public String startQuiz() {
 		this.module = modulesController.getModuleByID(module_id);
-		this.setQuizActive(true);
-		this.score = 0;
-		this.user = quizController.getUserLogin();
+		this.quizActive = true;
 		this.randomQuestionList = getRandomQuestionListFromQuestionList();
 		setQuestion();
 		return "soloQuiz?faces-redirect=true";
@@ -66,7 +75,7 @@ public class QuizSoloController implements Serializable {
 	
 	public void checkChoosedAnswer() {
 		if (choosedAnswer.equals(tempQuestion.getCorrect_answer())) {
-			score += 10;
+			this.correctAnswers += 1;
 			this.solution = "Richtig";
 		}
 		else {
@@ -75,7 +84,6 @@ public class QuizSoloController implements Serializable {
 		this.solved = true;
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "soloQuiz?faces-redirect=true");
-		System.out.println(solution);
 	}
 	
 	public void postValidateModule(ComponentSystemEvent event) throws AbortProcessingException{
@@ -86,6 +94,9 @@ public class QuizSoloController implements Serializable {
 	public boolean checkEnoughQuestions(FacesContext context, UIComponent component, Object value) throws ValidatorException{
     	this.difficulty = (int) value;
     	List<Fragenkatalog> tempList = getQuestionList();
+    	if(this.quizActive) {
+    		throw new ValidatorException(new FacesMessage("Es läuft bereits ein aktives Quiz!"));
+    	}
     	if (this.tempModule == 0) {
     		reset();
     		throw new ValidatorException(new FacesMessage("Bitte wähle zunächst ein Modul aus!"));
@@ -152,9 +163,23 @@ public class QuizSoloController implements Serializable {
     	answersToTempQuestion.remove(0);
 	}
 	
+	public void nextQuestion() {
+		setQuestion();
+		if (this.randomQuestionList.isEmpty()) {
+			this.finished = true;
+		}
+		this.wantExplanation = false;
+		this.solved = false;
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "soloQuiz?faces-redirect=true");
+	}
+	
+	public String showResults() {
+		return "/quiz/soloResults?faces-redirect=true";
+	}
+	
 	public void reset() {
 		this.setQuizActive(false);
-		this.score = 0;
 		this.tempQuestion = new Fragenkatalog();
 		this.answersToTempQuestion = new ArrayList<>();
 		this.tempAnswer1 = "";
@@ -164,11 +189,13 @@ public class QuizSoloController implements Serializable {
 		this.module = new Modules();
 		this.module_id = 0;
 		this.difficulty = 0;
-		this.user = new User();
 		this.choosedAnswer = "";
 		this.solution = "";
 		this.randomQuestionList = new ArrayList<>();
 		this.solved = false;
+		this.wantExplanation = false;
+		this.finished = false;
+		this.correctAnswers = 0;
 	}
 
 	public void checkIsQuizActive() {
@@ -179,13 +206,43 @@ public class QuizSoloController implements Serializable {
 	    }
 	}
 	
-	public void resetAnswerView() {
-		this.choosedAnswer = "";
+	public void checkIsQuizFinished () {
+	    this.quizActive = false;
+		if (!finished) {
+	    	reset();
+	        FacesContext facesContext = FacesContext.getCurrentInstance();
+	        facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "/mainpage/indexStudent?faces-redirect=true");
+	    }
+		else {
+			quizController.getUserLogin().setPlayedgames(quizController.getUserLogin().getPlayedgames() + 1);
+			userListe.updatePlayedGames(quizController.getUserLogin().getId(), quizController.getUserLogin().getPlayedgames());
+			this.finished = false;
+		}
 	}
 	
-	public void updateChoosedAnswer(String answer) {
-		this.choosedAnswer = answer;
-		System.out.println(choosedAnswer);
+	public void showExplanation() {
+		this.wantExplanation = true;
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "soloQuiz?faces-redirect=true");
+	}
+	
+	public boolean checkWantExplanation() {
+		if (this.wantExplanation) {
+			return true;
+		}
+		return false;
+	}
+	
+	public void reloadCheck() {
+		if (!this.solved) {
+			this.wantExplanation = false;
+		}
+	}
+	
+	public void handleAnswerChange(AjaxBehaviorEvent event) {
+	    UISelectOne selectOne = (UISelectOne) event.getComponent();
+	    String selectedAnswer = (String) selectOne.getValue();
+	    this.choosedAnswer = selectedAnswer;
 	}
 	
 	public int getModule_id() {
@@ -211,24 +268,6 @@ public class QuizSoloController implements Serializable {
 	public void setDifficulty(int difficulty) {
 		this.difficulty = difficulty;
 	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-
-	public int getScore() {
-		return score;
-	}
-
-	public void setScore(int score) {
-		this.score = score;
-	}
-
 
 	public void setQuizActive(boolean quizActive) {
 		this.quizActive = quizActive;
@@ -293,6 +332,10 @@ public class QuizSoloController implements Serializable {
 	public String getChoosedAnswer() {
 		return choosedAnswer;
 	}
+	
+	public String returnChoosedAnswer() {
+		return choosedAnswer;
+	}
 
 	public void setChoosedAnswer(String choosedAnswer) {
 		this.choosedAnswer = choosedAnswer;
@@ -314,6 +357,28 @@ public class QuizSoloController implements Serializable {
 		this.solved = solved;
 	}
 
-	
+	public boolean isWantExplanation() {
+		return wantExplanation;
+	}
+
+	public void setWantExplanation(boolean wantExplanation) {
+		this.wantExplanation = wantExplanation;
+	}
+
+	public boolean isFinished() {
+		return finished;
+	}
+
+	public void setFinished(boolean finished) {
+		this.finished = finished;
+	}
+
+	public int getCorrectAnswers() {
+		return correctAnswers;
+	}
+
+	public void setCorrectAnswers(int correctAnswers) {
+		this.correctAnswers = correctAnswers;
+	}
 
 }

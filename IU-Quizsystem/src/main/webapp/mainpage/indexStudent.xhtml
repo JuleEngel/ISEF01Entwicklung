@@ -15,6 +15,9 @@
   <title>IU-Quizsystem</title>
 </h:head>
 <h:body>
+	<f:metadata>
+          <f:event type="preRenderView" listener="#{quizController.removeAnyQuizzes}" />
+    </f:metadata>
 	<header>
     	<ui:include src="../header/headerStudent.xhtml" />
     </header>

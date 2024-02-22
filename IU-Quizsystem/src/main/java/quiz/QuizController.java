@@ -27,8 +27,16 @@ public class QuizController implements Serializable {
 		quizSoloController.reset();
 	}
 	
+	public void removeAnyQuizzes() {
+		quizSoloController.reset();
+	}
+	
 	public User getUserLogin() {
 		return loginController.getUserLogin();
+	}
+	public String quitFinishedQuiz() {
+		quizSoloController.reset();
+		return "/mainpage/indexStudent?faces-redirect=true";
 	}
 	
     public String cancelQuizSolo() {

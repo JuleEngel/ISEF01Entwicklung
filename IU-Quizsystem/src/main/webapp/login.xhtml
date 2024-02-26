@@ -1,28 +1,30 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!-- login.xhtml -->
-<!-- Login-Interface mit Login-Funktionen / -Validierung -->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-  	<link rel="stylesheet" type="text/css" media="screen" href="../css/style.css"/>
- 	<title>Login-Quizsystem</title>
+  <link rel="stylesheet" type="text/css" media="screen" href="style.css"/>
+  <title>Like Hero To Zero</title>
 </h:head>
 <h:body>
     <header>
-		 <ui:include src="../header/headerLogin.xhtml" />
+        <div class="flex-header">
+            <img class="flex-item" id="kopf_links" src="./bilder/logo.jpg" alt="logo"/>
+            <div class="flex-item" id="titel">
+                <h2>Like Hero To Zero</h2>
+                <p>Weltweite CO2 Emissionen</p>
+            </div>
+        </div>
     </header>
     <br />
     <main>
         <h1>Login:</h1>
         <div class="flex-tabelle">
-        	<!-- Eingabe Login Daten mit Validierungsfunktionen -->
             <h:form>
                 <h:outputLabel value="Email:" for="mail"/>
                 <br/>
-                <h:inputText id="mail" value="#{loginController.userLogin.email}" required="true" 
+                <h:inputText id="mail" value="#{loginController.nutzerLogin.nutzerEmail}" required="true" 
                             requiredMessage="Bitte geben Sie ihre E-Mail-Adresse ein" label="Mail">
                     <f:event type="postValidate" listener="#{loginController.postValidateName}"/>
                 </h:inputText>
@@ -32,28 +34,27 @@
                 <br/>
                 <h:outputLabel value="Passwort:" for="passwort"/>
                 <br/>
-                <h:inputSecret id="passwort" value="#{loginController.userLogin.password}" required="true"
+                <h:inputSecret id="passwort" value="#{loginController.nutzerLogin.nutzerPasswort}" required="true"
                             requiredMessage="Bitte geben Sie ihr Passwort ein" label="Passwort"
                             validator="#{loginController.validateLogin}">
                 </h:inputSecret>
                 <br/>
-                <br/>
-                <a class="link" href="https://mycampus.iubh.de/"> Passwort vergessen? </a>
-                <br/>
                 <h:message for="passwort" styleClass="error"/>
                 <br/>
                 <br/>
-                <!-- Aufruf Validierungs-Funktionen und Weiterleitung bei Erfolg -->
-                <div class="button">
-                	<h:commandButton value="Einloggen" action="#{loginController.login}" styleClass="button-header"/>
-                </div>
+                <h:commandButton value="Einloggen" action="anpassen" style="font-size:20"/>
             </h:form>
         </div>
         <br/>
+        <br/>
+        <h1>Startseite</h1>
+        <div id="button">
+            <h:button value="Startseite" outcome="index" style="font-size:20"/>
+        </div>
     </main>
     <footer>
-        <ui:include src="../footer/footer.xhtml" />
+        <br/>
+        <p>Dies ist eine fiktive Seite</p>
     </footer>
-    <script type="text/javascript" src="resetLogin.js"></script>
 </h:body>
 </html>

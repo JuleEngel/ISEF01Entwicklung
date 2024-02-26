@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<!-- loginFailed.xhtml -->
+<!-- Darstellung Fehlerseite bei Versuch, auf Seiten zuzugreifen, ohne eingeloggt zu sein.
+		Automatische Weiterleitung zur Login-Seite. -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	<head>
+		<meta charset="UTF-8"></meta>
+		<link rel="stylesheet" type="text/css" media="screen" href="../css/style.css"/>
+		<title>Login fehlgeschlagen!</title>
+	</head>
+	<body>
+		<header>
+	    	<ui:include src="../header/headerLogin.xhtml" />
+	    </header>
+	    <main>
+			<h1>Sie sind nicht eingeloggt!</h1>
+			<p>Bitte warten Sie, bis Sie zur Login-Seite weitergeleitet werden.</p>
+			<p>Falls Sie nicht innerhalb von 5 Sekunden weitergeleitet werden, klicken Sie bitte <h:link value="hier" outcome="login"/></p>
+		</main>
+		<footer>
+	        <ui:include src="../footer/footer.xhtml" />
+	    </footer>
+	</body>
+	<script type="text/javascript" src="logout.js"></script>
+</html>

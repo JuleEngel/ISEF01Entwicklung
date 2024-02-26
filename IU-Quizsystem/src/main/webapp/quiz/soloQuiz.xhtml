@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!-- fragenkatalogFrageErstellenStudent.xhtml -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+  <link rel="stylesheet" type="text/css" media="screen" href="../css/style.css"/>
+  <script type="text/javascript" src="../header/clientActivity.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"></link>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  <title>IU-Quizsystem Solo-Quiz</title>
+</h:head>
+<h:body>
+	<header>
+		<ui:include src="../header/headerStudent.xhtml" />
+   	</header>
+    <main>
+	    <f:metadata>
+	        <f:viewAction action="#{quizSoloController.checkIsQuizActive}" />
+	        <f:viewAction action="#{quizSoloController.reloadCheck}"/>
+	    </f:metadata>
+	    <br />
+        <h1>Solo-Quiz</h1>
+        <br/>
+        <h2>Frage:</h2>
+        <h3>
+        	<h:outputText value="#{quizSoloController.tempQuestion.question}"/>
+        </h3>
+        <br/>
+        <div class="flex-tabelle">
+			<h:form>
+				<h3>Antwort: 
+					<h:outputText id="solution" rendered="#{quizSoloController.solved}" value="#{quizSoloController.solution}"/>
+				</h3>
+		        <div>
+				    <p:selectOneButton id="answerGroup" value="#{quizSoloController.choosedAnswer}" required="true"
+				    		requiredMessage="Bitte wähle eine Lösung aus!" styleClass="custom-select-button"
+				    		rendered="#{not quizSoloController.solved}">
+				        <f:selectItem id="button1" itemValue="#{quizSoloController.tempAnswer1}" itemLabel="#{quizSoloController.tempAnswer1}"/>
+				        <f:selectItem id="button2" itemValue="#{quizSoloController.tempAnswer2}" itemLabel="#{quizSoloController.tempAnswer2}"/>
+				        <f:selectItem id="button3" itemValue="#{quizSoloController.tempAnswer3}" itemLabel="#{quizSoloController.tempAnswer3}"/>
+				        <f:selectItem id="button4" itemValue="#{quizSoloController.tempAnswer4}" itemLabel="#{quizSoloController.tempAnswer4}"/>
+				    	    <p:ajax event="change" listener="#{quizSoloController.handleAnswerChange}">
+						        <f:param name="selectedAnswer" value="#{quizSoloController.choosedAnswer}" />
+						    </p:ajax>
+				    </p:selectOneButton>
+				    <div class="button">
+				    	<h:message id="answerError" for="answerGroup" styleClass="error"/>
+				    </div>
+			   	</div>
+			    <h:panelGroup rendered="#{quizSoloController.solved}">
+				    <div class="imitate-select-button-container">
+					    <div class="imitate-select-button">
+					        <div id="answerButton1" class="button-item">#{quizSoloController.tempAnswer1}</div>
+					        <div id="answerButton3" class="button-item">#{quizSoloController.tempAnswer3}</div>
+					        
+					    </div>
+					    <div class="imitate-select-button">
+					        <div id="answerButton2" class="button-item">#{quizSoloController.tempAnswer2}</div>
+					        <div id="answerButton4" class="button-item">#{quizSoloController.tempAnswer4}</div>
+					    </div>
+					</div>
+				</h:panelGroup>
+				<br/>
+				<h:panelGroup id="solutionText" rendered="#{quizSoloController.solved}">
+					<h4>Ausgewählte Lösung: </h4>
+					<h5>
+			        	<h:outputText value="#{quizSoloController.choosedAnswer}"/>
+		        	</h5>
+		        </h:panelGroup>
+				<h:panelGroup id="explanation" rendered="#{quizSoloController.wantExplanation}">
+					<h4>Erklärung:</h4>
+					<p>
+			        	<h:outputText value="#{quizSoloController.tempQuestion.explanation}"/>
+			        </p>
+			    </h:panelGroup>
+			    <br/>
+			    <div class="button">
+                	<h:commandButton value="Abbrechen" action="#{quizController.cancelQuizSolo}" 
+                			immediate="true" styleClass="button-container"/>
+			    	<p:commandButton id="submitButton" value="Antwort abgeben"
+			    			action="#{quizSoloController.checkChoosedAnswer}"
+				      		process="@form" oncomplete="onSubmit('#{quizSoloController.tempQuestion.correct_answer}')"
+				      		styleClass="quizButton" rendered="#{not quizSoloController.solved}"/>
+				    <p:commandButton id="showExplanation" value="Erklärung anzeigen"
+				    		styleClass="quizButton" rendered="#{quizSoloController.solved}"
+				    		action="#{quizSoloController.showExplanation}"
+				    		update="explanation"/>
+				    <p:commandButton id="nextQuestion" value="Nächste Frage"
+				    		styleClass="quizButton" rendered="#{quizSoloController.solved and not quizSoloController.finished}"
+				    		action="#{quizSoloController.nextQuestion}"
+				    		oncomplete="nextQuestion()"/>
+				    <p:commandButton id="showResults" value="Weiter"
+				    		styleClass="quizButton" rendered="#{quizSoloController.solved and quizSoloController.finished}"
+				    		action="#{quizSoloController.showResults}"
+				    		oncomplete="nextQuestion()"/>
+				</div>
+			</h:form>
+		</div>
+    </main>
+    <footer>
+        <ui:include src="../footer/footer.xhtml" />
+    </footer>
+    <script type="text/javascript" src="soloQuiz.js"></script>
+</h:body>
+</html>
+
+
+

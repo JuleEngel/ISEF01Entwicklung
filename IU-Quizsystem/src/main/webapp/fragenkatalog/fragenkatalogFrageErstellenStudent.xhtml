@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!-- fragenkatalogFrageErstellenStudent.xhtml -->
+<!-- Formular zur Erstellung einer Frage aus Sicht eines Studenten -->
+<!-- Auswahl Modul aus der externen ModulListe -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+  <link rel="stylesheet" type="text/css" media="screen" href="../css/style.css"/>
+  <script type="text/javascript" src="../header/clientActivity.js"></script>
+  <title>IU-Quizsystem Fragenkatalog</title>
+</h:head>
+<h:body>
+	<header>
+    	<ui:include src="../header/headerStudent.xhtml" />
+   	</header>
+    <br />
+    <main>
+		<h1>Hier kannst du eine neue Frage erstellen und einreichen!</h1> 
+		
+		<div class="flex-tabelle">
+            <h:form id="questionForm">
+                <h:panelGrid columns="3" styleClass="custom-panelgrid">
+                    <h:outputLabel value="Attribute:" styleClass="bold-label"/>
+                    <h:outputLabel value="Eingabe" styleClass="bold-label"/>
+                    <h:outputLabel value="Validierung" styleClass="bold-label"/>
+                    
+                    
+                    <h:outputLabel value="Modul" for="module_short"/>
+					<p:selectOneMenu id="module" value="#{fragenkatalogController.neueFrage.module_id}" required="true" 
+					                 requiredMessage="Bitte wählen Sie ein Modul aus!" styleClass="input-field"
+					                 noSelectionOption="true">
+					    <f:selectItem itemLabel="Bitte auswählen" itemValue=""/>
+					    
+					    <c:forEach items="#{modulesController.modulesList}" var="module">
+					        <f:selectItem itemLabel="#{module.module_long} (#{module.module_short})" itemValue="#{module.module_id}" />
+					    </c:forEach>
+					    
+					    <f:ajax event="change" render="moduleError" execute="@this" />
+					</p:selectOneMenu>
+					<h:message id="moduleError" for="module" styleClass="error"/>
+
+                    
+                    <h:outputLabel value="Frage" for="question"/>
+                    <p:inputTextarea id="question" value="#{fragenkatalogController.neueFrage.question}" 
+				                 required="true" requiredMessage="Bitte geben Sie die Frage an!" 
+				                 styleClass="inputTextareaStyle" maxlength="1000"
+				                 validator="#{fragenkatalogController.checkQuestion}">
+		                 <f:ajax event="blur" render="questionError" execute="@this" />
+	                </p:inputTextarea>
+                    <h:message id="questionError" for="question" styleClass="error"/>
+                    
+                    <h:outputLabel value="Korrekte Antwort" for="correct_answer"/>
+                    <p:inputTextarea id="correct_answer" value="#{fragenkatalogController.neueFrage.correct_answer}" required="true" 
+                                requiredMessage="Bitte geben Sie die korrekte Antwort an!"
+                                styleClass="inputTextareaStyle" maxlength="1000">
+				          <f:ajax event="blur" render="correct_answer_Error" execute="@this" />
+	                </p:inputTextarea>
+                    <h:message id="correct_answer_Error" for="correct_answer" styleClass="error"/>
+                    
+                    <h:outputLabel value="Falsche Antwort 1" for="incorrect_answer_1"/>
+                    <p:inputTextarea id="incorrect_answer_1" value="#{fragenkatalogController.neueFrage.incorrect_answer_1}" required="true" 
+                                requiredMessage="Bitte geben Sie die erste falsche Antwort an!"
+								styleClass="inputTextareaStyle" maxlength="1000">
+				          <f:ajax event="blur" render="incorrect_answer_1_Error" execute="@this" />
+	                </p:inputTextarea>
+                    <h:message id="incorrect_answer_1_Error" for="incorrect_answer_1" styleClass="error"/>
+                    
+                    <h:outputLabel value="Falsche Antwort 2" for="incorrect_answer_2"/>
+                    <p:inputTextarea id="incorrect_answer_2" value="#{fragenkatalogController.neueFrage.incorrect_answer_2}" required="true" 
+                                requiredMessage="Bitte geben Sie die zweite falsche Antwort an!"
+                                styleClass="inputTextareaStyle" maxlength="1000">
+				          <f:ajax event="blur" render="incorrect_answer_2_Error" execute="@this" />
+	                </p:inputTextarea>
+                    <h:message id="incorrect_answer_2_Error" for="incorrect_answer_2" styleClass="error"/>
+                    
+                    <h:outputLabel value="Falsche Antwort 3" for="incorrect_answer_3"/>
+                    <p:inputTextarea id="incorrect_answer_3" value="#{fragenkatalogController.neueFrage.incorrect_answer_3}" required="true" 
+                                requiredMessage="Bitte geben Sie die dritte falsche Antwort an!"
+                                styleClass="inputTextareaStyle" maxlength="1000">
+				          <f:ajax event="blur" render="incorrect_answer_3_Error" execute="@this" />
+	                </p:inputTextarea>
+                    <h:message id="incorrect_answer_3_Error" for="incorrect_answer_3" styleClass="error"/>
+                    
+                    <h:outputLabel value="Erklärung" for="explanation"/>
+                    <p:inputTextarea id="explanation" value="#{fragenkatalogController.neueFrage.explanation}" required="true" 
+                                requiredMessage="Bitte geben Sie eine Erklärung der korrekten Lösung an!"
+                                styleClass="inputTextareaStyle" maxlength="5000">
+				          <f:ajax event="blur" render="explanationError" execute="@this" />
+	                </p:inputTextarea>
+                    <h:message id="explanationError" for="explanation" styleClass="error"/>
+                </h:panelGrid>
+                <br/>
+            	<h:commandButton value="Abbrechen" action="#{fragenkatalogController.cancelCreateStudent}" immediate="true" styleClass="button-container"/>
+                <p:commandButton value="Frage einreichen" action="#{fragenkatalogController.createFrageStudent(fragenkatalogController.neueFrage)}"
+                		update=":questionForm"/>
+                <h:message id="submit" for="submit" styleClass="error" globalOnly="true" />
+                <br/>
+            </h:form>
+         </div>
+    </main>
+    <footer>
+        <ui:include src="../footer/footer.xhtml" />
+    </footer>
+</h:body>
+</html>
+
+
+

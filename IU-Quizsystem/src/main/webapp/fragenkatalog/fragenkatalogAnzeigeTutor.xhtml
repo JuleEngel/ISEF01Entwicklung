@@ -1,0 +1,268 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!-- fragenkatalogAnzeigeTutor.xhtml -->
+<!-- Übersicht Fragenkatalog für Tutoren -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+  <link rel="stylesheet" type="text/css" media="screen" href="../css/style.css"/>
+  <script type="text/javascript" src="../header/clientActivity.js"></script>
+  <title>IU-Quizsystem Fragenkatalog</title>
+</h:head>
+<h:body>
+	<header>
+    	<ui:include src="../header/headerTutor.xhtml" />
+    </header>
+    <br />
+    <main>
+    	<!-- Aktualisierung Fragenkatalog -->
+	   	<f:metadata>
+	        <f:event type="preRenderView" listener="#{fragenkatalogController.refreshFragenkatalog}" />
+	    </f:metadata>
+		<h1>Fragenkatalog Tutoransicht!</h1> 
+		
+		<p>Hier kannst du alle Fragen sehen</p> 
+		<br/>
+		<h:form>
+			<div class="button">
+				<p:commandButton value="Neue Frage erstellen" action="#{fragenkatalogController.linkToCreateTutor}" styleClass="button-container"/>
+			</div>
+		</h:form>
+		<br/>
+		<!-- Darstellungen der Fragenkategorien, eingeteilt in "new", "reported", "in_progress" und "published" -->
+		<h1>Neue Fragen von Studenten:</h1>
+		<h:form>
+			<div class="flex-item" id="titel">
+					<p:inputText id="moduleFilter" value="#{fragenkatalogController.moduleFilterNew}" placeholder="Suche nach Modul">
+						<p:ajax event="keyup" update="newQuestions" />
+					</p:inputText>
+			</div>
+			<p:dataTable id="newQuestions" var="frage" value="#{fragenkatalogController.questionsResults('new')}" paginator="true" rows="10"
+					styleClass="fragenkatalog-table"> 
+				<p:column headerText="ID" styleClass="fragenkatalog-id-table"> 
+					<h:outputText value="#{frage.id}" /> 
+				</p:column> 
+				
+				<p:column headerText="Kürzel" styleClass="fragenkatalog-module-short-niveau-table">
+					<h:outputText value="#{fragenkatalogController.getModule_short(frage)}" />
+				</p:column>
+				
+				<p:column headerText="Modul" styleClass="fragenkatalog-module-table"> 
+					<h:outputText value="#{fragenkatalogController.getModule_long(frage)}" /> 
+				</p:column> 
+				
+				<p:column headerText="Niveau" styleClass="fragenkatalog-module-short-niveau-table">
+					<h:outputText value="#{fragenkatalogController.formatDifficulty(frage.difficulty)}" />
+				</p:column>
+				
+				<p:column headerText="Frage" > 
+					<h:outputText value="#{frage.question}" /> 
+				</p:column>
+				
+				<p:column headerText="Korrekte Antwort"> 
+					<h:outputText value="#{frage.correct_answer}" /> 
+				</p:column>
+				
+				<p:column headerText="Falsche Antwort 1"> 
+					<h:outputText value="#{frage.incorrect_answer_1}" /> 
+				</p:column>
+				
+				<p:column headerText="Falsche Antwort 2"> 
+					<h:outputText value="#{frage.incorrect_answer_2}" /> 
+				</p:column>
+				
+				<p:column headerText="Falsche Antwort 3"> 
+					<h:outputText value="#{frage.incorrect_answer_3}" /> 
+				</p:column>
+				
+				<p:column headerText="Erklärung"> 
+					<h:outputText value="#{frage.explanation}" /> 
+				</p:column>
+				
+				<p:column headerText="Prüfen" styleClass="fragenkatalog-edit-table">
+					<p:commandLink action="#{fragenkatalogController.linkToEditTutor(frage)}">
+						<img src="../bilder/viewReported.png" id="icon" alt="edit"/>
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+		<br/> <br/>
+		<h1>Von Studenten gemeldete / überarbeitete Fragen</h1>
+		<h:form>
+			<div class="flex-item" id="titel">
+				<p:inputText id="moduleFilter" value="#{fragenkatalogController.moduleFilterReported}" placeholder="Suche nach Modul">
+					<p:ajax event="keyup" update="reportedQuestions" />
+				</p:inputText>
+			</div>
+			<p:dataTable id="reportedQuestions" var="frage" value="#{fragenkatalogController.questionsResults('reported')}" paginator="true" rows="10"
+					styleClass="fragenkatalog-table"> 
+				<p:column headerText="ID" styleClass="fragenkatalog-id-table"> 
+					<h:outputText value="#{frage.id}" /> 
+				</p:column> 
+				
+				<p:column headerText="Kürzel" styleClass="fragenkatalog-module-short-niveau-table">
+					<h:outputText value="#{fragenkatalogController.getModule_short(frage)}" />
+				</p:column>
+				
+				<p:column headerText="Modul" styleClass="fragenkatalog-module-table"> 
+					<h:outputText value="#{fragenkatalogController.getModule_long(frage)}" /> 
+				</p:column> 
+				
+				<p:column headerText="Niveau" styleClass="fragenkatalog-module-short-niveau-table">
+					<h:outputText value="#{fragenkatalogController.formatDifficulty(frage.difficulty)}" />
+				</p:column>
+				
+				<p:column headerText="Frage"> 
+					<h:outputText value="#{frage.question}" /> 
+				</p:column>
+				
+				<p:column headerText="Korrekte Antwort"> 
+					<h:outputText value="#{frage.correct_answer}" /> 
+				</p:column>
+				
+				<p:column headerText="Falsche Antwort 1"> 
+					<h:outputText value="#{frage.incorrect_answer_1}" /> 
+				</p:column>
+				
+				<p:column headerText="Falsche Antwort 2"> 
+					<h:outputText value="#{frage.incorrect_answer_2}" /> 
+				</p:column>
+				
+				<p:column headerText="Falsche Antwort 3"> 
+					<h:outputText value="#{frage.incorrect_answer_3}" /> 
+				</p:column>
+				
+				<p:column headerText="Erklärung"> 
+					<h:outputText value="#{frage.explanation}" /> 
+				</p:column>
+				
+				<p:column headerText="Prüfen" styleClass="fragenkatalog-edit-table">
+					<p:commandLink action="#{fragenkatalogController.linkToViewReportedQuestions(frage)}">
+						<img src="../bilder/viewReported.png" id="icon" alt="edit"/>
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+		
+		<br/> <br/>
+		<h1>Fragen in Tutoren-Bearbeitung:</h1>
+		<h:form>
+			<div class="flex-item" id="titel">
+				<p:inputText id="moduleFilter" value="#{fragenkatalogController.moduleFilterInProgress}" placeholder="Suche nach Modul">
+					<p:ajax event="keyup" update="inProgressQuestions" />
+				</p:inputText>
+			</div>
+			<p:dataTable id="inProgressQuestions" var="frage" value="#{fragenkatalogController.questionsResults('in_progress')}" paginator="true" rows="10" 
+					styleClass="fragenkatalog-table"> 
+				<p:column headerText="ID" styleClass="fragenkatalog-id-table"> 
+					<h:outputText value="#{frage.id}" /> 
+				</p:column> 
+				
+				<p:column headerText="Kürzel" styleClass="fragenkatalog-module-short-niveau-table">
+					<h:outputText value="#{fragenkatalogController.getModule_short(frage)}" />
+				</p:column>
+				
+				<p:column headerText="Modul" styleClass="fragenkatalog-module-table"> 
+					<h:outputText value="#{fragenkatalogController.getModule_long(frage)}" /> 
+				</p:column> 
+				
+				<p:column headerText="Niveau" styleClass="fragenkatalog-module-short-niveau-table">
+					<h:outputText value="#{fragenkatalogController.formatDifficulty(frage.difficulty)}" />
+				</p:column>
+				
+				<p:column headerText="Frage"> 
+					<h:outputText value="#{frage.question}" /> 
+				</p:column>
+				
+				<p:column headerText="Korrekte Antwort"> 
+					<h:outputText value="#{frage.correct_answer}" /> 
+				</p:column>
+				
+				<p:column headerText="Falsche Antwort 1"> 
+					<h:outputText value="#{frage.incorrect_answer_1}" /> 
+				</p:column>
+				
+				<p:column headerText="Falsche Antwort 2"> 
+					<h:outputText value="#{frage.incorrect_answer_2}" /> 
+				</p:column>
+				
+				<p:column headerText="Falsche Antwort 3"> 
+					<h:outputText value="#{frage.incorrect_answer_3}" /> 
+				</p:column>
+				
+				<p:column headerText="Erklärung"> 
+					<h:outputText value="#{frage.explanation}" /> 
+				</p:column>
+				
+				<p:column headerText="Ändern" styleClass="fragenkatalog-edit-table">
+					<p:commandLink action="#{fragenkatalogController.linkToEditTutor(frage)}">
+						<img src="../bilder/bearbeiten.png" id="icon" alt="edit"/>
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+		<br/><br/>
+		<h1>Veröffentlichter Fragenkatalog</h1>
+		<h:form>
+			<div class="flex-item" id="titel">
+				<p:inputText id="moduleFilter" value="#{fragenkatalogController.moduleFilterPublished}" placeholder="Suche nach Modul">
+					<p:ajax event="keyup" update="publishedQuestions" />
+				</p:inputText>
+			</div>
+			<p:dataTable id="publishedQuestions" var="frage" value="#{fragenkatalogController.questionsResults('published')}" paginator="true" rows="10" 
+					styleClass="fragenkatalog-table"> 
+				<p:column headerText="ID" styleClass="fragenkatalog-id-table"> 
+					<h:outputText value="#{frage.id}" /> 
+				</p:column> 
+				
+				<p:column headerText="Kürzel" styleClass="fragenkatalog-module-short-niveau-table">
+					<h:outputText value="#{fragenkatalogController.getModule_short(frage)}" />
+				</p:column>
+				
+				<p:column headerText="Modul" styleClass="fragenkatalog-module-table"> 
+					<h:outputText value="#{fragenkatalogController.getModule_long(frage)}" /> 
+				</p:column> 
+				
+				<p:column headerText="Niveau" styleClass="fragenkatalog-module-short-niveau-table">
+					<h:outputText value="#{fragenkatalogController.formatDifficulty(frage.difficulty)}" />
+				</p:column>
+				
+				<p:column headerText="Frage"> 
+					<h:outputText value="#{frage.question}" /> 
+				</p:column>
+				
+				<p:column headerText="Korrekte Antwort"> 
+					<h:outputText value="#{frage.correct_answer}" /> 
+				</p:column>
+				
+				<p:column headerText="Falsche Antwort 1"> 
+					<h:outputText value="#{frage.incorrect_answer_1}" /> 
+				</p:column>
+				
+				<p:column headerText="Falsche Antwort 2"> 
+					<h:outputText value="#{frage.incorrect_answer_2}" /> 
+				</p:column>
+				
+				<p:column headerText="Falsche Antwort 3"> 
+					<h:outputText value="#{frage.incorrect_answer_3}" /> 
+				</p:column>
+				
+				<p:column headerText="Erklärung"> 
+					<h:outputText value="#{frage.explanation}" /> 
+				</p:column>
+				
+				<p:column headerText="Ändern" styleClass="fragenkatalog-edit-table">
+					<p:commandLink action="#{fragenkatalogController.linkToEditTutor(frage)}">
+						<img src="../bilder/bearbeiten.png" id="icon" alt="edit"/>
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+    </main>
+    <footer>
+        <ui:include src="../footer/footer.xhtml" />
+    </footer>
+</h:body>
+</html>

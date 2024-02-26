@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<!-- accessDenied.xhtml -->
+<!-- Darstellung Fehlerseite bei Versuch, auf Seiten zuzugreifen, die dem Nutzer unzugänglich sind
+		mitsamt Logout-Funktionen. -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	<head>
+		<meta charset="UTF-8"></meta>
+		<link rel="stylesheet" type="text/css" media="screen" href="../css/style.css"/>
+		<title>Zugriff fehlgeschlagen!</title>
+	</head>
+	<body>
+		<header>
+	    	<ui:include src="../header/headerLogin.xhtml" />
+	    </header>
+		<main>
+			<h1>Die Seite, auf die Sie zugreifen wollten, ist für Sie gesperrt!</h1>
+			<p>Sie werden nun zur Login-Seite weitergeleitet.</p>
+			<p>Falls Sie nicht innerhalb von 5 Sekunden weitergeleitet werden, klicken Sie bitte <h:link value="hier" outcome="login"/></p>
+		</main>
+		<footer>
+	        <ui:include src="../footer/footer.xhtml" />
+	    </footer>
+	</body>
+	<script type="text/javascript" src="logout.js"></script>
+</html>

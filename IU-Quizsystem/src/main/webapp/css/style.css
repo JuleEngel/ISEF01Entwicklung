@@ -4,7 +4,7 @@ body {
     font-family: Arial;
 }
 
-h1, h2, p {
+h1, h2, h3, h4, h5, p {
     text-align: center;
     margin-left: 10%;
     margin-right: 10%;
@@ -30,11 +30,6 @@ h1, h2, p {
     height: 200px;
 }
 
-.button-container{
-    margin-right: 10px;
-}
-
-
 .flex-header {
     display:flex;
     justify-content: center;
@@ -42,11 +37,6 @@ h1, h2, p {
 }
 #icon {
 	width:25px;
-}
-
-.button {
-    display: flex;
-    justify-content: center;
 }
 
 #titel {
@@ -58,6 +48,93 @@ h1, h2, p {
     margin-right: 5%;
     width: 450px;
 }
+
+/* Buttons */
+.ui-selectonebutton .ui-button {
+    height: 80px;
+    margin: 5px;
+    padding: 2px 2px;
+    border: 1px solid #333 !important;
+    width: 40em;
+    float: left;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center !important;
+    border-radius: 0 !important;
+}
+
+.ui-selectoneradio .ui-button:first-of-type {
+    border-radius: 5px 0 0 5px !important;
+}
+
+.ui-selectoneradio .ui-button:last-of-type {
+    border-radius: 5px 0 0 5px !important;
+}
+
+.ui-selectonebutton .ui-button:nth-child(odd) {
+    clear: both;
+}
+
+.ui-selectonebutton .ui-button:focus {
+    box-shadow: none !important;
+}
+
+@media screen and (max-width: 600px) {
+  .ui-selectonebutton .ui-button {
+    width: 100%;
+  }
+}
+
+.ui-selectonebutton {
+    cursor: pointer;
+    user-select: none;
+}
+
+.imitate-select-button-container {
+	width: 100%;
+	justify-content: center !important;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.imitate-select-button {
+    justify-content: space-between;
+}
+
+.imitate-select-button .button-item {
+    height: 80px;
+    width: 40em;
+    margin: 5px;
+    padding: 2px 2px;
+    margin-bottom: 10px;
+    border: 1px solid #333;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+    user-select: none;
+}
+
+.button {
+	display: flex;
+    justify-content: center;
+}
+
+.button-header {
+	font-size: 20px;
+}
+
+.button-container{
+    margin-right: 10px;
+}
+
+.quizButton.ui-button { 
+	margin-right: 10px; 
+}
+
+
 
 
 /* Tabellen */

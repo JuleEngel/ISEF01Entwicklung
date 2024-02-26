@@ -23,18 +23,16 @@
                 <p>Von Studenten - Für Studenten</p>
                 <h:form>
                 	<!-- Logout-Button -> Weiterleitung zu logout.xhtml -->
-                	<h:commandButton value="Ausloggen" action="#{loginController.logout}" styleClass="button-container">
+                	<h:commandButton value="Ausloggen" action="#{loginController.logout}" styleClass="button-header">
                 		<f:ajax execute="@form" render="@none"/>
                		</h:commandButton>
                		<!-- Home-Button -> Weiterleitung zu indexStudent.xhtml -->
-               		<h:commandButton value="Startseite" action="#{mainController.linkToMainPage}">
+               		<h:commandButton value="Startseite" action="#{mainController.linkToMainPage}" styleClass="button-header">
                 		<f:ajax execute="@form" render="@none"/>
                		</h:commandButton>
                 </h:form>
             </div>
         </div>
-        <br/>
-        <br/>
     </header>
 </h:body>
 </html>

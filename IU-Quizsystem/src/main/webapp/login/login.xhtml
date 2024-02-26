@@ -38,13 +38,15 @@
                 </h:inputSecret>
                 <br/>
                 <br/>
-                <h:link class="link" value="Passwort vergessen?" href="https://mycampus.iubh.de/"/>
+                <a class="link" href="https://mycampus.iubh.de/"> Passwort vergessen? </a>
                 <br/>
                 <h:message for="passwort" styleClass="error"/>
                 <br/>
                 <br/>
                 <!-- Aufruf Validierungs-Funktionen und Weiterleitung bei Erfolg -->
-                <h:commandButton value="Einloggen" action="#{loginController.login}" style="font-size:20"/>
+                <div class="button">
+                	<h:commandButton value="Einloggen" action="#{loginController.login}" styleClass="button-header"/>
+                </div>
             </h:form>
         </div>
         <br/>

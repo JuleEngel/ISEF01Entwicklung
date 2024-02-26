@@ -50,5 +50,14 @@ public class MainController implements Serializable
         	return "/mainpage/indexStudent?faces-redirect=true";
         }
     }  
+	
+	/**
+	 * Generiert einen Link zur Login-Seite.
+	 *
+	 * @return Ein String, der den Link zur Login-Seite repräsentiert.
+	 */
+	public String linkToLoginPage() {
+		return "login?faces-redirect=true";
+	}
 
 }

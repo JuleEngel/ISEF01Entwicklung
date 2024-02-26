@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var inactiveDuration = currentTime - lastActivityTime;
         if (inactiveDuration >= inactiveTimeout) {
             // Benutzer ist inaktiv, logge ihn aus
-            window.location.href = '../login/logout.xhtml';
+            window.location.href = 'login/logout.xhtml';
         }
     }
 
@@ -22,9 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Aktualisiere den Zeitstempel bei Benutzeraktivität
     document.addEventListener('keypress', function() {
-        lastActivityTime = Date.now();
-    });
-        document.addEventListener('mousedown', function() {
         lastActivityTime = Date.now();
     });
 });

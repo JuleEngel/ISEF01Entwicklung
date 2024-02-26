@@ -50,21 +50,6 @@ public class ModulesController implements Serializable
         }
         return tempList;
     }
-    
-    /**
-     * Gib das Modul mit der angegebenen Modul-ID zurück.
-     *
-     * @param id Die ID des gesuchten Moduls
-     * @return Das Modul mit der angegebenen Modul-ID
-     */
-    public Modules getModuleByID(int id) {
-        for (Modules module : modulesListe.getModulesListe()) {
-            if (module.getModule_id() == id) {
-                return module;
-            }
-        }
-        return new Modules();
-    }
 
     /**
      * Gibt die Kurzbeschreibung des Moduls mit der angegebenen Modul-ID zurück.

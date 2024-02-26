@@ -1,8 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!-- fragenkatalogFrageErstellenTutor.xhtml -->
-<!-- Formular zur Erstellung einer neuen Frage aus Sicht des Tutors
-	 Auswahl Modul aus dynamischen Drop-Down -> Angepasst an modules Datenliste
-	 Auswahl Schwierigkeit per statischem Drop-Down -->
+<!-- Formular zur Erstellung einer neuen Frage aus Sicht des Tutors -->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
@@ -28,6 +26,7 @@
                     <h:outputLabel value="Eingabe" styleClass="bold-label"/>
                     <h:outputLabel value="Validierung" styleClass="bold-label"/>
                     
+                    <!-- Auswahl Modul aus dynamischen Drop-Down -> Angepasst an modules Datenliste -->
                     <h:outputLabel value="Modul" for="module_short"/>
 					<p:selectOneMenu id="module" value="#{fragenkatalogController.neueFrage.module_id}" required="true" 
 					                 requiredMessage="Bitte wählen Sie ein Modul aus!" styleClass="input-field">
@@ -37,10 +36,11 @@
 					        <f:selectItem itemLabel="#{module.module_long} (#{module.module_short})" itemValue="#{module.module_id}" />
 					    </c:forEach>
 					    
-					    <f:ajax event="change" render="moduleError" execute="@this" />
+					    <f:ajax event="blur" render="moduleError" execute="@this" />
 					</p:selectOneMenu>
 					<h:message id="moduleError" for="module" styleClass="error"/>
 					
+					<!-- Auswahl Schwierigkeit per statischem Drop-Down -->
 					<h:outputLabel value="Schwierigkeit" for="difficulty" />
 					<p:selectOneMenu id="difficulty" value="#{fragenkatalogController.neueFrage.difficulty}" required="true" 
 			                      requiredMessage="Bitte wählen Sie die Schwierigkeit aus!" styleClass="input-field">

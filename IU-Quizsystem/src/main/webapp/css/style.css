@@ -35,24 +35,6 @@ h1, h2, h3, h4, h5, p {
     justify-content: center;
     align-items: center;
 }
-
-.footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row; /* Anordnung nebeneinander */
-}
-
-.footer .link {
-    text-decoration: none; /* Keine Unterstreichung */
-    color: inherit; /* Erbt die Farbe vom Elternelement */
-    margin: 0 20px; /* Abstand zwischen den Links */
-}
-
-.footer .copyright {
-	font-size:small;
-}
-
 #icon {
 	width:25px;
 }
@@ -66,7 +48,6 @@ h1, h2, h3, h4, h5, p {
     margin-right: 5%;
     width: 450px;
 }
-
 
 /* Buttons */
 .ui-selectonebutton .ui-button {

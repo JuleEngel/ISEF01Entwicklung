@@ -50,9 +50,8 @@
 				        <f:selectItem itemLabel="Leicht" itemValue="1" />
 				        <f:selectItem itemLabel="Mittel" itemValue="2" />
 				        <f:selectItem itemLabel="Schwer" itemValue="3" />
-						<f:ajax event="change" render="difficultyError" execute="@this" />
 			    	</p:selectOneMenu>
-                    <h:message id="difficultyError" for="difficulty" styleClass="error"/>
+                    <h:message for="difficulty" styleClass="error"/>
                     
                     <h:outputLabel value="Frage" for="question"/>
                     <p:inputTextarea id="question" value="#{fragenkatalogController.tempFrage.question}" 
@@ -103,7 +102,7 @@
                     <h:message id="explanationError" for="explanation" styleClass="error"/>
                 </h:panelGrid>
                 <br/>
-                <div class="button">
+                <div id="button">
                 	<h:commandButton value="Abbrechen" action="#{fragenkatalogController.cancelEditTutor}" immediate="true" styleClass="button-container"/>
                     <h:commandButton value="Löschen" onclick="PF('solutionDialog_#{frage.id}').show()" type="button" styleClass="button-container"/>
                     <p:dialog id="solutionDialog_#{frage.id}" header="Möchten Sie die Frage wirklich permanent löschen?" widgetVar="solutionDialog_#{frage.id}" 

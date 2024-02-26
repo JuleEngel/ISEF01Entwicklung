@@ -10,14 +10,11 @@
 <h:head>
   <link rel="stylesheet" type="text/css" media="screen" href="../css/style.css"/>
   <script type="text/javascript" src="../header/clientActivity.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"></link>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"></link>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
   <title>IU-Quizsystem</title>
 </h:head>
 <h:body>
-	<f:metadata>
-          <f:event type="preRenderView" listener="#{quizController.removeAnyQuizzes}" />
-    </f:metadata>
 	<header>
     	<ui:include src="../header/headerStudent.xhtml" />
     </header>
@@ -41,9 +38,7 @@
 		        <div class="card-body text-center">
 		          <h5 class="card-title">Solo-Quiz</h5>
 		          <p class="card-text">Im Solo-Quiz kannst du dein eigenes Wissen spielerisch testen und erhältst direktes Feedback mit Erklärungen für ein verbessertes Lernen.</p>
-		          <h:form>
-		          	<p:commandButton value="Starte Solo-Quiz" action="#{quizController.linkToSoloQuizSettings}" />
-		          </h:form>
+		          <a href="#" class="btn btn-primary">Starte Solo-Quiz</a>
 		        </div>
 		      </div>
 		    </div>

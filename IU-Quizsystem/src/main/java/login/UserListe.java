@@ -49,8 +49,4 @@ public class UserListe
     	}
     	return null;
     }
-    
-    public void updatePlayedGames(int userID, int playedGames) {
-    	userDAO.updatePlayedGames(userID, playedGames);
-    }
 }

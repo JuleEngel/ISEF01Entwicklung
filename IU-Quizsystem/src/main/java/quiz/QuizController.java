@@ -23,6 +23,8 @@ public class QuizController implements Serializable {
 	@Inject
 	QuizSoloController quizSoloController;
 	@Inject
+	QuizDuoController quizDuoController;
+	@Inject
 	LoginController loginController;
 	
 	/**
@@ -34,6 +36,16 @@ public class QuizController implements Serializable {
 	    quizSoloController.reset();
 	    return "/quiz/soloSettings?faces-redirect=true";
 	}
+	
+	/**
+	 * Setzt den Quiz-Duo-Controller zurück und leitet zur Seite für die Einstellungen des Duo-Quiz weiter.
+	 * 
+	 * @return Der Umleitpfad zur Seite für die Einstellungen des Duo-Quiz.
+	 */
+	public String linkToDuoQuizSettings() {
+	    quizDuoController.reset();
+	    return "/quiz/duoSettings?faces-redirect=true";
+	}
 
 	/**
 	 * Aktualisiert die Einstellungen, indem der Quiz-Solo-Controller zurückgesetzt wird.
@@ -43,10 +55,11 @@ public class QuizController implements Serializable {
 	}
 
 	/**
-	 * Entfernt alle vorhandenen Quizze, indem der Quiz-Solo-Controller zurückgesetzt wird.
+	 * Entfernt alle vorhandenen Quizze, indem der Quiz-Solo-Controller und der Quiz-Duo-Controller zurückgesetzt werden.
 	 */
 	public void removeAnyQuizzes() {
 	    quizSoloController.reset();
+	    quizDuoController.reset();
 	}
 
 	/**
@@ -75,6 +88,11 @@ public class QuizController implements Serializable {
 	 */
 	public String cancelQuizSolo() {
 	    quizSoloController.reset();
+	    return "/mainpage/indexStudent?faces-redirect=true";
+	}
+	
+	public String cancelQuizDuo() {
+	    quizDuoController.reset();
 	    return "/mainpage/indexStudent?faces-redirect=true";
 	}
 

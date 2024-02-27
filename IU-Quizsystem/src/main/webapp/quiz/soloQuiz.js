@@ -68,7 +68,7 @@ function changeColor(correctAnswer) {
 }
 
 // Aufruf der Funktion onSubmit() von der Methode in deiner XHTML
-document.addEventListener("DOMContentLoaded", function(event) {
+document.addEventListener("DOMContentLoaded", function() {
     // Überprüft, ob das Dokument geladen ist, und ruft dann die Funktion auf
     solved = localStorage.getItem("solved"); // Holt den gelösten Status aus dem lokalen Speicher
     correctAnswer = localStorage.getItem("correctAnswer"); // Holt die korrekte Antwort aus dem lokalen Speicher

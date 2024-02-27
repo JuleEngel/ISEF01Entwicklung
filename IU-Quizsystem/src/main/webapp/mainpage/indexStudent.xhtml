@@ -54,7 +54,9 @@
 		        <div class="card-body text-center">
 		          <h5 class="card-title">Duo-Quiz</h5>
 		          <p class="card-text">Teste dein Wissen spielerisch im Wettkampf gegen andere Spieler! Direktes Feedback und Erläuterungen zu Fragen helfen dir beim Lernen.</p>
-		          <a href="#" class="btn btn-primary">Starte Duo-Quiz</a>
+		          <h:form>
+		          	<p:commandButton value="Starte Duo-Quiz" action="#{quizController.linkToDuoQuizSettings}" />
+		          </h:form>
 		        </div>
 		      </div>
 		    </div>

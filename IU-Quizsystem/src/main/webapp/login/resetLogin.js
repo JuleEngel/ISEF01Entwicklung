@@ -1,7 +1,13 @@
-//resetLogin.js
+//resetLogin
 
-//Entferne Eingaben beim Laden vom Fenster
-window.onload = function() {
-    document.getElementById("j_idt9:mail").value = "";
-    document.getElementById("j_idt9:passwort").value = "";
-};
+function resetLoginInput() {
+	var inputField = document.getElementById('mail');
+    if (inputField != null) {
+        inputField.value = '';
+    }
+}
+
+
+document.addEventListener("DOMContentLoaded", function() {
+	resetLoginInput();
+});

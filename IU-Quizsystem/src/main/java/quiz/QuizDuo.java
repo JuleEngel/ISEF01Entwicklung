@@ -31,7 +31,7 @@ public class QuizDuo{
 	private int module_id;
 	private int difficulty;
 	private User user1;
-	private User user2 = new User(); //Wird hier nicht verwendet, da ein Dummy genutzt wird
+	private User user2;
 	
 	
 	public QuizDuo() {
@@ -42,6 +42,10 @@ public class QuizDuo{
 		this.module_id = module_id;
 		this.difficulty = difficulty;
 		this.setUser1(user1);
+	}
+	
+	public void addUserToQuiz(User user) {
+		this.user2 = user;
 	}
 	
 	public int getModule_id() {

@@ -33,16 +33,12 @@ public class QuizDuoList{
 	}
 	
 	public void removeQuiz(QuizDuo quizToDelete) {
-		for (QuizDuo quizDuo : quizDuoList) {
-			if (quizDuo.equals(quizToDelete)) {
-				quizDuoList.remove(quizDuo);
-			}
-		}
+		quizDuoList.remove(quizToDelete);
 	}
 	
 	public QuizDuo getQuizFromUser(User user) {
 		for (QuizDuo quiz : getQuizDuoList()) {
-			if (quiz.getUser1().equals(user) ) {
+			if (quiz.getUser1().equals(user) || quiz.getUser2().equals(user) ) {
 				return quiz;
 			}
 		}

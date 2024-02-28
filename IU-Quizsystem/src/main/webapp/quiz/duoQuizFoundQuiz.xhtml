@@ -24,8 +24,8 @@
         <f:viewAction action="#{quizDuoController.checkIsIngame}" />
     </f:metadata>
     <main>
-    	<h1>Warte auf einen Mitspieler!</h1>
-    	<h3>Deine Einstellungen:</h3>
+    	<h1>Es wurde ein Quiz gefunden!</h1>
+    	<h3>Die Einstellungen vom Quiz:</h3>
     	<h5> Modul: 
     		<h:outputText value="#{quizDuoController.showModule}"/>
     		<br/>
@@ -33,17 +33,24 @@
     		<h:outputText value="#{quizDuoController.showDifficulty}"/>
     		<br/>
     		<br/>
+    		Name des Spielers: 
+    		<h:outputText value="#{quizDuoController.showSecondPlayer}"/>
+    		<br/>
+    		<br/>
     	</h5>
    		<h:form>
     		<div class="button">
     			<h:commandButton value="Abbrechen" action="#{quizController.cancelQuizDuo}" immediate="true" styleClass="button-container"/>
+    			<br/>
+    			<h:commandButton value="Suche anderes Quiz" action="#{quizDuoController.joinPlayerQuiz}" styleClass="button-container"/>
+    			<br/>
+    			<p:commandButton value="Starte Quiz" action="#{quizDuoController.startQuiz}"/>
     		</div>
    		</h:form>
     </main>
     <footer>
         <ui:include src="../footer/footer.xhtml" />
     </footer>
-    <script type="text/javascript" src="duoQuizWaitForPlayers.js"></script>
 </h:body>
 </html>
 

@@ -17,16 +17,25 @@
 </h:head>
 <h:body>
 	<header>
-		<!-- <ui:include src="../header/headerStudent.xhtml" />  -->
+		<ui:include src="../header/headerStudent.xhtml" />
    	</header>
-    <br />
+   	<f:metadata>
+        <f:viewAction action="#{quizDuoController.checkIsQuizActive}" />
+        <f:viewAction action="#{quizDuoController.checkIsIngame}" />
+    </f:metadata>
     <main>
-    	
+    	<h1>Suche nach einem Spiel... Bitte warten...</h1>
+    	<br/>
+   		<h:form>
+    		<div class="button">
+    			<h:commandButton value="Abbrechen" action="#{quizController.cancelQuizDuo}" immediate="true" styleClass="button-container"/>
+    		</div>
+   		</h:form>
     </main>
     <footer>
         <ui:include src="../footer/footer.xhtml" />
     </footer>
-    <script type="text/javascript" src="soloQuiz.js"></script>
+    <script type="text/javascript" src="duoQuizSearchForQuiz.js"></script>
 </h:body>
 </html>
 

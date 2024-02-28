@@ -5,10 +5,17 @@
 function startQuiz() {
     localStorage.setItem("solved", false); // Setzt den Status "gelöst" auf falsch
     localStorage.setItem("correctAnswer", ""); // Setzt die korrekte Antwort auf leer
+    localStorage.setItem("refreshed", 0);
 }
 
+//FOR-DUMMY
 function refreshPage() {
-	window.location.href = 'duoQuiz.xhtml';
+	var refreshed = parseInt(localStorage.getItem("refreshed"));
+    if (refreshed < 1) {
+        window.location.href = 'duoQuiz.xhtml';
+		refreshed += 1;
+		localStorage.setItem("refreshed", refreshed);
+    }
 }
 
 // Funktion bei Absenden einer Antwort zu dem Quiz. Korrekte Antwort speichern und "solved" aktualisieren.
@@ -16,7 +23,7 @@ function onSubmit(correctAnswer) {
     solved = true; // Setzt den Status "gelöst" auf wahr
     localStorage.setItem("solved", true); // Aktualisiert den gelösten Status im lokalen Speicher
     localStorage.setItem("correctAnswer", correctAnswer); // Speichert die korrekte Antwort im lokalen Speicher
-    localStorage.setItem("refreshed", false)
+    localStorage.setItem("refreshed", 0);
 }
 
 // Funktion, um zur nächsten Frage zu gehen und den lokalen Speicher zu aktualisieren
@@ -71,12 +78,12 @@ function changeColor(correctAnswer) {
 			answerButton4.style.color = "white";
 			answerButton4.style.backgroundColor = "red";
 		}
-		setTimeout(refreshPage, 5000);
 }
 
 function getRandomNumber() {
-    return Math.floor(Math.random() * (6 - 4 + 1)) + 4;
+    return Math.floor(Math.random() * (6 - 2 + 1)) + 2;
 }
+
 
 // Aufruf der Funktion onSubmit() von der Methode in deiner XHTML
 document.addEventListener("DOMContentLoaded", function() {
@@ -86,8 +93,12 @@ document.addEventListener("DOMContentLoaded", function() {
     if (solved) {
         if (correctAnswer != "") {
             changeColor(correctAnswer); // Ändert die Farbe basierend auf der gespeicherten korrekten Antwort
-            var randomNumber = getRandomNumber();
-            setTimeout(refreshPage, randomNumber * 1000);
+            //FOR-DUMMY
+            var refreshed = parseInt(localStorage.getItem("refreshed"));
+            if (refreshed < 1) {
+	            var randomNumber = getRandomNumber();
+	            setTimeout(refreshPage, randomNumber * 1000);
+	        }
         }
     }
 });

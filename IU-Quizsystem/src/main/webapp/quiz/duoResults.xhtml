@@ -22,9 +22,8 @@
    	<f:metadata>
           <f:viewAction action="#{quizDuoController.checkIsQuizFinished}" />
     </f:metadata>
-    <br />
     <main>
-    	<h1>Solo-Quiz</h1>
+    	<h1>Duo-Quiz Ergebnisse:</h1>
 	    <br/>
 	    <br/>
 	    <div class="container">
@@ -35,9 +34,17 @@
 		  </div>
 		</div>
 		<br/>
-		<h2>Du hast das Quiz erfolgreich beendet!</h2> 
+		<h2>
+			<h:outputText value="#{quizDuoController.resultUser}"/>
+		</h2> 
 		<br/>
-		<h2>Richtige Fragen: <h:outputText value="#{quizDuoController.correctAnswers}"/></h2>
+		<h4>Deine richtigen Fragen: 
+			<h:outputText value="#{quizDuoController.correctAnswers}"/>
+		</h4>
+		<br/>
+		<h4>Die richtigen Fragen von Dummy: <!-- FOR-DUMMY --> 
+			<h:outputText value="#{quizDuoController.dummyScore}"/>
+		</h4>
 		<br/>
 		<h:form>
 			<div class="button">

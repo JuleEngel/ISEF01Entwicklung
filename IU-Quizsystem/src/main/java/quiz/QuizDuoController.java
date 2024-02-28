@@ -16,6 +16,7 @@ import fragenkatalog.FragenkatalogController;
 import fragenkatalog.FragenkatalogListe;
 import fragenkatalog.Modules;
 import fragenkatalog.ModulesController;
+import fragenkatalog.NachrichtenController;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
@@ -59,6 +60,8 @@ public class QuizDuoController implements Serializable {
 	QuizDuoList quizDuoList;
 	@Inject
 	FragenkatalogController fragenkatalogController;
+	@Inject
+	NachrichtenController nachrichtenController;
 	
 	//Allgemeine Einstellungen
 	private Modules module;
@@ -67,14 +70,19 @@ public class QuizDuoController implements Serializable {
 	private int tempModule;
 	private String showModule;
 	private String showDifficulty;
-	private String showSecondPlayer = "Dummy"; //In der Prototyp-Version wird mit einem Dummy gespielt
+	private String showSecondPlayer = "Dummy"; //FOR-DUMMY
+	private User dummy = new User(-1, "dummy", "dummymail", "malksjdbo231j324bnsad09nas", "dummy", 0); //FOR-DUMMY
 	private boolean quizActive = false;
 	private boolean wantExplanation = false;
 	private boolean solved = false;
 	private boolean finished = false;
 	private boolean nextPlayerFinished = false;
-	
-	
+	private String createdQuiz;
+	private boolean ingame;
+	private String resultUser;
+	private int dummyScore = 0; //FOR-DUMMY
+	private boolean questionReported = false;
+
 	//Temporäre Variablen zu Fragen
 	private Fragenkatalog tempQuestion;
 	private String tempAnswer1;
@@ -131,11 +139,41 @@ public class QuizDuoController implements Serializable {
     	return true;
 	}
 	
+	public boolean checkEnoughQuestionsDummy() {
+		List<Fragenkatalog> tempListe = new ArrayList<Fragenkatalog>();
+		if (this.module_id != 0) {
+			for (Fragenkatalog fragenkatalog : fragenkatalogListe.getFragenkatalogListe()) {
+				if (fragenkatalog.getDifficulty() == difficulty && fragenkatalog.getModule_id() == this.module_id 
+							&& (fragenkatalog.getStatus().equals("published") || fragenkatalog.getStatus().equals("reported"))){
+					tempListe.add(fragenkatalog);
+				}
+			}
+		}
+		if (tempListe.size() < 5) {
+    		return false;
+    	}
+		return true;
+	}
+	
 	
 	
 	//Methoden um die Funktion Duo-Quiz
 	
 	public String joinPlayerQuiz() {
+		this.quizActive = true;
+		//FOR-DUMMY
+		Random random = new Random();
+		this.module_id = random.nextInt(3) + 1;
+		this.difficulty = random.nextInt(3) + 1;
+		while (!checkEnoughQuestionsDummy()) {
+			this.module_id = random.nextInt(3) + 1;
+			this.difficulty = random.nextInt(3) + 1;
+		}
+		QuizDuo createdDummyQuiz = new QuizDuo(this.module_id, this.difficulty, this.dummy);
+		quizDuoList.addQuiz(createdDummyQuiz);
+		this.setShowModule(modulesController.getModuleLong(module_id));
+		this.setShowDifficulty(fragenkatalogController.formatDifficulty(difficulty));
+		this.createdQuiz = "dummy"; //FOR-DUMMY
 		return "duoQuizSearchForQuiz?faces-redirect=true";
 	}
 	
@@ -146,6 +184,7 @@ public class QuizDuoController implements Serializable {
 		quizDuoList.addQuiz(createdQuiz);
 		this.setShowModule(modulesController.getModuleLong(module_id));
 		this.setShowDifficulty(fragenkatalogController.formatDifficulty(difficulty));
+		this.createdQuiz = "user1";
 		return "duoQuizWaitForPlayers?faces-redirect=true";
 	}
 	
@@ -158,12 +197,31 @@ public class QuizDuoController implements Serializable {
 	 */
 	public String startQuiz() {
 		this.quizActive = true;
-		QuizDuo quizDuo = quizDuoList.getQuizFromUser(quizController.getUserLogin());
-		this.difficulty = quizDuo.getDifficulty();
-		this.module_id = quizDuo.getModule_id();
+		this.ingame = true;
+		if (this.createdQuiz.equals("user1")) {
+			QuizDuo quizDuo = quizDuoList.getQuizFromUser(quizController.getUserLogin());
+			quizDuo.addUserToQuiz(this.dummy);
+			this.difficulty = quizDuo.getDifficulty();
+			this.module_id = quizDuo.getModule_id();
+			quizDuoList.removeQuiz(quizDuo);
+		}
+		else if (this.createdQuiz.equals("dummy")){
+			QuizDuo quizDuo = quizDuoList.getQuizFromUser(this.dummy);
+			quizDuo.addUserToQuiz(quizController.getUserLogin());
+			this.difficulty = quizDuo.getDifficulty();
+			this.module_id = quizDuo.getModule_id();
+			quizDuoList.removeQuiz(quizDuo);
+		}
+		else {
+			System.out.println("Fehler in der Spielersuche");
+		}
+		this.createdQuiz = "";
 		this.module = modulesController.getModuleByID(module_id);
 		this.randomQuestionList = getRandomQuestionListFromQuestionList();
 		this.nextPlayerFinished = false;
+		this.resultUser = "";
+		this.dummyScore = 0;
+		this.correctAnswers = 0;
 		setQuestion();
 		return "duoQuiz?faces-redirect=true";
 	}
@@ -178,9 +236,9 @@ public class QuizDuoController implements Serializable {
 	 */
 	public List<Fragenkatalog> getQuestionList() {
 		List<Fragenkatalog> tempListe = new ArrayList<>();
-		if (this.tempModule != 0) {
+		if (this.module_id != 0) {
 			for (Fragenkatalog fragenkatalog : fragenkatalogListe.getFragenkatalogListe()) {
-				if (fragenkatalog.getDifficulty() == difficulty && fragenkatalog.getModule_id() == tempModule 
+				if (fragenkatalog.getDifficulty() == difficulty && fragenkatalog.getModule_id() == this.module_id 
 							&& (fragenkatalog.getStatus().equals("published") || fragenkatalog.getStatus().equals("reported"))){
 					tempListe.add(fragenkatalog);
 				}
@@ -223,14 +281,15 @@ public class QuizDuoController implements Serializable {
 	 * Setzt alle Quizvariablen zurück, um das Quiz auf den Ausgangszustand zurückzusetzen.
 	 */
 	public void reset() {
-		/*
-		for (QuizDuo tempQuiz : quizDuoList.getQuizDuoList()) {
-			if (tempQuiz.getUser1().equals(quizController.getUserLogin())) {
-				quizDuoList.removeQuiz(tempQuiz);
-			}
+		try {
+			QuizDuo tempQuiz = quizDuoList.getQuizFromUser(quizController.getUserLogin());
+			quizDuoList.removeQuiz(tempQuiz);
+		} catch (Exception e) {
 		}
-		*/
-		this.nextPlayerFinished = true;
+		this.ingame = false;
+		this.nextPlayerFinished = false;
+		this.resultUser = "";
+		this.createdQuiz = "";
 		this.showModule = "";
 		this.showDifficulty = "";
 		this.setQuizActive(false);
@@ -250,6 +309,8 @@ public class QuizDuoController implements Serializable {
 		this.wantExplanation = false;
 		this.finished = false;
 		this.correctAnswers = 0;
+		this.dummyScore = 0;
+		this.questionReported = false;
 	}
 	
 	/**
@@ -264,6 +325,14 @@ public class QuizDuoController implements Serializable {
 	    }
 	}
 	
+	public void checkIsIngame() {
+		if (ingame) {
+			reset();
+	        FacesContext facesContext = FacesContext.getCurrentInstance();
+	        facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "/mainpage/indexStudent?faces-redirect=true");
+		}
+	}
+	
 	/**
 	 * Überprüft, ob das Quiz abgeschlossen ist. Wenn das Quiz nicht abgeschlossen ist, wird es zurückgesetzt und der 
 	 * Benutzer zur Hauptseite für Studenten weitergeleitet.
@@ -271,6 +340,18 @@ public class QuizDuoController implements Serializable {
 	 */
 	public void checkIsQuizFinished () {
 	    this.quizActive = false;
+	    //FOR-DUMMY
+	    Random random = new Random();
+	    this.dummyScore = random.nextInt(5) + 1;
+	    if (this.correctAnswers > dummyScore) {
+		    this.resultUser = "Du hast das Quiz gewonnen!";
+	    }
+	    else if (this.correctAnswers < dummyScore) {
+	    	this.resultUser = "Du hast das Quiz verloren!";
+	    }
+	    else {
+	    	this.resultUser = "Unentschieden!";
+	    }
 		if (!finished) {
 	    	reset();
 	        FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -403,6 +484,12 @@ public class QuizDuoController implements Serializable {
 	    this.choosedAnswer = selectedAnswer;
 	}
 	
+	public void reportQuestion() {
+		nachrichtenController.reportMessage(this.tempQuestion);
+		this.questionReported = true;
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "duoQuiz?faces-redirect=true");
+	}
 	
 
 	//Getter und Setter
@@ -746,4 +833,42 @@ public class QuizDuoController implements Serializable {
 		this.nextPlayerFinished = nextPlayerFinished;
 	}
 
+	public String isCreatedQuiz() {
+		return createdQuiz;
+	}
+
+	public void setCreatedQuiz(String createdQuiz) {
+		this.createdQuiz = createdQuiz;
+	}
+
+	public boolean isIngame() {
+		return ingame;
+	}
+
+	public void setIngame(boolean ingame) {
+		this.ingame = ingame;
+	}
+
+	public String getResultUser() {
+		return resultUser;
+	}
+
+	public void setResultUser(String resultUser) {
+		this.resultUser = resultUser;
+	}
+	public int getDummyScore() {
+		return dummyScore;
+	}
+
+	public void setDummyScore(int dummyScore) {
+		this.dummyScore = dummyScore;
+	}
+
+	public boolean isQuestionReported() {
+		return questionReported;
+	}
+
+	public void setQuestionReported(boolean questionReported) {
+		this.questionReported = questionReported;
+	}
 }

@@ -34,7 +34,7 @@
         <br/>
         <div class="flex-tabelle">
 			<h:form>
-				<h3>Antwort: 
+				<h3>Deine Antwort ist: 
 					<h:outputText id="solution" rendered="#{quizSoloController.solved}" value="#{quizSoloController.solution}"/>
 				</h3>
 		        <div>
@@ -66,27 +66,24 @@
 					    </div>
 					</div>
 				</h:panelGroup>
-				<br/>
 				<h:panelGroup id="solutionText" rendered="#{quizSoloController.solved}">
 					<h4>Ausgewählte Lösung: </h4>
 					<h5>
 			        	<h:outputText value="#{quizSoloController.choosedAnswer}"/>
 		        	</h5>
 		        </h:panelGroup>
-				<h:panelGroup id="explanation" rendered="#{quizSoloController.wantExplanation}">
-					<h4>Erklärung:</h4>
-					<p>
-			        	<h:outputText value="#{quizSoloController.tempQuestion.explanation}"/>
-			        </p>
-			    </h:panelGroup>
 			    <br/>
 			    <div class="button">
                 	<h:commandButton value="Abbrechen" action="#{quizController.cancelQuizSolo}" 
                 			immediate="true" styleClass="button-container"/>
+                	<h:commandButton id="reportQuestion" value="Frage melden"
+			    			styleClass="button-container"
+			    			onclick="PF('solutionDialog').show()" type="button"/>
 			    	<p:commandButton id="submitButton" value="Antwort abgeben"
 			    			action="#{quizSoloController.checkChoosedAnswer}"
 				      		process="@form" oncomplete="onSubmit('#{quizSoloController.tempQuestion.correct_answer}')"
-				      		styleClass="quizButton" rendered="#{not quizSoloController.solved}"/>
+				      		styleClass="quizButton" rendered="#{not quizSoloController.solved}"
+				      		update="answerError"/>
 				    <p:commandButton id="showExplanation" value="Erklärung anzeigen"
 				    		styleClass="quizButton" rendered="#{quizSoloController.solved}"
 				    		action="#{quizSoloController.showExplanation}"
@@ -100,7 +97,36 @@
 				    		action="#{quizSoloController.showResults}"
 				    		oncomplete="nextQuestion()"/>
 				</div>
+				<br/>
+				<h:panelGroup id="explanation" rendered="#{quizSoloController.wantExplanation}">
+					<h4>Erklärung:</h4>
+					<p>
+			        	<h:outputText value="#{quizSoloController.tempQuestion.explanation}"/>
+			        </p>
+			    </h:panelGroup>
 			</h:form>
+	        <p:dialog id="solutionDialog" header="Möchtest du die Frage melden?" widgetVar="solutionDialog" 
+		              modal="true" resizable="false" position="center">
+		    	<div style="text-align: center;">
+			    	<h:form>
+			    		<h:outputText value="Warum möchtest du die Frage melden?"/>
+			    		<br/>
+			                  <p:inputTextarea id="message" value="#{nachrichtenController.tempNachricht}" required="true" 
+			                              requiredMessage="Bitte geben Sie eine Begründung an, weshalb Sie die Frage melden wollen!"
+			                              styleClass="inputTextareaStyle" maxlength="5000">
+			               </p:inputTextarea>
+			               <br/>
+			               <h:message id="messageError" for="message" styleClass="error"/>
+			               <br/>
+			               <br/>
+			    		<p:commandButton value="Frage melden" action="#{quizSoloController.reportQuestion}" rendered="#{not quizSoloController.questionReported}"
+			    					update="messageError"/>
+			    		<h:outputText value="Frage wurde gemeldet!" rendered="#{quizSoloController.questionReported}"/>
+				        <br/><br/>
+				        <h:commandButton value="Abbrechen" immediate="true" onclick="PF('solutionDialog').hide()"/>
+				     </h:form>
+		   		 </div>
+	        </p:dialog>
 		</div>
     </main>
     <footer>

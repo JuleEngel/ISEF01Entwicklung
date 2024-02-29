@@ -18,6 +18,9 @@
     	<ui:include src="../header/headerTutor.xhtml" />
    	</header>
     <main>
+    	<f:metadata>
+	        <f:event type="preRenderView" listener="#{nachrichtenController.updateAmountOfMessages}" />
+    	</f:metadata>
    	    <h1>Hi, 
         	<h:outputText value="#{loginController.formatInput(loginController.userLogin.username)}"/>
         </h1>

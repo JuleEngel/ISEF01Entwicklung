@@ -6,6 +6,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
   <link rel="stylesheet" type="text/css" media="screen" href="../css/style.css"/>
+  <link rel="icon" href="../bilder/iu-logo.ico" type="image/x-icon"/>
   <script type="text/javascript" src="clientActivity.js"></script>
   <title>IU-Quizsystem Fragenkatalog</title>
 </h:head>
@@ -13,7 +14,7 @@
     <header>
     	<!-- Login-Überprüfung mitsamt Rollen-Überprüfung -->
 		<f:metadata>
-	        <f:event type="preRenderView" listener="#{loginController.checkLoggedInTutor}" />
+	        <f:event type="preRenderView" listener="#{loginController.checkLoggedInTutor}"/>
 	    </f:metadata>
         <div class="flex-header">
             <img class="flex-item" id="kopf_links" src="../bilder/logo.jpg" alt="logo"/>

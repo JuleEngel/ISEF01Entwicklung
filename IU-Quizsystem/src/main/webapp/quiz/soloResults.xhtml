@@ -40,7 +40,8 @@
 		<br/>
 		<h:form>
 			<div class="button">
-				<p:commandButton value="Quiz beenden" action="#{quizController.quitFinishedQuiz}"/>
+				<h:commandButton value="Quiz beenden" action="#{quizController.quitFinishedQuiz}" styleClass="button-container"/>
+				<p:commandButton value="Neues Quiz" action="#{quizController.linkToSoloQuizSettings}" />
 			</div>
 		</h:form>
     </main>

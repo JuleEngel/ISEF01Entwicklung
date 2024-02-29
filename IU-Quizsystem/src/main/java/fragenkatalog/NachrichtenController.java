@@ -43,6 +43,7 @@ public class NachrichtenController implements Serializable
     private NachrichtenListe nachrichtenListe = new NachrichtenListe();
     private FragenkatalogBearbeitetListe fragenkatalogBearbeitetListe = new FragenkatalogBearbeitetListe();
     private FragenkatalogListe fragenkatalogListe = new FragenkatalogListe();
+    private int amountOfMessages;
     
     
     
@@ -64,20 +65,18 @@ public class NachrichtenController implements Serializable
     }
 
     /**
-     * Gibt die Gesamtanzahl der Nachrichten zurück.
+     * Aktualisiert die Gesamtanzahl der Nachrichten zurück.
      *
-     * @return Die Gesamtanzahl der Nachrichten
      */
-    public int getAmountOfMessages() {
-        int amount = 0;
-        amount += nachrichtenListe.getNachrichtenListe().size();
-        amount += fragenkatalogBearbeitetListe.getFragenkatalogBearbeitetListe().size();
+    public void updateAmountOfMessages() {
+        this.amountOfMessages = 0;
+        amountOfMessages += nachrichtenListe.getNachrichtenListe().size();
+        amountOfMessages  += fragenkatalogBearbeitetListe.getFragenkatalogBearbeitetListe().size();
         for (Fragenkatalog frage : fragenkatalogListe.getFragenkatalogListe()) {
             if (frage.getStatus().equals("new")) {
-                amount++;
+            	setAmountOfMessages(getAmountOfMessages() + 1);
             }
         }
-        return amount;
     }
 
     /**
@@ -117,6 +116,7 @@ public class NachrichtenController implements Serializable
     public void deleteMessage(Nachrichten nachricht) {
         nachrichtenDAO.deleteNachricht(nachricht);
         nachrichtenListe.getNachrichtenListe().remove(nachricht);
+        updateAmountOfMessages();
         fragenkatalogController.checkReportFrage();
     }
 
@@ -132,6 +132,7 @@ public class NachrichtenController implements Serializable
             }
         }
         nachrichtenListe = new NachrichtenListe();
+        updateAmountOfMessages();
     }
 
     /**
@@ -158,4 +159,22 @@ public class NachrichtenController implements Serializable
     public void updateNachrichtenListe() {
         nachrichtenListe = new NachrichtenListe();
     }
+
+    /**
+     * Gibt die Anzahl an Nachrichten zurück.
+     *
+     * @return Anzahl an Nachrichten
+     */
+	public int getAmountOfMessages() {
+		return amountOfMessages;
+	}
+
+    /**
+     * Setzt die Anzahl an Nachrichten.
+     *
+     * @param Anzahl an Nachrichten
+     */
+	public void setAmountOfMessages(int amountOfMessages) {
+		this.amountOfMessages = amountOfMessages;
+	}
 }

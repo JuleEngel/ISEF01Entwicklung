@@ -2,6 +2,8 @@
 package quiz;
 import jakarta.enterprise.context.ApplicationScoped;
 import java.io.Serializable;
+
+import fragenkatalog.FragenkatalogController;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import login.LoginController;
@@ -26,24 +28,28 @@ public class QuizController implements Serializable {
 	QuizDuoController quizDuoController;
 	@Inject
 	LoginController loginController;
+	@Inject
+	FragenkatalogController fragenkatalogController;
 	
 	/**
-	 * Setzt den Quiz-Solo-Controller zurück und leitet zur Seite für die Einstellungen des Solo-Quiz weiter.
+	 * Setzt den Quiz-Solo-Controller zurück, lädt die Fragenliste neu und leitet zur Seite für die Einstellungen des Solo-Quiz weiter.
 	 * 
 	 * @return Der Umleitpfad zur Seite für die Einstellungen des Solo-Quiz.
 	 */
 	public String linkToSoloQuizSettings() {
 	    quizSoloController.reset();
+	    fragenkatalogController.refreshFragenkatalog();
 	    return "/quiz/soloSettings?faces-redirect=true";
 	}
 	
 	/**
-	 * Setzt den Quiz-Duo-Controller zurück und leitet zur Seite für die Einstellungen des Duo-Quiz weiter.
+	 * Setzt den Quiz-Duo-Controller zurück, lädt die Fragenliste neu und leitet zur Seite für die Einstellungen des Duo-Quiz weiter.
 	 * 
 	 * @return Der Umleitpfad zur Seite für die Einstellungen des Duo-Quiz.
 	 */
 	public String linkToDuoQuizSettings() {
 	    quizDuoController.reset();
+	    fragenkatalogController.refreshFragenkatalog();
 	    return "/quiz/duoSettings?faces-redirect=true";
 	}
 
@@ -91,6 +97,11 @@ public class QuizController implements Serializable {
 	    return "/mainpage/indexStudent?faces-redirect=true";
 	}
 	
+	/**
+	 * Bricht das Duo-Quiz ab, indem der Quiz-Duo-Controller zurückgesetzt und zur Hauptseite für Studenten weitergeleitet wird.
+	 * 
+	 * @return Der Umleitpfad zur Hauptseite für Studenten.
+	 */
 	public String cancelQuizDuo() {
 	    quizDuoController.reset();
 	    return "/mainpage/indexStudent?faces-redirect=true";

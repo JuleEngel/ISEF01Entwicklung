@@ -17,6 +17,7 @@
 <h:body>
 	<f:metadata>
           <f:event type="preRenderView" listener="#{quizController.removeAnyQuizzes}" />
+          <f:event type="preRenderView" listener="#{fragenkatalogController.refreshFragenkatalog}" />
     </f:metadata>
 	<header>
     	<ui:include src="../header/headerStudent.xhtml" />

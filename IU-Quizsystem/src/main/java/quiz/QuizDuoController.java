@@ -1,16 +1,9 @@
-//QuizSoloController.java
+//QuizDuoController.java
 package quiz;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import javax.ws.rs.container.AsyncResponse;
-
 import fragenkatalog.Fragenkatalog;
 import fragenkatalog.FragenkatalogController;
 import fragenkatalog.FragenkatalogListe;
@@ -33,21 +26,21 @@ import login.User;
 import login.UserListe;
 
 /** 
-* QuizSoloController.java
-* Funktionen zur Verwaltung von Solo-Quizzen
-* Die Klasse QuizSoloController.java enthält Funktionen Erstellung, Verwaltung und Bearbeitung von Solo-Quizzen. Hierunter fällt das
+* QuizDuoController.java
+* Funktionen zur Verwaltung von Duo-Quizzen
+* Die Klasse QuizDuoController.java enthält Funktionen zur Erstellung, Verwaltung und Bearbeitung von Duo-Quizzen. Hierunter fällt das
 * Anlegen von temporären Variablen (z.B für Fragen, Antworten), von Variablen zur Überprüfung des Status vom Quiz, Methoden zur Validierung
-* von Einstellungen und Antworten und der Interaktion mit dem User.
+* von Einstellungen und Antworten und der Interaktion mit dem User. Zudem wird hierbei der Dummy implementiert und die Funktionen zur Erstellung und
+* von Quizzen erstellt.
 * 
 * @author JuleEngel 
 * @version 1.0 
-* @since 24.02.2024 
+* @since 29.02.2024 
 */ 
 @SuppressWarnings("serial")
 @Named
 @SessionScoped
 public class QuizDuoController implements Serializable {
-	
 	@Inject
 	ModulesController modulesController;
 	@Inject
@@ -139,6 +132,13 @@ public class QuizDuoController implements Serializable {
     	return true;
 	}
 	
+	/**
+	 * Überprüft, ob genügend Fragen im Fragenkatalog für das aktuelle Modul und die Schwierigkeitsstufe vorhanden sind.
+	 * Es werden nur Fragen mit dem Status "published" oder "reported" berücksichtigt.
+	 * Die Methode gibt true zurück, wenn mindestens 5 Fragen gefunden werden, andernfalls false.
+	 *
+	 * @return true, wenn genügend Fragen vorhanden sind, sonst false.
+	 */
 	public boolean checkEnoughQuestionsDummy() {
 		List<Fragenkatalog> tempListe = new ArrayList<Fragenkatalog>();
 		if (this.module_id != 0) {
@@ -159,6 +159,16 @@ public class QuizDuoController implements Serializable {
 	
 	//Methoden um die Funktion Duo-Quiz
 	
+	/**
+	 * Tritt einem Spieler-Quiz bei und erstellt ein Dummy-Quiz für den aktuellen Benutzer.
+	 * Das Quiz wird aktiviert und ein Dummy-Quiz wird generiert, indem zufällig ein Modul und eine Schwierigkeitsstufe ausgewählt werden.
+	 * Die Methode überprüft, ob genügend Fragen für das ausgewählte Modul und die Schwierigkeitsstufe vorhanden sind.
+	 * Wenn genügend Fragen vorhanden sind, wird das Dummy-Quiz erstellt und dem QuizDuoList hinzugefügt.
+	 * Das Modul und die Schwierigkeitsstufe werden entsprechend gesetzt, und die Variable 'createdQuiz' wird auf 'dummy' gesetzt.
+	 * Die Methode kehrt zur DuoQuizSucheNachQuiz-Seite zurück.
+	 *
+	 * @return Die Navigationsregel für die DuoQuizSucheNachQuiz-Seite.
+	 */
 	public String joinPlayerQuiz() {
 		this.quizActive = true;
 		//FOR-DUMMY
@@ -177,7 +187,15 @@ public class QuizDuoController implements Serializable {
 		return "duoQuizSearchForQuiz?faces-redirect=true";
 	}
 	
-	
+	/**
+	 * Erstellt ein Spieler-Quiz für den aktuellen Benutzer.
+	 * Das Quiz wird aktiviert und für das ausgewählte Modul und die Schwierigkeitsstufe erstellt.
+	 * Das erstellte Quiz wird dem QuizDuoList hinzugefügt.
+	 * Das Modul und die Schwierigkeitsstufe werden entsprechend gesetzt, und die Variable 'createdQuiz' wird auf 'user1' gesetzt.
+	 * Die Methode kehrt zur DuoQuizWartenAufSpieler-Seite zurück.
+	 *
+	 * @return Die Navigationsregel für die DuoQuizWartenAufSpieler-Seite.
+	 */
 	public String createPlayerQuiz() {
 		this.quizActive = true;
 		QuizDuo createdQuiz = new QuizDuo(this.module_id, this.difficulty, quizController.getUserLogin());
@@ -188,12 +206,17 @@ public class QuizDuoController implements Serializable {
 		return "duoQuizWaitForPlayers?faces-redirect=true";
 	}
 	
-	
-	
 	/**
-	 * Startet das Quiz, indem das Modul festgelegt, das Quiz als aktiv markiert und eine zufällige Frage ausgewählt wird.
-	 * 
-	 * @return Der Umleitpfad zur Solo-Quiz-Seite.
+	 * Startet das Quiz und bereitet es für das Spiel vor.
+	 * Setzt das Quiz als aktiv und den Benutzer als im Spiel.
+	 * Ermittelt das QuizDuo basierend auf dem erstellten Quiztyp ("user1" oder "dummy").
+	 * Fügt den aktuellen Benutzer zum QuizDuo hinzu und entfernt das QuizDuo aus der QuizDuoList.
+	 * Setzt das Modul und die Schwierigkeitsstufe des Quiz entsprechend.
+	 * Holt zufällige Fragen für das Quiz und bereitet das Quiz vor, um die erste Frage anzuzeigen.
+	 * Setzt verschiedene Spielvariablen zurück, wie z.B. den nächsten Spieler, das Ergebnis und die Anzahl der korrekten Antworten.
+	 * Die Methode leitet zur DuoQuiz-Seite weiter, um das Spiel zu starten.
+	 *
+	 * @return Die Navigationsregel für die DuoQuiz-Seite.
 	 */
 	public String startQuiz() {
 		this.quizActive = true;
@@ -325,6 +348,10 @@ public class QuizDuoController implements Serializable {
 	    }
 	}
 	
+	/**
+	 * Überprüft, ob der Benutzer sich bereits im Spiel befindet.
+	 * Wenn der Benutzer bereits im Spiel ist, wird das Spiel zurückgesetzt und er zur Hauptseite für Studenten weitergeleitet.
+	 */
 	public void checkIsIngame() {
 		if (ingame) {
 			reset();
@@ -484,6 +511,12 @@ public class QuizDuoController implements Serializable {
 	    this.choosedAnswer = selectedAnswer;
 	}
 	
+	/**
+	 * Meldet die aktuelle Frage und setzt den Status der Frage als gemeldet.
+	 * Die Methode ruft die Methode reportMessage() des NachrichtenControllers auf, um die Frage zu melden.
+	 * Danach wird der Status 'questionReported' auf true gesetzt.
+	 * Schließlich leitet die Methode zur DuoQuiz-Seite weiter, um fortzufahren.
+	 */
 	public void reportQuestion() {
 		nachrichtenController.reportMessage(this.tempQuestion);
 		this.questionReported = true;
@@ -800,75 +833,165 @@ public class QuizDuoController implements Serializable {
 	    this.solution = solution;
 	}
 
-
+	/**
+	 * Gibt das angezeigte Modul zurück.
+	 *
+	 * @return Das angezeigte Modul.
+	 */
 	public String getShowModule() {
-		return showModule;
+	    return showModule;
 	}
 
+	/**
+	 * Legt das angezeigte Modul fest.
+	 *
+	 * @param showModule Das angezeigte Modul.
+	 */
 	public void setShowModule(String showModule) {
-		this.showModule = showModule;
+	    this.showModule = showModule;
 	}
 
+	/**
+	 * Gibt die angezeigte Schwierigkeitsstufe zurück.
+	 *
+	 * @return Die angezeigte Schwierigkeitsstufe.
+	 */
 	public String getShowDifficulty() {
-		return showDifficulty;
+	    return showDifficulty;
 	}
 
+	/**
+	 * Legt die angezeigte Schwierigkeitsstufe fest.
+	 *
+	 * @param showDifficulty Die angezeigte Schwierigkeitsstufe.
+	 */
 	public void setShowDifficulty(String showDifficulty) {
-		this.showDifficulty = showDifficulty;
+	    this.showDifficulty = showDifficulty;
 	}
 
+	/**
+	 * Gibt den angezeigten zweiten Spieler zurück.
+	 *
+	 * @return Der angezeigte zweite Spieler.
+	 */
 	public String getShowSecondPlayer() {
-		return showSecondPlayer;
+	    return showSecondPlayer;
 	}
 
+	/**
+	 * Legt den angezeigten zweiten Spieler fest.
+	 *
+	 * @param showSecondPlayer Der angezeigte zweite Spieler.
+	 */
 	public void setShowSecondPlayer(String showSecondPlayer) {
-		this.showSecondPlayer = showSecondPlayer;
+	    this.showSecondPlayer = showSecondPlayer;
 	}
 
+	/**
+	 * Überprüft, ob der nächste Spieler fertig ist.
+	 *
+	 * @return true, wenn der nächste Spieler fertig ist, sonst false.
+	 */
 	public boolean isNextPlayerFinished() {
-		return nextPlayerFinished;
+	    return nextPlayerFinished;
 	}
 
+	/**
+	 * Legt fest, ob der nächste Spieler fertig ist.
+	 *
+	 * @param nextPlayerFinished true, wenn der nächste Spieler fertig ist, sonst false.
+	 */
 	public void setNextPlayerFinished(boolean nextPlayerFinished) {
-		this.nextPlayerFinished = nextPlayerFinished;
+	    this.nextPlayerFinished = nextPlayerFinished;
 	}
 
+	/**
+	 * Überprüft, ob das Quiz erstellt wurde.
+	 *
+	 * @return Der Status, ob das Quiz erstellt wurde (true) oder nicht (false).
+	 */
 	public String isCreatedQuiz() {
-		return createdQuiz;
+	    return createdQuiz;
 	}
 
+	/**
+	 * Legt fest, ob das Quiz erstellt wurde.
+	 *
+	 * @param createdQuiz Der Status, ob das Quiz erstellt wurde (true) oder nicht (false).
+	 */
 	public void setCreatedQuiz(String createdQuiz) {
-		this.createdQuiz = createdQuiz;
+	    this.createdQuiz = createdQuiz;
 	}
 
+	/**
+	 * Überprüft, ob sich der Benutzer im Spiel befindet.
+	 *
+	 * @return true, wenn der Benutzer im Spiel ist, sonst false.
+	 */
 	public boolean isIngame() {
-		return ingame;
+	    return ingame;
 	}
 
+	/**
+	 * Legt fest, ob sich der Benutzer im Spiel befindet.
+	 *
+	 * @param ingame Der Status, ob sich der Benutzer im Spiel befindet (true) oder nicht (false).
+	 */
 	public void setIngame(boolean ingame) {
-		this.ingame = ingame;
+	    this.ingame = ingame;
 	}
 
+	/**
+	 * Gibt das Ergebnis des Benutzers zurück.
+	 *
+	 * @return Das Ergebnis des Benutzers.
+	 */
 	public String getResultUser() {
-		return resultUser;
+	    return resultUser;
 	}
 
+	/**
+	 * Legt das Ergebnis des Benutzers fest.
+	 *
+	 * @param resultUser Das Ergebnis des Benutzers.
+	 */
 	public void setResultUser(String resultUser) {
-		this.resultUser = resultUser;
+	    this.resultUser = resultUser;
 	}
+
+	/**
+	 * Gibt die Punktzahl des Dummy-Benutzers zurück.
+	 *
+	 * @return Die Punktzahl des Dummy-Benutzers.
+	 */
 	public int getDummyScore() {
-		return dummyScore;
+	    return dummyScore;
 	}
 
+	/**
+	 * Legt die Punktzahl des Dummy-Benutzers fest.
+	 *
+	 * @param dummyScore Die Punktzahl des Dummy-Benutzers.
+	 */
 	public void setDummyScore(int dummyScore) {
-		this.dummyScore = dummyScore;
+	    this.dummyScore = dummyScore;
 	}
 
+	/**
+	 * Überprüft, ob die Frage gemeldet wurde.
+	 *
+	 * @return true, wenn die Frage gemeldet wurde, sonst false.
+	 */
 	public boolean isQuestionReported() {
-		return questionReported;
+	    return questionReported;
 	}
 
+	/**
+	 * Legt fest, ob die Frage gemeldet wurde.
+	 *
+	 * @param questionReported Der Status, ob die Frage gemeldet wurde (true) oder nicht (false).
+	 */
 	public void setQuestionReported(boolean questionReported) {
-		this.questionReported = questionReported;
+	    this.questionReported = questionReported;
 	}
 }

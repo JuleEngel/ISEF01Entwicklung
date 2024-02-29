@@ -26,7 +26,7 @@ import login.UserListe;
 /** 
 * QuizSoloController.java
 * Funktionen zur Verwaltung von Solo-Quizzen
-* Die Klasse QuizSoloController.java enthält Funktionen Erstellung, Verwaltung und Bearbeitung von Solo-Quizzen. Hierunter fällt das
+* Die Klasse QuizSoloController.java enthält Funktionen zur Erstellung, Verwaltung und Bearbeitung von Solo-Quizzen. Hierunter fällt das
 * Anlegen von temporären Variablen (z.B für Fragen, Antworten), von Variablen zur Überprüfung des Status vom Quiz, Methoden zur Validierung
 * von Einstellungen und Antworten und der Interaktion mit dem User.
 * 
@@ -348,6 +348,12 @@ public class QuizSoloController implements Serializable {
 	    this.choosedAnswer = selectedAnswer;
 	}
 	
+	/**
+	 * Meldet die aktuelle Frage und setzt den Status der Frage als gemeldet.
+	 * Die Methode ruft die Methode reportMessage() des NachrichtenControllers auf, um die Frage zu melden.
+	 * Danach wird der Status 'questionReported' auf true gesetzt.
+	 * Schließlich leitet die Methode zur SoloQuiz-Seite weiter, um fortzufahren.
+	 */
 	public void reportQuestion() {
 		nachrichtenController.reportMessage(this.tempQuestion);
 		this.setQuestionReported(true);

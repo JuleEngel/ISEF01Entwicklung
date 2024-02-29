@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!-- soloQuiz.xhtml -->
-<!-- Aktives Quiz mit Überprüfungen in der metaData, Anzeige nach rendered-Attribut und interaktiven Möglichkeiten der Auswahl
+<!-- Aktives Quiz mit Überprüfungen in der metaData, Anzeige nach rendered-Attribut, Melden einer Frage und interaktiven Möglichkeiten der Auswahl
 	Fragen und Einreichen der Lösung -->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -109,11 +109,11 @@
 		              modal="true" resizable="false" position="center">
 		    	<div style="text-align: center;">
 			    	<h:form>
-			    		<h:outputText value="Warum möchtest du die Frage melden?"/>
+			    		<h:outputText value="Warum möchtest du die Frage melden?" rendered="#{not quizSoloController.questionReported}"/>
 			    		<br/>
 			                  <p:inputTextarea id="message" value="#{nachrichtenController.tempNachricht}" required="true" 
 			                              requiredMessage="Bitte geben Sie eine Begründung an, weshalb Sie die Frage melden wollen!"
-			                              styleClass="inputTextareaStyle" maxlength="5000">
+			                              styleClass="inputTextareaStyle" maxlength="5000" rendered="#{not quizSoloController.questionReported}">
 			               </p:inputTextarea>
 			               <br/>
 			               <h:message id="messageError" for="message" styleClass="error"/>

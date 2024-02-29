@@ -673,7 +673,7 @@ public class QuizSoloController implements Serializable {
 	/**
 	 * Gibt QuestionReported zurück als einen Boolean, ob die Frage schon gemeldet wurde.
 	 * 
-	 * @return Boolean QuestionReported.
+	 * @return questionReported QuestionReported.
 	 */
 	public boolean getQuestionReported() {
 		return questionReported;
@@ -682,7 +682,7 @@ public class QuizSoloController implements Serializable {
 	/**
 	 * Setzt QuestionReported als einen Boolean, ob die Frage schon gemeldet wurde.
 	 * 
-	 * @param Boolean QuestionReported.
+	 * @param questionReported QuestionReported.
 	 */
 	public void setQuestionReported(boolean questionReported) {
 		this.questionReported = questionReported;

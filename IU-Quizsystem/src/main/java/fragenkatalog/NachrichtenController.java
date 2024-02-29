@@ -163,7 +163,7 @@ public class NachrichtenController implements Serializable
     /**
      * Gibt die Anzahl an Nachrichten zurück.
      *
-     * @return Anzahl an Nachrichten
+     * @return anzahl Anzahl an Nachrichten
      */
 	public int getAmountOfMessages() {
 		return amountOfMessages;
@@ -172,7 +172,7 @@ public class NachrichtenController implements Serializable
     /**
      * Setzt die Anzahl an Nachrichten.
      *
-     * @param Anzahl an Nachrichten
+     * @param amountOfMessages Die Anzahl an Nachrichten
      */
 	public void setAmountOfMessages(int amountOfMessages) {
 		this.amountOfMessages = amountOfMessages;

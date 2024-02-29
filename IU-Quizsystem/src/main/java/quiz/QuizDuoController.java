@@ -982,7 +982,7 @@ public class QuizDuoController implements Serializable {
 	 *
 	 * @return true, wenn die Frage gemeldet wurde, sonst false.
 	 */
-	public boolean isQuestionReported() {
+	public boolean getQuestionReported() {
 	    return questionReported;
 	}
 

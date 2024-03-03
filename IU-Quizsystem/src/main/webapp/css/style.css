@@ -1,5 +1,12 @@
 /*Allgemeine Style-Anpassungen*/
 
+@media only screen and (max-width: 800px) {
+    /* Verstecke das zweite Element */
+    #kopf_links {
+        display: none;
+    }
+}
+
 body {
     font-family: Arial;
 }
@@ -83,6 +90,7 @@ h1, h2, h3, h4, h5, p {
     border-radius: 0 !important;
 }
 
+
 .ui-selectoneradio .ui-button:first-of-type {
     border-radius: 5px 0 0 5px !important;
 }
@@ -99,15 +107,21 @@ h1, h2, h3, h4, h5, p {
     box-shadow: none !important;
 }
 
-@media screen and (max-width: 600px) {
-  .ui-selectonebutton .ui-button {
-    width: 100%;
-  }
-}
-
 .ui-selectonebutton {
     cursor: pointer;
     user-select: none;
+}
+
+@media screen and (max-width: 1350px) {
+  .ui-selectonebutton .ui-button {
+    float: none !important;
+    display: block !important;
+    margin: 5 auto !important;
+  }
+  .imitate-select-button-container {
+    justify-content: center !important;
+    display: flex;
+  }
 }
 
 .imitate-select-button-container {

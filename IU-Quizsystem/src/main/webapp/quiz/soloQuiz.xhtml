@@ -37,7 +37,7 @@
 				<h3>Deine Antwort ist: 
 					<h:outputText id="solution" rendered="#{quizSoloController.solved}" value="#{quizSoloController.solution}"/>
 				</h3>
-		        <div>
+		        <div class="quiz-selectone-container">
 				    <p:selectOneButton id="answerGroup" value="#{quizSoloController.choosedAnswer}" required="true"
 				    		requiredMessage="Bitte wähle eine Lösung aus!" styleClass="custom-select-button"
 				    		rendered="#{not quizSoloController.solved}">

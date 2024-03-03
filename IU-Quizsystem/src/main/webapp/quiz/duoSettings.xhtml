@@ -22,7 +22,8 @@
     <main>
     	<h1>Duo-Quiz</h1>
 	    <br/>
-	    <h2>Suche nach offener Quiz-Runde</h2> 
+	    <h2>Suche nach offener Quiz-Runde</h2>
+	    <p>Es wird nach einer zufälligen Quiz-Runde gesucht!</p> 
 	    <h:form>
 	    	<div class="button">
 	    		<p:commandButton value="Suche nach Mitspielern" action="#{quizDuoController.joinPlayerQuiz}"
@@ -32,7 +33,7 @@
 	    <br/>
 	    <br/>
 		<h2>Eigene Quiz-Runde erstellen</h2> 
-		<br/>
+		<p>Es wird eine Quiz-Runde mit deinen Einstellungen erstellt!</p>
 		<div class="flex-tabelle">
             <h:form id="questionForm">
                 <h:panelGrid columns="3" styleClass="custom-panelgrid">
@@ -70,10 +71,12 @@
                     
                 </h:panelGrid>
                 <br/>
-            	<h:commandButton value="Abbrechen" action="#{quizController.cancelQuizDuo}" immediate="true" styleClass="button-container"/>
-                <p:commandButton value="Suche nach Mitspielern" action="#{quizDuoController.createPlayerQuiz}"
-                		update=":questionForm"/>
-                <h:message id="submit" for="submit" styleClass="error" globalOnly="true" />
+                <div class="button">
+	            	<h:commandButton value="Abbrechen" action="#{quizController.cancelQuizDuo}" immediate="true" styleClass="button-container"/>
+	                <p:commandButton value="Suche nach Mitspielern" action="#{quizDuoController.createPlayerQuiz}"
+	                		update=":questionForm"/>
+	                <h:message id="submit" for="submit" styleClass="error" globalOnly="true" />
+                </div>
                 <br/>
             </h:form>
          </div>

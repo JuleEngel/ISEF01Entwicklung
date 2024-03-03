@@ -178,6 +178,7 @@ public class QuizDuoController implements Serializable {
 		while (!checkEnoughQuestionsDummy()) {
 			this.module_id = random.nextInt(3) + 1;
 			this.difficulty = random.nextInt(3) + 1;
+			System.out.println("Neue zufällige Werte");
 		}
 		QuizDuo createdDummyQuiz = new QuizDuo(this.module_id, this.difficulty, this.dummy);
 		quizDuoList.addQuiz(createdDummyQuiz);

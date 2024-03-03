@@ -36,10 +36,11 @@ public class QuizDuo{
 	 * @param difficulty Die Schwierigkeitsstufe des Quiz.
 	 * @param user1 Der Nutzer, der das Quiz erstellt.
 	 */
-	public QuizDuo(int module_id, int difficulty, User user1) {
+	public QuizDuo(int module_id, int difficulty, User user1, User user2) {
 		this.module_id = module_id;
 		this.difficulty = difficulty;
 		this.setUser1(user1);
+		this.setUser2(user2);
 	}
 	
 	/**

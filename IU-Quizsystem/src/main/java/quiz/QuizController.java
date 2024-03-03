@@ -1,6 +1,8 @@
 //QuizController.java
 package quiz;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.faces.context.FacesContext;
+
 import java.io.Serializable;
 
 import fragenkatalog.FragenkatalogController;
@@ -82,9 +84,10 @@ public class QuizController implements Serializable {
 	 * 
 	 * @return Der Umleitpfad zur Hauptseite für Studenten.
 	 */
-	public String quitFinishedQuiz() {
-	    quizSoloController.reset();
-	    return "/mainpage/indexStudent?faces-redirect=true";
+	public void quitFinishedQuiz() {
+		removeAnyQuizzes();
+	    FacesContext facesContext = FacesContext.getCurrentInstance();
+        facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "/mainpage/indexStudent?faces-redirect=true");
 	}
 
 	/**
@@ -92,9 +95,10 @@ public class QuizController implements Serializable {
 	 * 
 	 * @return Der Umleitpfad zur Hauptseite für Studenten.
 	 */
-	public String cancelQuizSolo() {
-	    quizSoloController.reset();
-	    return "/mainpage/indexStudent?faces-redirect=true";
+	public void cancelQuizSolo() {
+		removeAnyQuizzes();
+	    FacesContext facesContext = FacesContext.getCurrentInstance();
+        facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "/mainpage/indexStudent?faces-redirect=true");
 	}
 	
 	/**
@@ -102,9 +106,10 @@ public class QuizController implements Serializable {
 	 * 
 	 * @return Der Umleitpfad zur Hauptseite für Studenten.
 	 */
-	public String cancelQuizDuo() {
-	    quizDuoController.reset();
-	    return "/mainpage/indexStudent?faces-redirect=true";
+	public void cancelQuizDuo() {
+		removeAnyQuizzes();
+	    FacesContext facesContext = FacesContext.getCurrentInstance();
+        facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "/mainpage/indexStudent?faces-redirect=true");
 	}
 
 }

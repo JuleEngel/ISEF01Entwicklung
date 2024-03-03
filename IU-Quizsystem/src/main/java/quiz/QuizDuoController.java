@@ -171,6 +171,9 @@ public class QuizDuoController implements Serializable {
 	 */
 	public String joinPlayerQuiz() {
 		this.quizActive = true;
+		//Entferne Quiz, sollte noch eines vorhanden sein
+		QuizDuo tempQuiz = quizDuoList.getQuizFromUser(quizController.getUserLogin());
+		quizDuoList.removeQuiz(tempQuiz);
 		//FOR-DUMMY
 		Random random = new Random();
 		this.module_id = random.nextInt(3) + 1;
@@ -178,9 +181,8 @@ public class QuizDuoController implements Serializable {
 		while (!checkEnoughQuestionsDummy()) {
 			this.module_id = random.nextInt(3) + 1;
 			this.difficulty = random.nextInt(3) + 1;
-			System.out.println("Neue zufällige Werte");
 		}
-		QuizDuo createdDummyQuiz = new QuizDuo(this.module_id, this.difficulty, this.dummy);
+		QuizDuo createdDummyQuiz = new QuizDuo(this.module_id, this.difficulty, this.dummy, quizController.getUserLogin());
 		quizDuoList.addQuiz(createdDummyQuiz);
 		this.setShowModule(modulesController.getModuleLong(module_id));
 		this.setShowDifficulty(fragenkatalogController.formatDifficulty(difficulty));
@@ -199,7 +201,10 @@ public class QuizDuoController implements Serializable {
 	 */
 	public String createPlayerQuiz() {
 		this.quizActive = true;
-		QuizDuo createdQuiz = new QuizDuo(this.module_id, this.difficulty, quizController.getUserLogin());
+		//Entferne Quiz, sollte noch eines vorhanden sein
+		QuizDuo tempQuiz = quizDuoList.getQuizFromUser(quizController.getUserLogin());
+		quizDuoList.removeQuiz(tempQuiz);
+		QuizDuo createdQuiz = new QuizDuo(this.module_id, this.difficulty, quizController.getUserLogin(), this.dummy);
 		quizDuoList.addQuiz(createdQuiz);
 		this.setShowModule(modulesController.getModuleLong(module_id));
 		this.setShowDifficulty(fragenkatalogController.formatDifficulty(difficulty));
@@ -222,23 +227,11 @@ public class QuizDuoController implements Serializable {
 	public String startQuiz() {
 		this.quizActive = true;
 		this.ingame = true;
-		if (this.createdQuiz.equals("user1")) {
-			QuizDuo quizDuo = quizDuoList.getQuizFromUser(quizController.getUserLogin());
-			quizDuo.addUserToQuiz(this.dummy);
-			this.difficulty = quizDuo.getDifficulty();
-			this.module_id = quizDuo.getModule_id();
-			quizDuoList.removeQuiz(quizDuo);
-		}
-		else if (this.createdQuiz.equals("dummy")){
-			QuizDuo quizDuo = quizDuoList.getQuizFromUser(this.dummy);
-			quizDuo.addUserToQuiz(quizController.getUserLogin());
-			this.difficulty = quizDuo.getDifficulty();
-			this.module_id = quizDuo.getModule_id();
-			quizDuoList.removeQuiz(quizDuo);
-		}
-		else {
-			System.out.println("Fehler in der Spielersuche");
-		}
+		QuizDuo quizDuo = quizDuoList.getQuizFromUser(quizController.getUserLogin());
+		quizDuo.addUserToQuiz(this.dummy);
+		this.difficulty = quizDuo.getDifficulty();
+		this.module_id = quizDuo.getModule_id();
+		quizDuoList.removeQuiz(quizDuo);
 		this.createdQuiz = "";
 		this.module = modulesController.getModuleByID(module_id);
 		this.randomQuestionList = getRandomQuestionListFromQuestionList();
@@ -305,11 +298,8 @@ public class QuizDuoController implements Serializable {
 	 * Setzt alle Quizvariablen zurück, um das Quiz auf den Ausgangszustand zurückzusetzen.
 	 */
 	public void reset() {
-		try {
-			QuizDuo tempQuiz = quizDuoList.getQuizFromUser(quizController.getUserLogin());
-			quizDuoList.removeQuiz(tempQuiz);
-		} catch (Exception e) {
-		}
+		QuizDuo tempQuiz = quizDuoList.getQuizFromUser(quizController.getUserLogin());
+		quizDuoList.removeQuiz(tempQuiz);
 		this.ingame = false;
 		this.nextPlayerFinished = false;
 		this.resultUser = "";

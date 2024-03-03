@@ -47,12 +47,14 @@ public class QuizDuoList{
 	 * @return Das QuizDuo des Benutzers oder ein leeres QuizDuo, falls keines gefunden wird.
 	 */
 	public QuizDuo getQuizFromUser(User user) {
-		for (QuizDuo quiz : getQuizDuoList()) {
-			if (quiz.getUser1().equals(user) || quiz.getUser2().equals(user) ) {
-				return quiz;
+		if (user != null) {
+			for (QuizDuo quiz : getQuizDuoList()) {
+				if (quiz.getUser1().equals(user) || quiz.getUser2().equals(user) ) {
+					return quiz;
+				}
 			}
 		}
-		return new QuizDuo();
+		return null;
 	}
 	
 	/**

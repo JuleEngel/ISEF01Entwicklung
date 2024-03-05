@@ -22,9 +22,8 @@
    	<f:metadata>
           <f:viewAction action="#{quizSoloController.checkIsQuizFinished}" />
     </f:metadata>
-    <br />
     <main>
-    	<h1>Solo-Quiz</h1>
+    	<h1>Solo-Quiz Ergebnisse:</h1>
 	    <br/>
 	    <br/>
 	    <div class="container">
@@ -41,7 +40,8 @@
 		<br/>
 		<h:form>
 			<div class="button">
-				<p:commandButton value="Quiz beenden" action="#{quizController.quitFinishedQuiz}"/>
+				<h:commandButton value="Quiz beenden" action="#{quizController.quitFinishedQuiz}" styleClass="button-container"/>
+				<p:commandButton value="Neues Quiz" action="#{quizController.linkToSoloQuizSettings}" />
 			</div>
 		</h:form>
     </main>

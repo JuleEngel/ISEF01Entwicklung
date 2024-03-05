@@ -1,7 +1,11 @@
 //QuizController.java
 package quiz;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.faces.context.FacesContext;
+
 import java.io.Serializable;
+
+import fragenkatalog.FragenkatalogController;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import login.LoginController;
@@ -23,16 +27,32 @@ public class QuizController implements Serializable {
 	@Inject
 	QuizSoloController quizSoloController;
 	@Inject
+	QuizDuoController quizDuoController;
+	@Inject
 	LoginController loginController;
+	@Inject
+	FragenkatalogController fragenkatalogController;
 	
 	/**
-	 * Setzt den Quiz-Solo-Controller zurück und leitet zur Seite für die Einstellungen des Solo-Quiz weiter.
+	 * Setzt den Quiz-Solo-Controller zurück, lädt die Fragenliste neu und leitet zur Seite für die Einstellungen des Solo-Quiz weiter.
 	 * 
 	 * @return Der Umleitpfad zur Seite für die Einstellungen des Solo-Quiz.
 	 */
 	public String linkToSoloQuizSettings() {
 	    quizSoloController.reset();
+	    fragenkatalogController.refreshFragenkatalog();
 	    return "/quiz/soloSettings?faces-redirect=true";
+	}
+	
+	/**
+	 * Setzt den Quiz-Duo-Controller zurück, lädt die Fragenliste neu und leitet zur Seite für die Einstellungen des Duo-Quiz weiter.
+	 * 
+	 * @return Der Umleitpfad zur Seite für die Einstellungen des Duo-Quiz.
+	 */
+	public String linkToDuoQuizSettings() {
+	    quizDuoController.reset();
+	    fragenkatalogController.refreshFragenkatalog();
+	    return "/quiz/duoSettings?faces-redirect=true";
 	}
 
 	/**
@@ -43,10 +63,11 @@ public class QuizController implements Serializable {
 	}
 
 	/**
-	 * Entfernt alle vorhandenen Quizze, indem der Quiz-Solo-Controller zurückgesetzt wird.
+	 * Entfernt alle vorhandenen Quizze, indem der Quiz-Solo-Controller und der Quiz-Duo-Controller zurückgesetzt werden.
 	 */
 	public void removeAnyQuizzes() {
 	    quizSoloController.reset();
+	    quizDuoController.reset();
 	}
 
 	/**
@@ -63,9 +84,10 @@ public class QuizController implements Serializable {
 	 * 
 	 * @return Der Umleitpfad zur Hauptseite für Studenten.
 	 */
-	public String quitFinishedQuiz() {
-	    quizSoloController.reset();
-	    return "/mainpage/indexStudent?faces-redirect=true";
+	public void quitFinishedQuiz() {
+		removeAnyQuizzes();
+	    FacesContext facesContext = FacesContext.getCurrentInstance();
+        facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "/mainpage/indexStudent?faces-redirect=true");
 	}
 
 	/**
@@ -73,9 +95,21 @@ public class QuizController implements Serializable {
 	 * 
 	 * @return Der Umleitpfad zur Hauptseite für Studenten.
 	 */
-	public String cancelQuizSolo() {
-	    quizSoloController.reset();
-	    return "/mainpage/indexStudent?faces-redirect=true";
+	public void cancelQuizSolo() {
+		removeAnyQuizzes();
+	    FacesContext facesContext = FacesContext.getCurrentInstance();
+        facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "/mainpage/indexStudent?faces-redirect=true");
+	}
+	
+	/**
+	 * Bricht das Duo-Quiz ab, indem der Quiz-Duo-Controller zurückgesetzt und zur Hauptseite für Studenten weitergeleitet wird.
+	 * 
+	 * @return Der Umleitpfad zur Hauptseite für Studenten.
+	 */
+	public void cancelQuizDuo() {
+		removeAnyQuizzes();
+	    FacesContext facesContext = FacesContext.getCurrentInstance();
+        facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "/mainpage/indexStudent?faces-redirect=true");
 	}
 
 }

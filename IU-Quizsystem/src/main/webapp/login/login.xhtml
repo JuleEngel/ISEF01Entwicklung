@@ -19,34 +19,37 @@
         <h1>Login:</h1>
         <div class="flex-tabelle">
         	<!-- Eingabe Login Daten mit Validierungsfunktionen -->
-            <h:form>
-                <h:outputLabel value="Email:" for="mail"/>
-                <br/>
-                <h:inputText id="mail" value="#{loginController.userLogin.email}" required="true" 
-                            requiredMessage="Bitte geben Sie ihre E-Mail-Adresse ein" label="Mail">
-                    <f:event type="postValidate" listener="#{loginController.postValidateName}"/>
-                </h:inputText>
-                <br/>
-                <h:message for="mail" styleClass="error"/>
-                <br/>
-                <br/>
-                <h:outputLabel value="Passwort:" for="passwort"/>
-                <br/>
-                <h:inputSecret id="passwort" value="#{loginController.userLogin.password}" required="true"
-                            requiredMessage="Bitte geben Sie ihr Passwort ein" label="Passwort"
-                            validator="#{loginController.validateLogin}">
-                </h:inputSecret>
-                <br/>
-                <br/>
-                <a class="link" href="https://mycampus.iubh.de/"> Passwort vergessen? </a>
-                <br/>
-                <h:message for="passwort" styleClass="error"/>
-                <br/>
-                <br/>
-                <!-- Aufruf Validierungs-Funktionen und Weiterleitung bei Erfolg -->
-                <div class="button">
-                	<h:commandButton value="Einloggen" action="#{loginController.login}" styleClass="button-header"/>
-                </div>
+            <h:form prependId="false">
+                <div class="flex-tabelle">
+	                <h:outputLabel value="Email:" for="mail"/>
+	                <h:inputText id="mail" value="#{loginController.userLogin.email}" required="true" 
+	                            requiredMessage="Bitte geben Sie ihre E-Mail-Adresse ein" label="Mail">
+	                    <f:event type="postValidate" listener="#{loginController.postValidateName}"/>
+	                </h:inputText>
+	                <h:message for="mail" styleClass="error"/>
+	            </div>
+	            <br/>
+	            <div class="flex-tabelle">
+	                <h:outputLabel value="Passwort:" for="passwort"/>
+	                <br/>
+	                <h:inputSecret id="passwort" value="#{loginController.userLogin.password}" required="true"
+	                            requiredMessage="Bitte geben Sie ihr Passwort ein" label="Passwort"
+	                            validator="#{loginController.validateLogin}">
+	                </h:inputSecret>
+	                <h:message for="passwort" styleClass="error"/>
+	            </div>
+	            <br/>
+	            <br/>
+	            <div class="flex-tabelle">
+	                <a class="link" href="https://mycampus.iubh.de/"> Passwort vergessen? </a>
+	            </div>
+	            <br/>
+	            <div class="flex-tabelle">
+	                <!-- Aufruf Validierungs-Funktionen und Weiterleitung bei Erfolg -->
+	                <div class="button">
+	                	<h:commandButton value="Einloggen" action="#{loginController.login}" styleClass="button-header"/>
+	                </div>
+	             </div>
             </h:form>
         </div>
         <br/>

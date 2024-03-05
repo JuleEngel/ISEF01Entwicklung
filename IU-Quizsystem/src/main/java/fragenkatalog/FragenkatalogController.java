@@ -507,6 +507,7 @@ public class FragenkatalogController implements Serializable
     public void deleteEditedFrage(FragenkatalogBearbeitet frage) {
         fragenkatalogBearbeitetDAO.deleteFrage(frage);
         fragenkatalogBearbeitetListe.getFragenkatalogBearbeitetListe().remove(frage);
+        nachrichtenController.updateAmountOfMessages();
         checkReportFrage();
     }
 

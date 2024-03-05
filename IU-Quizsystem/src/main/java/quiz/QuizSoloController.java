@@ -8,6 +8,7 @@ import fragenkatalog.Fragenkatalog;
 import fragenkatalog.FragenkatalogListe;
 import fragenkatalog.Modules;
 import fragenkatalog.ModulesController;
+import fragenkatalog.NachrichtenController;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
@@ -25,7 +26,7 @@ import login.UserListe;
 /** 
 * QuizSoloController.java
 * Funktionen zur Verwaltung von Solo-Quizzen
-* Die Klasse QuizSoloController.java enthält Funktionen Erstellung, Verwaltung und Bearbeitung von Solo-Quizzen. Hierunter fällt das
+* Die Klasse QuizSoloController.java enthält Funktionen zur Erstellung, Verwaltung und Bearbeitung von Solo-Quizzen. Hierunter fällt das
 * Anlegen von temporären Variablen (z.B für Fragen, Antworten), von Variablen zur Überprüfung des Status vom Quiz, Methoden zur Validierung
 * von Einstellungen und Antworten und der Interaktion mit dem User.
 * 
@@ -46,6 +47,8 @@ public class QuizSoloController implements Serializable {
 	FragenkatalogListe fragenkatalogListe;
 	@Inject
 	UserListe userListe;
+	@Inject
+	NachrichtenController nachrichtenController;
 	
 	//Allgemeine Einstellungen
 	private Modules module;
@@ -56,6 +59,7 @@ public class QuizSoloController implements Serializable {
 	private boolean wantExplanation = false;
 	private boolean solved = false;
 	private boolean finished = false;
+	private boolean questionReported = false;
 	//Temporäre Variablen zu Fragen
 	private Fragenkatalog tempQuestion;
 	private String tempAnswer1;
@@ -124,6 +128,7 @@ public class QuizSoloController implements Serializable {
 	public String startQuiz() {
 		this.module = modulesController.getModuleByID(module_id);
 		this.quizActive = true;
+		this.setQuestionReported(false);
 		this.randomQuestionList = getRandomQuestionListFromQuestionList();
 		setQuestion();
 		return "soloQuiz?faces-redirect=true";
@@ -198,6 +203,7 @@ public class QuizSoloController implements Serializable {
 		this.wantExplanation = false;
 		this.finished = false;
 		this.correctAnswers = 0;
+		this.setQuestionReported(false);
 	}
 	
 	/**
@@ -296,6 +302,7 @@ public class QuizSoloController implements Serializable {
 		}
 		this.wantExplanation = false;
 		this.solved = false;
+		this.setQuestionReported(false);
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "soloQuiz?faces-redirect=true");
 	}
@@ -341,6 +348,18 @@ public class QuizSoloController implements Serializable {
 	    this.choosedAnswer = selectedAnswer;
 	}
 	
+	/**
+	 * Meldet die aktuelle Frage und setzt den Status der Frage als gemeldet.
+	 * Die Methode ruft die Methode reportMessage() des NachrichtenControllers auf, um die Frage zu melden.
+	 * Danach wird der Status 'questionReported' auf true gesetzt.
+	 * Schließlich leitet die Methode zur SoloQuiz-Seite weiter, um fortzufahren.
+	 */
+	public void reportQuestion() {
+		nachrichtenController.reportMessage(this.tempQuestion);
+		this.setQuestionReported(true);
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, "soloQuiz?faces-redirect=true");
+	}
 	
 
 	//Getter und Setter
@@ -649,5 +668,23 @@ public class QuizSoloController implements Serializable {
 	 */
 	public void setSolution(String solution) {
 	    this.solution = solution;
+	}
+
+	/**
+	 * Gibt QuestionReported zurück als einen Boolean, ob die Frage schon gemeldet wurde.
+	 * 
+	 * @return questionReported QuestionReported.
+	 */
+	public boolean getQuestionReported() {
+		return questionReported;
+	}
+
+	/**
+	 * Setzt QuestionReported als einen Boolean, ob die Frage schon gemeldet wurde.
+	 * 
+	 * @param questionReported QuestionReported.
+	 */
+	public void setQuestionReported(boolean questionReported) {
+		this.questionReported = questionReported;
 	}
 }

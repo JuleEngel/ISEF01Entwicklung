@@ -71,7 +71,7 @@
                 <br/>
                 <br/>
                	<h:commandButton value="Abbrechen" action="#{fragenkatalogController.cancelEditStudent}" immediate="true" styleClass="button-container"/>
-                <p:commandButton value="Frage melden" action="#{nachrichtenController.reportMessage(fragenkatalogController.tempFrage)}"/>
+                <p:commandButton value="Frage melden" action="#{nachrichtenController.reportMessage(fragenkatalogController.tempFrage)}" update="messageError"/>
                 <h:message for="submit"/>
                 <br/>
             </h:form>

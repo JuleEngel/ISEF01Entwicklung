@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!-- duoSettings.xhtml -->
+<!-- Auswahl der Einstellungen zum Erstellen eines eigenen, neuen Quizzes. Verschiedene Validierungs-Methoden, um die korrekte Auswahl von Modul und 
+	Schwierigkeit zu gewährleisten. Suche nach Mitspieler, wobei hier nur der Dummy möglich ist. Start für das Quiz mit Verlinkung. -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+  <link rel="stylesheet" type="text/css" media="screen" href="../css/style.css"/>
+  <script type="text/javascript" src="../header/clientActivity.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"></link>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  <title>IU-Quizsystem Duo-Quiz</title>
+</h:head>
+<h:body>
+	<header>
+		<ui:include src="../header/headerStudent.xhtml" />
+   	</header>
+    <main>
+    	<h1>Duo-Quiz</h1>
+	    <br/>
+	    <h2>Suche nach offener Quiz-Runde</h2>
+	    <p>Es wird nach einer zufälligen Quiz-Runde gesucht!</p> 
+	    <h:form>
+	    	<div class="button">
+	    		<p:commandButton value="Suche nach Mitspielern" action="#{quizDuoController.joinPlayerQuiz}"
+                		update=":questionForm" immediate="true"/>
+	    	</div>
+	    </h:form>
+	    <br/>
+	    <br/>
+		<h2>Eigene Quiz-Runde erstellen</h2> 
+		<p>Es wird eine Quiz-Runde mit deinen Einstellungen erstellt!</p>
+		<div class="flex-tabelle">
+            <h:form id="questionForm">
+                <h:panelGrid columns="3" styleClass="custom-panelgrid">
+                    <h:outputLabel value="Attribute:" styleClass="bold-label"/>
+                    <h:outputLabel value="Eingabe" styleClass="bold-label"/>
+                    <h:outputLabel value="Validierung" styleClass="bold-label"/>
+                    
+                    <h:outputLabel value="Modul" for="module_short"/>
+					<p:selectOneMenu id="module" value="#{quizDuoController.module_id}" required="true" 
+					                 requiredMessage="Bitte wählen Sie ein Modul aus!" styleClass="input-field"
+					                 noSelectionOption="true">
+					    <f:selectItem itemLabel="Bitte auswählen" itemValue=""/>
+					    
+					    <c:forEach items="#{modulesController.modulesList}" var="module">
+					        <f:selectItem itemLabel="#{module.module_long} (#{module.module_short})" itemValue="#{module.module_id}" />
+					    </c:forEach>
+					    <f:event type="postValidate" listener="#{quizDuoController.postValidateModule}"/>
+					    <f:ajax event="change" render="difficultyError" execute="@this" />
+					    <f:ajax event="change" render="difficulty" execute="@this" />
+					    <f:ajax event="change" render="moduleError" execute="@this" />
+					</p:selectOneMenu>
+					<h:message id="moduleError" for="module" styleClass="error"/>
+					
+					<h:outputLabel value="Schwierigkeit" for="difficulty" />
+					<p:selectOneMenu id="difficulty" value="#{quizDuoController.difficulty}" required="true" 
+			                      requiredMessage="Bitte wählen Sie die Schwierigkeit aus!" styleClass="input-field"
+			                      validator="#{quizDuoController.checkEnoughQuestions}">
+				        <f:selectItem itemLabel="Bitte auswählen" itemValue=""/>
+				        <f:selectItem itemLabel="Leicht" itemValue="1" />
+				        <f:selectItem itemLabel="Mittel" itemValue="2" />
+				        <f:selectItem itemLabel="Schwer" itemValue="3" />
+				        <f:ajax event="change" render="difficultyError" execute="@this" />
+			    	</p:selectOneMenu>
+                    <h:message id="difficultyError" for="difficulty" styleClass="error"/>
+                    
+                </h:panelGrid>
+                <br/>
+                <div class="button">
+	            	<h:commandButton value="Abbrechen" action="#{quizController.cancelQuizDuo}" immediate="true" styleClass="button-container"/>
+	                <p:commandButton value="Suche nach Mitspielern" action="#{quizDuoController.createPlayerQuiz}"
+	                		update=":questionForm"/>
+	                <h:message id="submit" for="submit" styleClass="error" globalOnly="true" />
+                </div>
+                <br/>
+            </h:form>
+         </div>
+    </main>
+    <footer>
+        <ui:include src="../footer/footer.xhtml" />
+    </footer>
+    <script type="text/javascript" src="soloQuiz.js"></script>
+</h:body>
+</html>
+
+
+

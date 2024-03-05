@@ -52,12 +52,30 @@ public class MainController implements Serializable
     }  
 	
 	/**
+	 * Generiert einen Link zur Hauptseite der Studenten.
+	 *
+	 * @return Ein String, der den Link zur Hauptseite für Studentenrepräsentiert. Dies ist für die Studentenansicht aus der Rolle des Tutors gedacht
+	 */
+	public String linkToMainPageStudent() {
+        return "/mainpage/indexStudent?faces-redirect=true";
+    }  
+	
+	/**
 	 * Generiert einen Link zur Login-Seite.
 	 *
 	 * @return Ein String, der den Link zur Login-Seite repräsentiert.
 	 */
 	public String linkToLoginPage() {
 		return "login?faces-redirect=true";
+	}
+	
+	/**
+	 * Generiert einen Link zur Start-Seite.
+	 *
+	 * @return Ein String, der den Link zur Start-Seite repräsentiert.
+	 */
+	public String linkToLandingpage() {
+		return "mainpage?faces-redirect=true";
 	}
 
 }

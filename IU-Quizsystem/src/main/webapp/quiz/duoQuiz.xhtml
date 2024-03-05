@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!-- duoQuiz.xhtml -->
+<!-- Aktives Quiz mit Überprüfungen in der metaData, Anzeige nach rendered-Attribut, Melden einer Frage und interaktiven Möglichkeiten der Auswahl
+	Fragen und Einreichen der Lösung -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+  <link rel="stylesheet" type="text/css" media="screen" href="../css/style.css"/>
+  <script type="text/javascript" src="../header/clientActivity.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"></link>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  <title>IU-Quizsystem Duo-Quiz</title>
+</h:head>
+<h:body>
+	<header>
+		<ui:include src="../header/headerStudent.xhtml" />
+   	</header>
+    <main>
+	    <f:metadata>
+	        <f:viewAction action="#{quizDuoController.checkIsQuizActive}" />
+	        <f:viewAction action="#{quizDuoController.reloadCheck}"/>
+	    </f:metadata>
+        <h1>Duo-Quiz</h1>
+        <br/>
+        <h2>Frage:</h2>
+        <h3>
+        	<h:outputText value="#{quizDuoController.tempQuestion.question}"/>
+        </h3>
+        <br/>
+        <div class="flex-tabelle">
+			<h:form prependId="false">
+				<h3>Deine Antwort ist: 
+					<h:outputText id="solution" rendered="#{quizDuoController.solved}" value="#{quizDuoController.solution}"/>
+				</h3>
+		        <div class="quiz-selectone-container">
+				    <p:selectOneButton id="answerGroup" value="#{quizDuoController.choosedAnswer}" required="true"
+				    		requiredMessage="Bitte wähle eine Lösung aus!" styleClass="custom-select-button"
+				    		rendered="#{not quizDuoController.solved}">
+				        <f:selectItem id="button1" itemValue="#{quizDuoController.tempAnswer1}" itemLabel="#{quizDuoController.tempAnswer1}"/>
+				        <f:selectItem id="button2" itemValue="#{quizDuoController.tempAnswer2}" itemLabel="#{quizDuoController.tempAnswer2}"/>
+				        <f:selectItem id="button3" itemValue="#{quizDuoController.tempAnswer3}" itemLabel="#{quizDuoController.tempAnswer3}"/>
+				        <f:selectItem id="button4" itemValue="#{quizDuoController.tempAnswer4}" itemLabel="#{quizDuoController.tempAnswer4}"/>
+				    	    <p:ajax event="change" listener="#{quizDuoController.handleAnswerChange}">
+						        <f:param name="selectedAnswer" value="#{quizDuoController.choosedAnswer}" />
+						    </p:ajax>
+				    </p:selectOneButton>
+				    <div class="button">
+				    	<h:message id="answerError" for="answerGroup" styleClass="error"/>
+				    </div>
+			   	</div>
+			    <h:panelGroup rendered="#{quizDuoController.solved}">
+				    <div class="imitate-select-button-container">
+					    <div class="imitate-select-button">
+					        <div id="answerButton1" class="button-item">#{quizDuoController.tempAnswer1}</div>
+					        <div id="answerButton3" class="button-item">#{quizDuoController.tempAnswer3}</div>
+					        
+					    </div>
+					    <div class="imitate-select-button">
+					        <div id="answerButton2" class="button-item">#{quizDuoController.tempAnswer2}</div>
+					        <div id="answerButton4" class="button-item">#{quizDuoController.tempAnswer4}</div>
+					    </div>
+					</div>
+				</h:panelGroup>
+				<h:panelGroup id="solutionText" rendered="#{quizDuoController.solved}">
+					<h4>Ausgewählte Lösung: </h4>
+					<h5>
+			        	<h:outputText value="#{quizDuoController.choosedAnswer}"/>
+		        	</h5>
+		        </h:panelGroup>
+			    <br/>
+				<h3>
+					<h:outputText value="Warten auf anderen Spieler" rendered="#{not quizDuoController.nextPlayerFinished and quizDuoController.solved}" styleClass="error"/>
+				</h3>
+			    <div class="button">
+                	<h:commandButton value="Abbrechen" action="#{quizController.cancelQuizDuo}" 
+                			immediate="true" styleClass="button-container"/>
+                	<h:commandButton id="reportQuestion" value="Frage melden"
+			    			styleClass="button-container"
+			    			onclick="PF('solutionDialog').show()" type="button"/>
+			    	<p:commandButton id="submitButton" value="Antwort abgeben"
+			    			action="#{quizDuoController.checkChoosedAnswer}"
+				      		process="@form" oncomplete="onSubmit('#{quizDuoController.tempQuestion.correct_answer}')"
+				      		styleClass="quizButton" rendered="#{not quizDuoController.solved}"
+				      		update="answerError"/>
+				    <p:commandButton id="showExplanation" value="Erklärung anzeigen"
+				    		styleClass="quizButton" rendered="#{quizDuoController.solved}"
+				    		action="#{quizDuoController.showExplanation}"
+				    		update="explanation"/>
+				    <p:commandButton id="nextQuestion" value="Nächste Frage" widgetVar="nextQuestionWidget"
+				    		styleClass="quizButton" rendered="#{quizDuoController.solved and not quizDuoController.finished}"
+				    		action="#{quizDuoController.nextQuestion}"
+				    		oncomplete="nextQuestion()" disabled="#{not quizDuoController.nextPlayerFinished}"/>
+				    <p:commandButton id="showResults" value="Weiter" widgetVar="showResultsWidget"
+				    		styleClass="quizButton" rendered="#{quizDuoController.solved and quizDuoController.finished}"
+				    		action="#{quizDuoController.showResults}"
+				    		oncomplete="nextQuestion()" disabled="#{not quizDuoController.nextPlayerFinished}"/>
+				</div>
+				<br/>
+				<h:panelGroup id="explanation" rendered="#{quizDuoController.wantExplanation}">
+					<h4>Erklärung:</h4>
+					<p>
+			        	<h:outputText value="#{quizDuoController.tempQuestion.explanation}"/>
+			        </p>
+			    </h:panelGroup>
+			</h:form>
+	        <p:dialog id="solutionDialog" header="Möchtest du die Frage melden?" widgetVar="solutionDialog" 
+		              modal="true" resizable="false" position="center">
+		    	<div style="text-align: center;">
+			    	<h:form>
+			    		<h:outputText value="Warum möchtest du die Frage melden?" rendered="#{not quizDuoController.questionReported}"/>
+			    		<br/>
+			                  <p:inputTextarea id="message" value="#{nachrichtenController.tempNachricht}" required="true" 
+			                              requiredMessage="Bitte geben Sie eine Begründung an, weshalb Sie die Frage melden wollen!"
+			                              styleClass="inputTextareaStyle" maxlength="5000" rendered="#{not quizDuoController.questionReported}">
+			               </p:inputTextarea>
+			               <br/>
+			               <h:message id="messageError" for="message" styleClass="error"/>
+			               <br/>
+			               <br/>
+			    		<p:commandButton value="Frage melden" action="#{quizDuoController.reportQuestion}" rendered="#{not quizDuoController.questionReported}"
+			    					update="messageError"/>
+			    		<h:outputText value="Frage wurde gemeldet!" rendered="#{quizDuoController.questionReported}"/>
+				        <br/><br/>
+				        <h:commandButton value="Abbrechen" immediate="true" onclick="PF('solutionDialog').hide()"/>
+				     </h:form>
+		   		 </div>
+	        </p:dialog>
+		</div>
+    </main>
+    <footer>
+        <ui:include src="../footer/footer.xhtml" />
+    </footer>
+    <script type="text/javascript" src="duoQuiz.js"></script>
+</h:body>
+</html>
+
+
+
